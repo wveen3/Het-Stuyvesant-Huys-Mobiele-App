@@ -1,0 +1,21 @@
+{
+  "name": "Het Stuyvesant Huys",
+  "short_name": "Stuyvesant Huys",
+  "description": "Sfeervol gastenverblijf in het hart van Wolvega, Friesland. Bekijk het verblijf, de omgeving en boek direct uw verblijf.",
+  "lang": "nl",
+  "dir": "ltr",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f1ead9",
+  "theme_color": "#2e3a2a",
+  "categories": ["travel", "lifestyle"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

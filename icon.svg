@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Het Stuyvesant Huys">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="34%" r="78%">
+      <stop offset="0" stop-color="#3e4d34"/><stop offset="1" stop-color="#212b1a"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g transform="translate(256,256) scale(7.3) translate(-20,-24)">
+    <path d="M6 4.4h28a1.6 1.6 0 0 1 1.6 1.6V22c0 10.8-7 17.6-15.6 20.2C11.4 39.6 4.4 32.8 4.4 22V6a1.6 1.6 0 0 1 1.6-1.6Z"
+          fill="none" stroke="#c1a064" stroke-width="1.5"/>
+  </g>
+  <line x1="256" y1="216" x2="256" y2="296" stroke="#c1a064" stroke-width="2.2" opacity=".45"/>
+  <text x="205" y="290" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="110" fill="#c1a064">H</text>
+  <text x="307" y="290" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="110" fill="#c1a064">S</text>
+</svg>

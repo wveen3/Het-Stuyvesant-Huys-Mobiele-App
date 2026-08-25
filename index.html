@@ -2,6 +2,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2e3a2a">
 <meta name="description" content="Sfeervol gastenverblijf in het hart van Wolvega, Friesland. Bekijk het verblijf, de omgeving en boek direct uw verblijf.">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Stuyvesant Huys">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600&display=swap">
@@ -526,6 +537,8 @@ body{
 }
 .menu-nav a .mn-num{font-family:'Jost';font-size:.62rem;font-weight:500;letter-spacing:.1em;color:var(--brass-soft);width:22px}
 .menu-cta{margin-top:auto}
+.menu-install{margin-top:10px;background:transparent;border:1.5px solid var(--green-line);color:var(--on-green)}
+.menu-install:hover{background:rgba(255,255,255,.06)}
 .menu-foot{margin-top:22px;font-size:.72rem;line-height:1.7;color:var(--on-green-soft);letter-spacing:.02em}
 .menu-foot a{color:var(--brass-soft)}
 
@@ -556,7 +569,10 @@ body{
       <div class="crest light" id="menuCrest"></div>
       <button class="menu-close" data-close aria-label="Sluiten"></button>
       <nav class="menu-nav" id="menuNav"></nav>
-      <div class="menu-cta"><button class="btn btn-brass" data-go="boeken">Boek nu</button></div>
+      <div class="menu-cta">
+        <button class="btn btn-brass" data-go="boeken">Boek nu</button>
+        <button class="btn menu-install" id="installBtn" hidden>App installeren</button>
+      </div>
       <div class="menu-foot">
         Stuyvesantstraat 2 · 8471 GN Wolvega<br>
         <a href="tel:+31612345678">+31 6 12345678</a> · <a href="mailto:info@stuyvesanthuys.nl">info@stuyvesanthuys.nl</a>
@@ -1192,6 +1208,7 @@ document.addEventListener('click',e=>{
   if(goEl){go(goEl.dataset.go);return}
   if(e.target.closest('[data-menu]')){openMenu();return}
   if(e.target.closest('[data-close]')){closeMenu();return}
+  if(e.target.closest('#installBtn')){closeMenu();if(deferredPrompt){const p=deferredPrompt;deferredPrompt=null;const b=document.getElementById('installBtn');if(b)b.hidden=true;p.prompt();}return}
   if(e.target.closest('#abBack')){ if(current==='boeken'&&booking.step>1&&booking.step<4){bkGoStep(booking.step-1);}else{go('home');} return; }
   const head=e.target.closest('.stay-head');
   if(head){const it=head.closest('.stay-item');const open=it.classList.toggle('open');head.setAttribute('aria-expanded',open?'true':'false');return}
@@ -1225,4 +1242,12 @@ renderChrome();
 go('home');
 if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>fitView());}
 let _rz;window.addEventListener('resize',()=>{clearTimeout(_rz);_rz=setTimeout(fitView,120);});
+
+/* PWA: service worker registreren + installeer-prompt beheren */
+let deferredPrompt=null;
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{ try{ navigator.serviceWorker.register('sw.js').catch(()=>{}); }catch(e){} });
+}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;const b=document.getElementById('installBtn');if(b)b.hidden=false;});
+window.addEventListener('appinstalled',()=>{deferredPrompt=null;const b=document.getElementById('installBtn');if(b)b.hidden=true;});
 </script>
