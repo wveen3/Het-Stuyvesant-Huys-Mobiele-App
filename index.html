@@ -308,6 +308,35 @@ body{
 .stub .ornament{margin:0 auto 16px}
 .stub p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;line-height:1.5}
 
+/* ---- Verblijf — kamerlijst (uitklapbaar) ------------------ */
+.stay-list{display:flex;flex-direction:column}
+.stay-item{border-bottom:1px solid var(--line-soft)}
+.stay-item:first-child{border-top:1px solid var(--line-soft)}
+.stay-head{display:flex;align-items:center;gap:15px;width:100%;padding:16px 2px;text-align:left;
+  transition:opacity .15s var(--ease)}
+.stay-head:active{opacity:.72}
+.stay-thumb{flex:0 0 auto;width:70px;height:70px;border-radius:14px;display:grid;place-items:center;overflow:hidden;
+  background:linear-gradient(150deg,#33402d,#222c1f);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.stay-badkamer{background:linear-gradient(150deg,#3a4838,#25302a)}
+.stay-zitgedeelte{background:linear-gradient(150deg,#3d4531,#282f1f)}
+.stay-keuken{background:linear-gradient(150deg,#44462f,#2b2e1d)}
+.stay-tuin{background:linear-gradient(150deg,#4b5b38,#2e3a24)}
+.stay-ic{width:26px;height:26px;color:var(--brass-soft);opacity:.92;stroke-width:1.4}
+.stay-body{flex:1;min-width:0}
+.stay-title{display:block;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.3rem;line-height:1.12;color:var(--ink)}
+.stay-desc{display:block;font-size:.82rem;line-height:1.45;color:var(--muted);margin-top:3px}
+.stay-chev{flex:0 0 auto;color:var(--brass-deep);transition:transform .25s var(--ease)}
+.stay-chev svg{width:18px;height:18px;stroke-width:1.7}
+.stay-item.open .stay-chev{transform:rotate(90deg)}
+.stay-more{max-height:0;overflow:hidden;opacity:0;transition:max-height .32s var(--ease),opacity .28s var(--ease)}
+.stay-item.open .stay-more{max-height:440px;opacity:1}
+.stay-more>p{font-family:'Cormorant Garamond',serif;font-size:1.06rem;line-height:1.5;color:var(--ink);padding:0 2px 6px 85px}
+.tags{list-style:none;display:flex;flex-wrap:wrap;gap:7px;padding:2px 2px 18px 85px}
+.tags li{font-size:.66rem;letter-spacing:.05em;color:var(--green-700);background:var(--cream-soft);
+  border:1px solid var(--line);border-radius:20px;padding:5px 11px}
+.sheet-cta{margin-top:30px}
+.sheet-cta .ornament{margin-bottom:20px}
+
 /* ---- Slide-in menu --------------------------------------- */
 .menu{position:absolute;inset:0;z-index:40;visibility:hidden;pointer-events:none}
 .menu.open{visibility:visible;pointer-events:auto}
@@ -391,6 +420,9 @@ const ICONS = {
   cal:'<rect x="4" y="5.5" width="16" height="15" rx="2.2"/><path d="M4 9.5h16"/><path d="M8 3.5v4"/><path d="M16 3.5v4"/>',
   user:'<circle cx="12" cy="8" r="3.4"/><path d="M5.5 19.4c.8-3.4 3.3-5.2 6.5-5.2s5.7 1.8 6.5 5.2"/>',
   chev:'<path d="m9 6 6 6-6 6"/>',
+  drop:'<path d="M12 3.4c3.4 4.1 5.4 6.9 5.4 9.6a5.4 5.4 0 0 1-10.8 0C6.6 10.3 8.6 7.5 12 3.4Z"/>',
+  sofa:'<rect x="3.5" y="11" width="17" height="6.6" rx="1.8"/><path d="M5.5 11V9a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v2"/><path d="M6.6 17.6v1.9"/><path d="M17.4 17.6v1.9"/>',
+  cup:'<path d="M5.5 8h10.5v4.6a4 4 0 0 1-4 4H9.5a4 4 0 0 1-4-4Z"/><path d="M16 9.2h2.1a2.2 2.2 0 0 1 0 4.4H16"/><path d="M8.5 3.6c-.4.7-.4 1.4 0 2.1"/><path d="M11.5 3.6c-.4.7-.4 1.4 0 2.1"/>',
 };
 function svg(name,cls){
   return `<svg class="${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
@@ -444,6 +476,30 @@ const NAV=[
   {id:'omgeving',   label:'Omgeving',   icon:'leaf'},
   {id:'informatie', label:'Informatie', icon:'info'},
   {id:'contact',    label:'Contact',    icon:'phone'},
+];
+
+/* Verblijf — de ruimtes (tik voor details) */
+const STAY=[
+  {id:'slaapkamer', icon:'bed', title:'Slaapkamer',
+   desc:'Comfortabel tweepersoonsbed met luxe linnen en uitzicht op de tuin.',
+   more:'Een rustige, verduisterde slaapkamer met een heerlijk boxspringbed (160×200), hoogwaardig linnengoed en volop kastruimte om uit te pakken.',
+   tags:['Tweepersoonsbed','Luxe linnen','Verduistering','Uitzicht op tuin']},
+  {id:'badkamer', icon:'drop', title:'Badkamer',
+   desc:'Moderne badkamer met inloopdouche, zachte handdoeken en verzorgingsproducten.',
+   more:'Sfeervolle badkamer met een ruime inloopdouche en regendouche, warme handdoeken en verzorgingsproducten van het huis.',
+   tags:['Inloopdouche','Regendouche','Handdoeken','Verzorging']},
+  {id:'zitgedeelte', icon:'sofa', title:'Zitgedeelte',
+   desc:'Knusse zithoek met smart TV, boeken, spelletjes en warme sfeer.',
+   more:'Een warme zithoek om tot rust te komen, met een comfortabele bank, smart-tv, een boekenselectie en gezelschapsspellen.',
+   tags:['Smart TV','Boeken','Spelletjes','Warme sfeer']},
+  {id:'keuken', icon:'cup', title:'Keuken',
+   desc:'Volledig uitgeruste keuken met koffie, thee en alle benodigdheden.',
+   more:'Een complete keuken met koffiezetapparaat, waterkoker, koelkast en kookplaat — plus al het servies en bestek dat u nodig heeft.',
+   tags:['Koffie & thee','Koelkast','Kookplaat','Servies']},
+  {id:'tuin', icon:'leaf', title:'Tuin',
+   desc:'Een heerlijke, geheel privé tuin met terras om van te genieten.',
+   more:'Een besloten, geheel privé tuin met terras en loungeplek — ideaal voor een rustig ontbijt of een glas wijn in de avondzon.',
+   tags:['Geheel privé','Terras','Loungeplek','Avondzon']},
 ];
 
 /* ============================================================
@@ -522,7 +578,34 @@ function stub(route){
     <div class="stub"><div class="ornament"><i></i></div><p>Deze pagina bouwen we hierna samen op.</p></div>
   </section>`;
 }
-views.verblijf=()=>stub('verblijf');
+views.verblijf=()=>`
+  <section class="hero page-hero hero-verblijf">
+    <div class="hero-media"></div><div class="hero-grain"></div>${heroTop()}
+  </section>
+  <section class="sheet">
+    <div class="sheet-head"><h1>Uw verblijf</h1><p>Alle comfort voor een ontspannen en sfeervol verblijf.</p></div>
+    <div class="stay-list">
+      ${STAY.map(s=>`
+        <div class="stay-item">
+          <button class="stay-head" aria-expanded="false">
+            <span class="stay-thumb stay-${s.id}">${svg(s.icon,'stay-ic')}</span>
+            <span class="stay-body">
+              <span class="stay-title">${s.title}</span>
+              <span class="stay-desc">${s.desc}</span>
+            </span>
+            <span class="stay-chev">${svg('chev')}</span>
+          </button>
+          <div class="stay-more">
+            <p>${s.more}</p>
+            <ul class="tags">${s.tags.map(t=>`<li>${t}</li>`).join('')}</ul>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="sheet-cta">
+      <div class="ornament"><i></i></div>
+      <button class="btn btn-green" data-go="boeken">Boek uw verblijf</button>
+    </div>
+  </section>`;
 views.omgeving=()=>stub('omgeving');
 views.informatie=()=>stub('informatie');
 views.contact=()=>stub('contact');
@@ -597,6 +680,8 @@ document.addEventListener('click',e=>{
   if(e.target.closest('[data-menu]')){openMenu();return}
   if(e.target.closest('[data-close]')){closeMenu();return}
   if(e.target.closest('#abBack')){go('home');return}
+  const head=e.target.closest('.stay-head');
+  if(head){const it=head.closest('.stay-item');const open=it.classList.toggle('open');head.setAttribute('aria-expanded',open?'true':'false');return}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 
