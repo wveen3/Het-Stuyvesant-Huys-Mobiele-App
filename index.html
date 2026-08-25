@@ -337,6 +337,24 @@ body{
 .sheet-cta{margin-top:30px}
 .sheet-cta .ornament{margin-bottom:20px}
 
+/* ---- Omgeving — ontdeklijst met icoon-badges -------------- */
+.area-list{display:flex;flex-direction:column}
+.area-item{display:flex;align-items:flex-start;gap:16px;padding:17px 2px;border-bottom:1px solid var(--line-soft)}
+.area-item:first-child{border-top:1px solid var(--line-soft)}
+.area-badge{flex:0 0 auto;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;
+  background:var(--cream-soft);border:1px solid var(--line);color:var(--green-700)}
+.area-badge svg{width:24px;height:24px;stroke-width:1.5}
+.area-body{flex:1;min-width:0;padding-top:3px;display:flex;flex-direction:column;gap:3px}
+.area-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.26rem;line-height:1.15;color:var(--ink)}
+.area-desc{font-size:.82rem;line-height:1.5;color:var(--muted)}
+.tip-card{display:flex;gap:14px;align-items:flex-start;margin-top:28px;padding:18px 18px 20px;
+  border-radius:var(--r-md);background:var(--green-700);color:var(--on-green)}
+.tip-ic{flex:0 0 auto;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid var(--green-line);color:var(--brass-soft)}
+.tip-ic svg{width:21px;height:21px;stroke-width:1.5}
+.tip-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.2rem;color:var(--on-green);margin-bottom:3px}
+.tip-card p{font-size:.8rem;line-height:1.5;color:var(--on-green-soft)}
+
 /* ---- Slide-in menu --------------------------------------- */
 .menu{position:absolute;inset:0;z-index:40;visibility:hidden;pointer-events:none}
 .menu.open{visibility:visible;pointer-events:auto}
@@ -423,6 +441,11 @@ const ICONS = {
   drop:'<path d="M12 3.4c3.4 4.1 5.4 6.9 5.4 9.6a5.4 5.4 0 0 1-10.8 0C6.6 10.3 8.6 7.5 12 3.4Z"/>',
   sofa:'<rect x="3.5" y="11" width="17" height="6.6" rx="1.8"/><path d="M5.5 11V9a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v2"/><path d="M6.6 17.6v1.9"/><path d="M17.4 17.6v1.9"/>',
   cup:'<path d="M5.5 8h10.5v4.6a4 4 0 0 1-4 4H9.5a4 4 0 0 1-4-4Z"/><path d="M16 9.2h2.1a2.2 2.2 0 0 1 0 4.4H16"/><path d="M8.5 3.6c-.4.7-.4 1.4 0 2.1"/><path d="M11.5 3.6c-.4.7-.4 1.4 0 2.1"/>',
+  tree:'<path d="M12 3 7.4 9.4h9.2L12 3Z"/><path d="M12 7.3 6.8 15h10.4L12 7.3Z"/><path d="M12 15v5"/><path d="M9.4 20h5.2"/>',
+  food:'<path d="M6 3v4M8 3v4M10 3v4"/><path d="M8 7v14"/><path d="M6.2 7h3.6"/><path d="M15.5 3v18"/><path d="M15.5 3c1.5 0 2.4 2 2.4 5s-.9 4-2.4 4"/>',
+  landmark:'<path d="M4 9.5 12 4.5l8 5"/><path d="M6 9.5v8.5M9.7 9.5v8.5M14.3 9.5v8.5M18 9.5v8.5"/><path d="M4 18h16"/><path d="M3 20.6h18"/>',
+  bag:'<path d="M6.8 8h10.4l-1 12.2H7.8L6.8 8Z"/><path d="M9.2 8V6.6a2.8 2.8 0 0 1 5.6 0V8"/>',
+  compass:'<circle cx="12" cy="12" r="8.4"/><path d="m14.9 9.1-4.1 1.7L9.1 14.9l4.1-1.7 1.7-4.1Z"/>',
 };
 function svg(name,cls){
   return `<svg class="${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
@@ -500,6 +523,15 @@ const STAY=[
    desc:'Een heerlijke, geheel privé tuin met terras om van te genieten.',
    more:'Een besloten, geheel privé tuin met terras en loungeplek — ideaal voor een rustig ontbijt of een glas wijn in de avondzon.',
    tags:['Geheel privé','Terras','Loungeplek','Avondzon']},
+];
+
+/* Omgeving — ontdekken rondom Wolvega */
+const AREA=[
+  {icon:'tree',     title:'Natuur & wandelen',    desc:'Prachtige wandelroutes in de nabije natuurgebieden.'},
+  {icon:'bike',     title:'Fietsen',              desc:'Verken de omgeving op de fiets. Routes en tips beschikbaar.'},
+  {icon:'food',     title:'Eten & drinken',       desc:'Gezellige restaurants en cafés op loop- of fietsafstand.'},
+  {icon:'landmark', title:'Bezienswaardigheden',  desc:'Ontdek de rijke geschiedenis van Wolvega en omgeving.'},
+  {icon:'bag',      title:'Winkelen',             desc:'Van lokale winkels tot gezellige boetiekjes in het centrum.'},
 ];
 
 /* ============================================================
@@ -606,7 +638,30 @@ views.verblijf=()=>`
       <button class="btn btn-green" data-go="boeken">Boek uw verblijf</button>
     </div>
   </section>`;
-views.omgeving=()=>stub('omgeving');
+views.omgeving=()=>`
+  <section class="hero page-hero hero-omgeving">
+    <div class="hero-media"></div><div class="hero-grain"></div>${heroTop()}
+  </section>
+  <section class="sheet">
+    <div class="sheet-head"><h1>De omgeving</h1><p>Ontdek de natuur, cultuur en gezellige plekken rondom Wolvega.</p></div>
+    <div class="area-list">
+      ${AREA.map(a=>`
+        <div class="area-item">
+          <span class="area-badge">${svg(a.icon)}</span>
+          <span class="area-body">
+            <span class="area-title">${a.title}</span>
+            <span class="area-desc">${a.desc}</span>
+          </span>
+        </div>`).join('')}
+    </div>
+    <div class="tip-card">
+      <span class="tip-ic">${svg('compass')}</span>
+      <div>
+        <h3>Routes &amp; tips</h3>
+        <p>In het huysboek vindt u onze favoriete wandel- en fietsroutes en tips voor de omgeving.</p>
+      </div>
+    </div>
+  </section>`;
 views.informatie=()=>stub('informatie');
 views.contact=()=>stub('contact');
 
