@@ -235,16 +235,19 @@ body{
 .bstart{background:var(--green-700);color:var(--on-green);padding:26px 22px 30px}
 .bstart .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:18px}
 .bstart .eyebrow::after{content:"";height:1px;flex:1;background:var(--green-line)}
-.bstart-fields{
-  display:grid;grid-template-columns:1fr 1fr 1fr;
-  background:var(--green-inset);border-radius:var(--r-md);overflow:hidden;
-  border:1px solid var(--green-line);
-}
-.bfield{padding:13px 14px;text-align:left;position:relative}
-.bfield + .bfield::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:1px;background:var(--green-line)}
-.bfield .bf-label{font-size:.56rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--on-green-soft);margin-bottom:5px}
-.bfield .bf-val{font-family:'Cormorant Garamond',serif;font-size:1.14rem;font-weight:600;color:var(--on-green);line-height:1.05}
-.bfield .bf-val small{display:block;font-family:'Jost';font-size:.58rem;font-weight:400;letter-spacing:.04em;color:var(--on-green-soft);text-transform:none;margin-top:2px}
+.bbox{background:var(--green-inset);border:1px solid var(--green-line);border-radius:var(--r-md);overflow:hidden}
+.brow2{display:grid;grid-template-columns:1fr 1fr}
+.bcell{display:flex;flex-direction:column;gap:9px;padding:15px 16px;text-align:left;align-items:flex-start;width:100%;
+  transition:background .18s var(--ease)}
+.bcell:active{background:rgba(0,0,0,.14)}
+.brow2 .bcell + .bcell{border-left:1px solid var(--green-line)}
+.bc-top{display:flex;align-items:center;gap:8px;color:var(--on-green-soft)}
+.bc-top svg{width:15px;height:15px;stroke-width:1.6;color:var(--brass-soft)}
+.bc-label{font-size:.6rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase}
+.bc-val{font-family:'Cormorant Garamond',serif;font-size:1.24rem;font-weight:600;color:var(--on-green);line-height:1}
+.brow-full{flex-direction:row;align-items:center;justify-content:space-between;border-top:1px solid var(--green-line)}
+.brow-full .bc-val{display:flex;align-items:center;gap:9px}
+.brow-full .chev{width:17px;height:17px;color:var(--on-green-soft);stroke-width:1.6}
 .bstart .btn{margin-top:16px}
 
 /* feature trio */
@@ -385,6 +388,9 @@ const ICONS = {
   close:'<path d="m6 6 12 12"/><path d="m18 6-12 12"/>',
   shield:'<path d="M6 4.4h28a2 2 0 0 1 2 2V22c0 12-8 19.4-16 22C12 41.4 4 34 4 22V6.4a2 2 0 0 1 2-2Z"/>',
   lock:'<rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
+  cal:'<rect x="4" y="5.5" width="16" height="15" rx="2.2"/><path d="M4 9.5h16"/><path d="M8 3.5v4"/><path d="M16 3.5v4"/>',
+  user:'<circle cx="12" cy="8" r="3.4"/><path d="M5.5 19.4c.8-3.4 3.3-5.2 6.5-5.2s5.7 1.8 6.5 5.2"/>',
+  chev:'<path d="m9 6 6 6-6 6"/>',
 };
 function svg(name,cls){
   return `<svg class="${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
@@ -458,11 +464,22 @@ views.home=()=>`
 
   <section class="bstart">
     <div class="eyebrow on-dark">Uw verblijf begint hier</div>
-    <button class="bstart-fields" data-go="boeken" aria-label="Kies uw data en gasten">
-      <span class="bfield"><span class="bf-label">Aankomst</span><span class="bf-val">${booking.arrival.getDate()} ${MONTHS_S[booking.arrival.getMonth()]}<small>${DAYS_S[booking.arrival.getDay()]}</small></span></span>
-      <span class="bfield"><span class="bf-label">Vertrek</span><span class="bf-val">${booking.departure.getDate()} ${MONTHS_S[booking.departure.getMonth()]}<small>${DAYS_S[booking.departure.getDay()]}</small></span></span>
-      <span class="bfield"><span class="bf-label">Gasten</span><span class="bf-val">${booking.guests}<small>personen</small></span></span>
-    </button>
+    <div class="bbox">
+      <div class="brow2">
+        <button class="bcell" data-go="boeken">
+          <span class="bc-top">${svg('cal')}<span class="bc-label">Aankomst</span></span>
+          <span class="bc-val">${booking.arrival.getDate()} ${MONTHS_S[booking.arrival.getMonth()]} ${booking.arrival.getFullYear()}</span>
+        </button>
+        <button class="bcell" data-go="boeken">
+          <span class="bc-top">${svg('cal')}<span class="bc-label">Vertrek</span></span>
+          <span class="bc-val">${booking.departure.getDate()} ${MONTHS_S[booking.departure.getMonth()]} ${booking.departure.getFullYear()}</span>
+        </button>
+      </div>
+      <button class="bcell brow-full" data-go="boeken">
+        <span class="bc-top">${svg('user')}<span class="bc-label">Gasten</span></span>
+        <span class="bc-val">${booking.guests} personen ${svg('chev','chev')}</span>
+      </button>
+    </div>
     <button class="btn btn-brass" data-go="boeken">Boek nu</button>
 
     <div class="features">
