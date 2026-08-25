@@ -221,13 +221,14 @@ body{
 .home-welcome .eyebrow::after{content:"";height:1px;width:40px;background:var(--brass-soft);opacity:.7}
 .home-welcome h1{
   font-family:'Cormorant Garamond',serif;font-weight:600;
-  font-size:clamp(2.7rem,12vw,3.5rem);line-height:.98;letter-spacing:.01em;
+  font-size:clamp(2.4rem,10.5vw,3.3rem);line-height:.98;letter-spacing:.01em;
   text-wrap:balance;margin-bottom:12px;
   text-shadow:0 2px 20px rgba(0,0,0,.35);
 }
 .home-welcome p{
-  font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.18rem;
-  line-height:1.4;color:#e7dfca;max-width:22ch;
+  font-family:'Cormorant Garamond',serif;font-weight:500;
+  font-size:clamp(.86rem,4.1vw,1.12rem);white-space:nowrap;
+  line-height:1.4;color:#e7dfca;
 }
 
 /* green booking-start block */
@@ -450,8 +451,8 @@ views.home=()=>`
     ${heroTop()}
     <div class="home-welcome">
       <div class="eyebrow on-dark">Welkom bij</div>
-      <h1>Het&nbsp;Stuyvesant&nbsp;Huys</h1>
-      <p>Uw sfeervolle guesthouse in het hart van Wolvega.</p>
+      <h1>Het Stuyvesant Huys</h1>
+      <p>Uw sfeervolle guesthouse in het hart van Wolvega</p>
     </div>
   </section>
 
@@ -476,13 +477,13 @@ views.home=()=>`
     <div class="over-row">
       <div class="mini-map" aria-hidden="true"><i></i></div>
       <div>
-        <p>Gelegen in de historische Stuyvesantbuurt van Wolvega. Een plek met een verhaal, sfeervol ingericht voor een ontspannen verblijf voor twee.</p>
+        <p>Gelegen in het hart van Wolvega. Een plek met een verhaal, sfeervol ingericht voor een ontspannen verblijf.</p>
         <a class="lees" data-go="verblijf">Lees meer ${svg('arrow')}</a>
       </div>
     </div>
     <div class="foot-note">
       <div class="ornament"><i></i></div>
-      <p>Historie · rust · comfort · Friesland</p>
+      <p>Historie · Rust · Comfort</p>
     </div>
   </section>
 `;
