@@ -420,6 +420,90 @@ body{
 .btn-ic{width:17px;height:17px;stroke-width:1.7}
 .form-note{margin-top:12px;font-size:.76rem;color:var(--muted);text-align:center;line-height:1.5}
 
+/* ---- Boekingsflow ---------------------------------------- */
+.book{display:flex;flex-direction:column}
+.stepper{display:flex;padding:20px 16px 8px}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
+.step::before{content:"";position:absolute;top:15px;right:50%;width:100%;height:2px;background:var(--line);z-index:0}
+.step:first-child::before{display:none}
+.step.active::before,.step.done::before{background:var(--brass)}
+.step .dot{position:relative;z-index:1;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  font-family:'Jost',sans-serif;font-weight:600;font-size:.8rem;background:var(--cream);border:1.5px solid var(--line);color:var(--muted)}
+.step.active .dot,.step.done .dot{background:var(--green-700);border-color:var(--green-700);color:var(--on-green)}
+.step .dot svg{width:15px;height:15px;stroke-width:2.2}
+.step .slabel{font-size:.56rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:center}
+.step.active .slabel{color:var(--green-700);font-weight:600}
+.book-body{padding:10px 22px 40px}
+
+.prod-card{display:flex;gap:14px;align-items:center;padding:13px;background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-md)}
+.prod-thumb{flex:0 0 auto;width:74px;height:74px;border-radius:12px;background:linear-gradient(150deg,#33402d,#222c1f)}
+.prod-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.25rem;color:var(--ink);line-height:1.1}
+.prod-meta{font-size:.74rem;color:var(--muted);line-height:1.4;margin-top:4px}
+.prod-price{font-size:.8rem;color:var(--muted);margin-top:6px}
+.prod-price b{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.05rem;color:var(--green-700)}
+
+.bk-section-title{font-family:'Jost',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--green-700);margin:26px 0 12px;display:flex;gap:7px}
+.bk-section-title span{color:var(--brass-deep)}
+.bk-lead{font-size:.86rem;color:var(--muted);margin:-4px 0 14px;line-height:1.5}
+
+.cal-head{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 10px}
+.cal-nav{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;color:var(--green-700);border:1px solid var(--line);transition:background .15s var(--ease)}
+.cal-nav:hover{background:var(--cream-soft)}
+.cal-nav[disabled]{opacity:.32}
+.cal-nav svg{width:18px;height:18px;stroke-width:1.9}
+.cal-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.35rem;color:var(--ink)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-dow span{text-align:center;font-size:.58rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:4px 0 8px}
+.cal-cell{aspect-ratio:1;width:84%;margin:1px auto;display:grid;place-items:center;border-radius:50%;
+  font-size:.88rem;color:var(--ink);font-variant-numeric:tabular-nums;transition:background .12s}
+.cal-cell.empty{visibility:hidden}
+.cal-cell[disabled]{color:var(--muted-soft);opacity:.45}
+.cal-cell:not([disabled]):not(.is-start):not(.is-end):not(.is-mid):hover{background:var(--cream-soft)}
+.cal-cell.is-mid{background:var(--brass-soft);color:var(--green-900)}
+.cal-cell.is-start,.cal-cell.is-end{background:var(--green-700);color:var(--on-green);font-weight:600}
+.cal-hint{margin-top:12px;font-size:.82rem;color:var(--muted);text-align:center;line-height:1.5}
+.cal-hint b{color:var(--green-700);font-weight:600}
+
+.counter{display:flex;align-items:center;justify-content:space-between;background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:6px}
+.cnt-btn{width:46px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.4rem;line-height:1;color:var(--green-700);background:var(--cream);transition:background .15s}
+.cnt-btn:hover{background:#efe7d3}
+.cnt-btn[disabled]{opacity:.35}
+.cnt-val{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.18rem;color:var(--ink)}
+
+.opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted-soft)}
+.field input.invalid,.field textarea.invalid{border-color:#b0472f;box-shadow:0 0 0 3px rgba(176,71,47,.14)}
+.bk-msg{margin-top:10px;font-size:.78rem;color:#a5432c;text-align:center}
+
+.bk-actions{display:flex;gap:12px;margin-top:26px}
+.bk-actions .btn{flex:1}
+.btn-ghost{background:transparent;border:1.5px solid var(--line);color:var(--green-700)}
+.btn-ghost:hover{background:var(--cream-soft)}
+
+.ov-card{background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 18px}
+.ov-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.3rem;color:var(--ink);line-height:1.1}
+.ov-sub{font-size:.75rem;color:var(--muted);margin-bottom:8px}
+.ov-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-top:1px solid var(--line-soft);font-size:.86rem}
+.ov-row .k{color:var(--muted);flex:0 0 auto}
+.ov-row .v{color:var(--ink);font-weight:500;text-align:right;word-break:break-word}
+.price{margin-top:2px}
+.price-row{display:flex;justify-content:space-between;padding:8px 0;font-size:.9rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.price-row .k{color:var(--muted)}
+.price-total{display:flex;justify-content:space-between;padding:13px 0 2px;margin-top:6px;border-top:1px solid var(--line);
+  font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.32rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.price-total .v{color:var(--green-700)}
+.agree{display:flex;gap:11px;align-items:flex-start;margin-top:20px;font-size:.82rem;color:var(--muted);line-height:1.5}
+.agree input{margin-top:2px;width:18px;height:18px;accent-color:var(--green-700);flex:0 0 auto}
+
+.confirm{text-align:center;padding-top:14px}
+.confirm-badge{width:74px;height:74px;border-radius:50%;margin:8px auto 20px;display:grid;place-items:center;background:var(--green-700);color:var(--brass-soft)}
+.confirm-badge svg{width:34px;height:34px;stroke-width:2.2}
+.confirm h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.95rem;color:var(--ink);margin-bottom:10px}
+.confirm>p{font-size:.9rem;color:var(--muted);line-height:1.6;max-width:34ch;margin:0 auto 22px}
+.confirm .ov-card{text-align:left;margin-bottom:8px}
+.confirm .btn{margin-top:12px}
+.ref-badge{display:block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-deep);font-weight:600;padding-bottom:4px}
+
 /* ---- Slide-in menu --------------------------------------- */
 .menu{position:absolute;inset:0;z-index:40;visibility:hidden;pointer-events:none}
 .menu.open{visibility:visible;pointer-events:auto}
@@ -521,6 +605,8 @@ const ICONS = {
   instagram:'<rect x="4" y="4" width="16" height="16" rx="4.6"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.7" cy="7.3" r="1" fill="currentColor" stroke="none"/>',
   facebook:'<path d="M13.6 21v-6.9h2.3l.4-2.8h-2.7V9.4c0-.8.3-1.3 1.4-1.3h1.4V5.6c-.6-.1-1.4-.2-2.2-.2-2.2 0-3.6 1.3-3.6 3.6v2.1H8.2v2.8h2.3V21Z"/>',
   send:'<path d="M20 4 3.6 11.5l6.1 2.2 2.2 6.1L20 4Z"/><path d="M20 4 9.7 13.7"/>',
+  check:'<path d="m5 12.5 4.5 4.5L19 7"/>',
+  chevl:'<path d="m15 6-6 6 6 6"/>',
 };
 function svg(name,cls){
   return `<svg class="${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
@@ -563,7 +649,12 @@ const PRICE={night:119,cleaning:25,service:15};
 const today=new Date(); today.setHours(0,0,0,0);
 const _a=new Date(today); _a.setDate(_a.getDate()+14);
 const _d=new Date(_a);    _d.setDate(_d.getDate()+2);
-const booking={arrival:_a, departure:_d, guests:2};
+const booking={
+  arrival:_a, departure:_d, guests:2, step:1,
+  calMonth:new Date(_a.getFullYear(),_a.getMonth(),1),
+  details:{naam:'',email:'',telefoon:'',opmerking:''}, ref:''
+};
+const MAX_GUESTS=2;
 
 /* ============================================================
    Navigatie-model
@@ -838,10 +929,202 @@ views.contact=()=>`
   </section>`;
 
 views.boeken=()=>`
-  <section class="sheet" style="margin-top:0;border-radius:0;min-height:100%">
-    <div class="sheet-head"><h1>Boek uw verblijf</h1><p>De boekingsflow met kalender, gegevens en overzicht bouwen we als laatste stap.</p></div>
-    <div class="stub"><div class="ornament"><i></i></div><p>Binnenkort beschikbaar.</p></div>
-  </section>`;
+  <div class="book">
+    ${bkStepper(booking.step)}
+    <div class="book-body">${({1:bkStep1,2:bkStep2,3:bkStep3,4:bkStep4}[booking.step]||bkStep1)()}</div>
+  </div>`;
+
+/* ---- Boekingsflow: helpers ---- */
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function sameDay(a,b){return !!(a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate())}
+function isoOf(dt){const p=n=>String(n).padStart(2,'0');return dt.getFullYear()+'-'+p(dt.getMonth()+1)+'-'+p(dt.getDate())}
+function bkPrice(){const n=nightsBetween(booking.arrival,booking.departure);const sub=n*PRICE.night;return {n,sub,total:n>0?sub+PRICE.cleaning+PRICE.service:0}}
+function genRef(){const p=n=>String(n).padStart(2,'0');const r=Math.random().toString(36).slice(2,5).toUpperCase();return `HSH-${p(booking.arrival.getDate())}${p(booking.arrival.getMonth()+1)}-${r}`}
+
+function bkStepper(n){
+  return `<div class="stepper">`+['Data','Gegevens','Overzicht','Bevestiging'].map((s,i)=>{
+    const idx=i+1;let cls='step';if(idx<n)cls+=' done';if(idx===n)cls+=' active';
+    return `<div class="${cls}"><div class="dot">${idx<n?svg('check'):idx}</div><div class="slabel">${s}</div></div>`;
+  }).join('')+`</div>`;
+}
+
+function calDaysHTML(){
+  const m=booking.calMonth;
+  const first=new Date(m.getFullYear(),m.getMonth(),1);
+  const startDow=(first.getDay()+6)%7;
+  const dim=new Date(m.getFullYear(),m.getMonth()+1,0).getDate();
+  let out='';
+  for(let i=0;i<startDow;i++)out+='<span class="cal-cell empty"></span>';
+  for(let d=1;d<=dim;d++){
+    const date=new Date(m.getFullYear(),m.getMonth(),d);
+    const past=date<today;let cls='cal-cell';
+    if(past)cls+=' past';
+    if(sameDay(date,booking.arrival))cls+=' is-start';
+    else if(sameDay(date,booking.departure))cls+=' is-end';
+    else if(booking.departure&&date>booking.arrival&&date<booking.departure)cls+=' is-mid';
+    out+=`<button class="${cls}" ${past?'disabled':''} data-day="${isoOf(date)}">${d}</button>`;
+  }
+  return out;
+}
+
+function bkStep1(){
+  const {n}=bkPrice();
+  const hasRange=booking.arrival&&booking.departure;
+  const m=booking.calMonth;
+  const prevDisabled=(m.getFullYear()===today.getFullYear()&&m.getMonth()===today.getMonth());
+  const hint=hasRange
+    ? `<b>${fmt(booking.arrival)}</b> – <b>${fmt(booking.departure)}</b> · ${n} ${n===1?'nacht':'nachten'}`
+    : (booking.arrival ? `Aankomst <b>${fmt(booking.arrival)}</b> — kies nu uw vertrekdatum` : 'Selecteer uw aankomst- en vertrekdatum');
+  return `
+    <div class="prod-card">
+      <div class="prod-thumb"></div>
+      <div class="prod-info">
+        <div class="prod-name">Het Stuyvesant Huys</div>
+        <div class="prod-meta">Gastenverblijf voor 2 personen · Wolvega, Friesland</div>
+        <div class="prod-price"><b>€119</b> per nacht</div>
+      </div>
+    </div>
+    <div class="bk-section-title"><span>1.</span> Selecteer uw data</div>
+    <div class="cal">
+      <div class="cal-head">
+        <button class="cal-nav" data-cal="-1" ${prevDisabled?'disabled':''} aria-label="Vorige maand">${svg('chevl')}</button>
+        <div class="cal-title">${cap(MONTHS[m.getMonth()])} ${m.getFullYear()}</div>
+        <button class="cal-nav" data-cal="1" aria-label="Volgende maand">${svg('chev')}</button>
+      </div>
+      <div class="cal-grid cal-dow"><span>ma</span><span>di</span><span>wo</span><span>do</span><span>vr</span><span>za</span><span>zo</span></div>
+      <div class="cal-grid cal-days">${calDaysHTML()}</div>
+    </div>
+    <p class="cal-hint">${hint}</p>
+    <div class="bk-section-title"><span>2.</span> Aantal gasten</div>
+    <div class="counter">
+      <button class="cnt-btn" data-guests="-1" ${booking.guests<=1?'disabled':''} aria-label="Minder gasten">−</button>
+      <div class="cnt-val">${booking.guests} ${booking.guests===1?'persoon':'personen'}</div>
+      <button class="cnt-btn" data-guests="1" ${booking.guests>=MAX_GUESTS?'disabled':''} aria-label="Meer gasten">+</button>
+    </div>
+    <button class="btn btn-green" data-step="2" ${hasRange?'':'disabled'} style="margin-top:26px">Volgende</button>
+  `;
+}
+
+function bkStep2(){
+  const d=booking.details;
+  return `
+    <div class="bk-section-title">Uw gegevens</div>
+    <p class="bk-lead">Waar mogen we de bevestiging naartoe sturen?</p>
+    <div class="field"><label for="bk-naam">Naam</label><input id="bk-naam" type="text" autocomplete="name" value="${esc(d.naam)}"></div>
+    <div class="field"><label for="bk-email">E-mail</label><input id="bk-email" type="email" autocomplete="email" value="${esc(d.email)}"></div>
+    <div class="field"><label for="bk-tel">Telefoon</label><input id="bk-tel" type="tel" autocomplete="tel" value="${esc(d.telefoon)}"></div>
+    <div class="field"><label for="bk-opm">Bijzonderheden <span class="opt">(optioneel)</span></label><textarea id="bk-opm">${esc(d.opmerking)}</textarea></div>
+    <p class="bk-msg" hidden>Vul uw naam, een geldig e-mailadres en telefoonnummer in.</p>
+    <div class="bk-actions">
+      <button class="btn btn-ghost" data-step="1">Terug</button>
+      <button class="btn btn-green" data-step="3">Volgende</button>
+    </div>
+  `;
+}
+
+function bkStep3(){
+  const {n,sub,total}=bkPrice();const d=booking.details;
+  return `
+    <div class="bk-section-title">Overzicht</div>
+    <div class="ov-card">
+      <div class="ov-name">Het Stuyvesant Huys</div>
+      <div class="ov-sub">Wolvega, Friesland</div>
+      <div class="ov-row"><span class="k">Aankomst</span><span class="v">${fmt(booking.arrival,true)}</span></div>
+      <div class="ov-row"><span class="k">Vertrek</span><span class="v">${fmt(booking.departure,true)}</span></div>
+      <div class="ov-row"><span class="k">Gasten</span><span class="v">${booking.guests} ${booking.guests===1?'persoon':'personen'}</span></div>
+      <div class="ov-row"><span class="k">Naam</span><span class="v">${esc(d.naam)}</span></div>
+      <div class="ov-row"><span class="k">E-mail</span><span class="v">${esc(d.email)}</span></div>
+      <div class="ov-row"><span class="k">Telefoon</span><span class="v">${esc(d.telefoon)}</span></div>
+    </div>
+    <div class="bk-section-title">Prijsoverzicht</div>
+    <div class="price">
+      <div class="price-row"><span class="k">${n} ${n===1?'nacht':'nachten'} × €119</span><span class="v">€${sub}</span></div>
+      <div class="price-row"><span class="k">Schoonmaakkosten</span><span class="v">€${PRICE.cleaning}</span></div>
+      <div class="price-row"><span class="k">Servicekosten</span><span class="v">€${PRICE.service}</span></div>
+      <div class="price-total"><span>Totaal</span><span class="v">€${total}</span></div>
+    </div>
+    <label class="agree"><input type="checkbox" id="bkAgree"> Ik ga akkoord met de huisregels en de annuleringsvoorwaarden.</label>
+    <p class="bk-msg" hidden>Vink het akkoord aan om verder te gaan.</p>
+    <div class="bk-actions">
+      <button class="btn btn-ghost" data-step="2">Terug</button>
+      <button class="btn btn-green" id="bkConfirm">Boek verblijf</button>
+    </div>
+    <p class="hint" style="margin-top:14px">${svg('lock')} Veilig en eenvoudig boeken</p>
+  `;
+}
+
+function bkStep4(){
+  const {total}=bkPrice();const d=booking.details;
+  const first=d.naam.trim().split(' ')[0];
+  return `
+    <div class="book-step confirm">
+      <div class="confirm-badge">${svg('check')}</div>
+      <h2>Bedankt${first?', '+esc(first):''}!</h2>
+      <p>Uw aanvraag is verstuurd naar Het Stuyvesant Huys. U ontvangt zo snel mogelijk een persoonlijke bevestiging per e-mail.</p>
+      <div class="ov-card">
+        <span class="ref-badge">Referentie ${booking.ref}</span>
+        <div class="ov-row"><span class="k">Aankomst</span><span class="v">${fmt(booking.arrival,true)}</span></div>
+        <div class="ov-row"><span class="k">Vertrek</span><span class="v">${fmt(booking.departure,true)}</span></div>
+        <div class="ov-row"><span class="k">Gasten</span><span class="v">${booking.guests} ${booking.guests===1?'persoon':'personen'}</span></div>
+        <div class="ov-row"><span class="k">Totaal</span><span class="v">€${total}</span></div>
+      </div>
+      <button class="btn btn-green" data-go="home">Terug naar home</button>
+      <button class="btn btn-ghost" data-action="resend">Aanvraag opnieuw per e-mail versturen</button>
+    </div>
+  `;
+}
+
+function rbook(keep){const y=keep?view.scrollTop:0;view.innerHTML=views.boeken();view.scrollTop=y;}
+function bkSetStep(s){booking.step=s;rbook(false);}
+function bkPick(date){
+  const a=booking.arrival,dep=booking.departure;
+  if(!a||(a&&dep)){booking.arrival=date;booking.departure=null;}
+  else if(date>a){booking.departure=date;}
+  else{booking.arrival=date;}
+  rbook(true);
+}
+function bkCalNav(delta){
+  const m=new Date(booking.calMonth.getFullYear(),booking.calMonth.getMonth()+delta,1);
+  const cur=new Date(today.getFullYear(),today.getMonth(),1);
+  if(m<cur)return;booking.calMonth=m;rbook(true);
+}
+function bkCapture(){
+  const g=id=>view.querySelector(id);
+  const naam=g('#bk-naam'),email=g('#bk-email'),tel=g('#bk-tel'),opm=g('#bk-opm');
+  if(naam)booking.details.naam=naam.value;
+  if(email)booking.details.email=email.value;
+  if(tel)booking.details.telefoon=tel.value;
+  if(opm)booking.details.opmerking=opm.value;
+}
+function bkValid(){const d=booking.details;return !!(d.naam.trim() && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email.trim()) && d.telefoon.trim());}
+function bkMark(){
+  const d=booking.details;
+  const set=(id,bad)=>{const el=view.querySelector(id);if(el)el.classList.toggle('invalid',bad);};
+  set('#bk-naam',!d.naam.trim());
+  set('#bk-email',!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email.trim()));
+  set('#bk-tel',!d.telefoon.trim());
+  const msg=view.querySelector('.bk-msg');if(msg)msg.hidden=false;
+}
+function bkGoStep(target){
+  const cur=booking.step;
+  if(target>cur){
+    if(cur===1 && !(booking.arrival&&booking.departure))return;
+    if(cur===2){bkCapture();if(!bkValid()){bkMark();return;}}
+  } else if(cur===2){bkCapture();}
+  bkSetStep(target);
+}
+function bkConfirm(){
+  const agree=view.querySelector('#bkAgree');
+  if(agree&&!agree.checked){view.querySelectorAll('.bk-msg').forEach(x=>x.hidden=false);return;}
+  booking.ref=genRef();bkSetStep(4);bkSendMail();
+}
+function bkSendMail(){
+  const {n,total}=bkPrice(),d=booking.details;
+  const subj=`Boekingsaanvraag ${booking.ref} — Het Stuyvesant Huys`;
+  const body=`Nieuwe boekingsaanvraag via de app\n\nReferentie: ${booking.ref}\nAankomst: ${fmt(booking.arrival,true)}\nVertrek: ${fmt(booking.departure,true)}\nNachten: ${n}\nGasten: ${booking.guests}\nTotaal: €${total}\n\nNaam: ${d.naam}\nE-mail: ${d.email}\nTelefoon: ${d.telefoon}\nBijzonderheden: ${d.opmerking||'-'}\n`;
+  window.location.href='mailto:info@stuyvesanthuys.nl?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+}
 
 /* ============================================================
    Router + render
@@ -868,6 +1151,7 @@ function go(route){
   const change=route!==current;
   current=route;
   app.dataset.route=route;
+  if(route==='boeken'){booking.step=1;booking.calMonth=new Date(booking.arrival.getFullYear(),booking.arrival.getMonth(),1);}
   const paint=()=>{
     view.innerHTML=views[route]();
     view.scrollTop=0;
@@ -908,11 +1192,19 @@ document.addEventListener('click',e=>{
   if(goEl){go(goEl.dataset.go);return}
   if(e.target.closest('[data-menu]')){openMenu();return}
   if(e.target.closest('[data-close]')){closeMenu();return}
-  if(e.target.closest('#abBack')){go('home');return}
+  if(e.target.closest('#abBack')){ if(current==='boeken'&&booking.step>1&&booking.step<4){bkGoStep(booking.step-1);}else{go('home');} return; }
   const head=e.target.closest('.stay-head');
   if(head){const it=head.closest('.stay-item');const open=it.classList.toggle('open');head.setAttribute('aria-expanded',open?'true':'false');return}
   const fq=e.target.closest('.faq-q');
   if(fq){const it=fq.closest('.faq-item');const open=it.classList.toggle('open');fq.setAttribute('aria-expanded',open?'true':'false');return}
+  if(current==='boeken'){
+    const cal=e.target.closest('[data-cal]'); if(cal){bkCalNav(+cal.dataset.cal);return}
+    const gs=e.target.closest('[data-guests]'); if(gs){booking.guests=Math.min(MAX_GUESTS,Math.max(1,booking.guests+(+gs.dataset.guests)));rbook(true);return}
+    const day=e.target.closest('.cal-cell[data-day]'); if(day){const p=day.dataset.day.split('-').map(Number);bkPick(new Date(p[0],p[1]-1,p[2]));return}
+    const st=e.target.closest('[data-step]'); if(st){bkGoStep(+st.dataset.step);return}
+    if(e.target.closest('#bkConfirm')){bkConfirm();return}
+    if(e.target.closest('[data-action="resend"]')){bkSendMail();return}
+  }
 });
 
 /* contactformulier → opent mailprogramma met ingevuld bericht */
