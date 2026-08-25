@@ -395,6 +395,24 @@ body{
 .faq-item.open .faq-a{max-height:280px;opacity:1}
 .faq-a p{font-size:.86rem;line-height:1.55;color:var(--muted);padding:0 2px 16px}
 
+/* ---- Huisinstructies (uitklapbaar) ------------------------ */
+.house{margin-top:16px}
+.house-list{display:flex;flex-direction:column}
+.house-item{border-bottom:1px solid var(--line-soft)}
+.house-item:first-child{border-top:1px solid var(--line-soft)}
+.house-q{display:flex;align-items:center;gap:14px;width:100%;padding:13px 2px;text-align:left;transition:opacity .15s var(--ease)}
+.house-q:active{opacity:.72}
+.house-badge{flex:0 0 auto;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  background:var(--cream-soft);border:1px solid var(--line);color:var(--green-700)}
+.house-badge svg{width:21px;height:21px;stroke-width:1.5}
+.house-title{flex:1;min-width:0;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.2rem;color:var(--ink)}
+.house-chev{flex:0 0 auto;color:var(--brass-deep);transition:transform .25s var(--ease)}
+.house-chev svg{width:17px;height:17px;stroke-width:1.7}
+.house-item.open .house-chev{transform:rotate(90deg)}
+.house-a{max-height:0;overflow:hidden;opacity:0;transition:max-height .32s var(--ease),opacity .28s var(--ease)}
+.house-item.open .house-a{max-height:260px;opacity:1}
+.house-a p{font-size:.86rem;line-height:1.55;color:var(--muted);padding:0 2px 15px 60px}
+
 /* ---- Contact --------------------------------------------- */
 .contact-list{display:flex;flex-direction:column}
 .contact-row{display:flex;align-items:center;gap:15px;padding:15px 2px;border-bottom:1px solid var(--line-soft);
@@ -623,6 +641,12 @@ const ICONS = {
   send:'<path d="M20 4 3.6 11.5l6.1 2.2 2.2 6.1L20 4Z"/><path d="M20 4 9.7 13.7"/>',
   check:'<path d="m5 12.5 4.5 4.5L19 7"/>',
   chevl:'<path d="m15 6-6 6 6 6"/>',
+  thermo:'<path d="M14 14.6V5.5a2 2 0 0 0-4 0v9.1a3.4 3.4 0 1 0 4 0Z"/><path d="M12 8.4v6.4"/>',
+  tv:'<rect x="3" y="5.5" width="18" height="12" rx="2"/><path d="M8.5 20.5h7"/><path d="M12 17.5v3"/>',
+  trash:'<path d="M4.5 7h15"/><path d="M9 7V5.3A1.3 1.3 0 0 1 10.3 4h3.4A1.3 1.3 0 0 1 15 5.3V7"/><path d="M6.6 7l.9 12.1a1.8 1.8 0 0 0 1.8 1.7h5.4a1.8 1.8 0 0 0 1.8-1.7L17.4 7"/><path d="M10 10.5v5.5M14 10.5v5.5"/>',
+  bolt:'<path d="M13 3 5.5 13.2H11l-1 7.8 8-10.5h-5.2L13 3Z"/>',
+  exit:'<path d="M13.5 4h4a1.5 1.5 0 0 1 1.5 1.5v13A1.5 1.5 0 0 1 17.5 20h-4"/><path d="M10 8.5 6 12l4 3.5"/><path d="M6 12h9.5"/>',
+  book:'<path d="M6.5 4h11a1 1 0 0 1 1 1v13.5H8a1.5 1.5 0 0 0-1.5 1.5V4Z"/><path d="M6.5 20A1.5 1.5 0 0 1 8 18.5h10.5"/><path d="M9.8 8.2h5.4M9.8 11.2h5.4"/>',
 };
 function svg(name,cls){
   return `<svg class="${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
@@ -730,6 +754,18 @@ const FAQ=[
   {q:'Zijn huisdieren welkom?', a:'Om het verblijf voor iedere gast fris en allergievrij te houden, zijn huisdieren helaas niet toegestaan.'},
   {q:'Is de WiFi geschikt om te werken?', a:'Zeker. Er is snelle, betrouwbare WiFi in het hele huys — ook prettig voor een zakelijk verblijf.'},
   {q:'Wat is er te doen in de omgeving?', a:'Volop: van Nationaal Park Weerribben-Wieden en fietsroutes langs de Linde tot UNESCO-werelderfgoed op nog geen half uur. Kijk bij Omgeving voor onze tips.'},
+];
+
+/* Informatie — digitale huisinstructies (tik open) */
+const HOUSE=[
+  {icon:'wifi',   title:'WiFi',           text:"Verbind met het netwerk 'Stuyvesant-Huys'. Het wachtwoord vindt u op het welkomstkaartje in de woonkamer."},
+  {icon:'thermo', title:'Verwarming',     text:'De temperatuur regelt u met de thermostaat in de woonkamer. Draai naar de gewenste stand — binnen enkele minuten wordt het aangenaam warm.'},
+  {icon:'tv',     title:'TV',             text:'Zet de tv aan met de afstandsbediening. Via het startscherm kijkt u tv of logt u in op uw eigen streamingdiensten, zoals Netflix.'},
+  {icon:'cup',    title:'Koffie',         text:'Koffie, thee en alles wat u nodig heeft staat klaar in de keuken. Vul het reservoir met water, plaats een kopje en druk op de knop.'},
+  {icon:'trash',  title:'Afval',          text:'Afval scheidt u graag in de bakken in de keuken: restafval, papier en plastic. De containers staan naast de voordeur.'},
+  {icon:'drop',   title:'Badkamer',       text:'In de badkamer liggen verse handdoeken en verzorgingsproducten klaar. De inloopdouche heeft een regendouche; warm water is er direct.'},
+  {icon:'bolt',   title:'E-bike opladen', text:'Uw e-bike stalt u overdekt naast het huys. Het oplaadpunt vindt u in de berging — de sleutel ligt voor u klaar.'},
+  {icon:'exit',   title:'Check-out',      text:'Uitchecken kan tot 11:00 uur. Sluit graag de ramen, zet de verwarming laag en laat de sleutel in de brievenbus. Goede reis!'},
 ];
 
 /* ============================================================
@@ -875,6 +911,26 @@ views.informatie=()=>`
             <ul class="info-lines">${b.lines.map(l=>`<li>${l}</li>`).join('')}</ul>
           </div>
         </div>`).join('')}
+    </div>
+    <div class="house">
+      <div class="info-block faq-intro">
+        <span class="info-badge">${svg('book')}</span>
+        <div class="info-body">
+          <div class="info-title">Huisinstructies</div>
+          <p class="faq-sub">Zo werkt alles in huis — tik een onderwerp open.</p>
+        </div>
+      </div>
+      <div class="house-list">
+        ${HOUSE.map(h=>`
+          <div class="house-item">
+            <button class="house-q" aria-expanded="false">
+              <span class="house-badge">${svg(h.icon)}</span>
+              <span class="house-title">${h.title}</span>
+              <span class="house-chev">${svg('chev')}</span>
+            </button>
+            <div class="house-a"><p>${h.text}</p></div>
+          </div>`).join('')}
+      </div>
     </div>
     <div class="faq">
       <div class="info-block faq-intro">
@@ -1214,6 +1270,8 @@ document.addEventListener('click',e=>{
   if(head){const it=head.closest('.stay-item');const open=it.classList.toggle('open');head.setAttribute('aria-expanded',open?'true':'false');return}
   const fq=e.target.closest('.faq-q');
   if(fq){const it=fq.closest('.faq-item');const open=it.classList.toggle('open');fq.setAttribute('aria-expanded',open?'true':'false');return}
+  const hq=e.target.closest('.house-q');
+  if(hq){const it=hq.closest('.house-item');const open=it.classList.toggle('open');hq.setAttribute('aria-expanded',open?'true':'false');return}
   if(current==='boeken'){
     const cal=e.target.closest('[data-cal]'); if(cal){bkCalNav(+cal.dataset.cal);return}
     const gs=e.target.closest('[data-guests]'); if(gs){booking.guests=Math.min(MAX_GUESTS,Math.max(1,booking.guests+(+gs.dataset.guests)));rbook(true);return}
