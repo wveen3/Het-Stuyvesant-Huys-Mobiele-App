@@ -221,8 +221,8 @@ body{
 .home-welcome .eyebrow::after{content:"";height:1px;width:40px;background:var(--brass-soft);opacity:.7}
 .home-welcome h1{
   font-family:'Cormorant Garamond',serif;font-weight:600;
-  font-size:clamp(2.4rem,10.5vw,3.3rem);line-height:.98;letter-spacing:.01em;
-  text-wrap:balance;margin-bottom:12px;
+  font-size:clamp(2rem,8.5vw,2.7rem);line-height:1;letter-spacing:.01em;
+  white-space:nowrap;margin-bottom:12px;
   text-shadow:0 2px 20px rgba(0,0,0,.35);
 }
 .home-welcome p{
@@ -545,6 +545,7 @@ function go(route){
     view.innerHTML=views[route]();
     view.scrollTop=0;
     renderChrome();
+    if(route==='home') fitHome();
     view.classList.remove('is-fading');
   };
   if(change){
@@ -557,6 +558,20 @@ function go(route){
 /* menu */
 function openMenu(){menu.classList.add('open')}
 function closeMenu(){menu.classList.remove('open')}
+
+/* schaal titel + subtitel naar de grootste maat die op één regel past */
+function fitOneLine(el,startPx,minPx){
+  el.style.whiteSpace='nowrap';
+  let s=startPx; el.style.fontSize=s+'px';
+  let g=80;
+  while(el.scrollWidth>el.clientWidth && s>minPx && g-->0){ s-=0.5; el.style.fontSize=s+'px'; }
+}
+function fitHome(){
+  const w=view.querySelector('.home-welcome'); if(!w) return;
+  const h1=w.querySelector('h1'), p=w.querySelector('p');
+  if(h1) fitOneLine(h1,46,20);
+  if(p)  fitOneLine(p,18,11);
+}
 
 /* delegated events */
 document.addEventListener('click',e=>{
@@ -571,4 +586,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 /* init */
 renderChrome();
 go('home');
+if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{if(current==='home')fitHome();});}
+let _rz;window.addEventListener('resize',()=>{clearTimeout(_rz);_rz=setTimeout(()=>{if(current==='home')fitHome();},120);});
 </script>
