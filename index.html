@@ -339,11 +339,17 @@ body{
 
 /* ---- Omgeving — ontdeklijst met icoon-badges -------------- */
 .area-list{display:flex;flex-direction:column}
-.area-item{display:flex;align-items:flex-start;gap:16px;padding:17px 2px;border-bottom:1px solid var(--line-soft)}
+.area-item{display:flex;align-items:center;gap:16px;padding:16px 2px;border-bottom:1px solid var(--line-soft);
+  color:inherit;transition:opacity .15s var(--ease)}
 .area-item:first-child{border-top:1px solid var(--line-soft)}
+.area-item:active{opacity:.7}
 .area-badge{flex:0 0 auto;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;
   background:var(--cream-soft);border:1px solid var(--line);color:var(--green-700)}
+.area-badge.is-unesco{background:var(--brass-soft);border-color:var(--brass);color:var(--green-800)}
 .area-badge svg{width:24px;height:24px;stroke-width:1.5}
+.area-chev{flex:0 0 auto;color:var(--brass-deep);transition:transform .2s var(--ease)}
+.area-chev svg{width:18px;height:18px;stroke-width:1.7}
+.area-item:hover .area-chev{transform:translateX(2px)}
 .area-body{flex:1;min-width:0;padding-top:3px;display:flex;flex-direction:column;gap:3px}
 .area-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.26rem;line-height:1.15;color:var(--ink)}
 .area-desc{font-size:.82rem;line-height:1.5;color:var(--muted)}
@@ -446,6 +452,7 @@ const ICONS = {
   landmark:'<path d="M4 9.5 12 4.5l8 5"/><path d="M6 9.5v8.5M9.7 9.5v8.5M14.3 9.5v8.5M18 9.5v8.5"/><path d="M4 18h16"/><path d="M3 20.6h18"/>',
   bag:'<path d="M6.8 8h10.4l-1 12.2H7.8L6.8 8Z"/><path d="M9.2 8V6.6a2.8 2.8 0 0 1 5.6 0V8"/>',
   compass:'<circle cx="12" cy="12" r="8.4"/><path d="m14.9 9.1-4.1 1.7L9.1 14.9l4.1-1.7 1.7-4.1Z"/>',
+  globe:'<circle cx="12" cy="12" r="8.4"/><path d="M3.6 12h16.8"/><path d="M12 3.6c2.4 2.3 3.7 5.3 3.7 8.4S14.4 18.1 12 20.4C9.6 18.1 8.3 15.1 8.3 12S9.6 5.9 12 3.6Z"/>',
 };
 function svg(name,cls){
   return `<svg class="${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
@@ -525,13 +532,14 @@ const STAY=[
    tags:['Geheel privé','Terras','Loungeplek','Avondzon']},
 ];
 
-/* Omgeving — ontdekken rondom Wolvega */
+/* Omgeving — ontdekken rondom Wolvega (tik = open kaart) */
 const AREA=[
-  {icon:'tree',     title:'Natuur & wandelen',    desc:'Prachtige wandelroutes in de nabije natuurgebieden.'},
-  {icon:'bike',     title:'Fietsen',              desc:'Verken de omgeving op de fiets. Routes en tips beschikbaar.'},
-  {icon:'food',     title:'Eten & drinken',       desc:'Gezellige restaurants en cafés op loop- of fietsafstand.'},
-  {icon:'landmark', title:'Bezienswaardigheden',  desc:'Ontdek de rijke geschiedenis van Wolvega en omgeving.'},
-  {icon:'bag',      title:'Winkelen',             desc:'Van lokale winkels tot gezellige boetiekjes in het centrum.'},
+  {icon:'tree',     title:'Natuur & wandelen',    desc:'Wandel door de Rottige Meente, de Lindevallei en Nationaal Park Weerribben-Wieden.', q:'Rottige Meente Wolvega'},
+  {icon:'bike',     title:'Fietsen',              desc:'Fiets langs de Linde en door de Weerribben; knooppuntroutes starten bij de deur.', q:'Driewegsluis Nijetrijne'},
+  {icon:'globe',    title:'UNESCO werelderfgoed', desc:'Meerdere sites op nog geen half uur: de Koloniën van Weldadigheid en het Woudagemaal in Lemmer.', q:'Koloniën van Weldadigheid Frederiksoord', unesco:true},
+  {icon:'landmark', title:'Bezienswaardigheden',  desc:'Ontdek de historische dorpskern van Wolvega en het monumentale Lycklamahûs.', q:'Lycklamahûs Wolvega'},
+  {icon:'food',     title:'Eten & drinken',       desc:'Gezellige restaurants en cafés in het centrum, op loop- of fietsafstand.', q:'restaurants Wolvega centrum'},
+  {icon:'bag',      title:'Winkelen',             desc:'Van vertrouwde winkels tot gezellige boetiekjes in het centrum van Wolvega.', q:'winkels Wolvega centrum'},
 ];
 
 /* ============================================================
@@ -646,13 +654,14 @@ views.omgeving=()=>`
     <div class="sheet-head"><h1>De omgeving</h1><p>Ontdek de natuur, cultuur en gezellige plekken rondom Wolvega.</p></div>
     <div class="area-list">
       ${AREA.map(a=>`
-        <div class="area-item">
-          <span class="area-badge">${svg(a.icon)}</span>
+        <a class="area-item" href="https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(a.q)}" target="_blank" rel="noopener" aria-label="${a.title} — open op de kaart">
+          <span class="area-badge${a.unesco?' is-unesco':''}">${svg(a.icon)}</span>
           <span class="area-body">
             <span class="area-title">${a.title}</span>
             <span class="area-desc">${a.desc}</span>
           </span>
-        </div>`).join('')}
+          <span class="area-chev">${svg('chev')}</span>
+        </a>`).join('')}
     </div>
     <div class="tip-card">
       <span class="tip-ic">${svg('compass')}</span>
