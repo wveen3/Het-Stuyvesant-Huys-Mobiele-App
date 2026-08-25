@@ -339,17 +339,12 @@ body{
 
 /* ---- Omgeving — ontdeklijst met icoon-badges -------------- */
 .area-list{display:flex;flex-direction:column}
-.area-item{display:flex;align-items:center;gap:16px;padding:16px 2px;border-bottom:1px solid var(--line-soft);
-  color:inherit;transition:opacity .15s var(--ease)}
+.area-item{display:flex;align-items:flex-start;gap:16px;padding:17px 2px;border-bottom:1px solid var(--line-soft)}
 .area-item:first-child{border-top:1px solid var(--line-soft)}
-.area-item:active{opacity:.7}
 .area-badge{flex:0 0 auto;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;
   background:var(--cream-soft);border:1px solid var(--line);color:var(--green-700)}
 .area-badge.is-unesco{background:var(--brass-soft);border-color:var(--brass);color:var(--green-800)}
 .area-badge svg{width:24px;height:24px;stroke-width:1.5}
-.area-chev{flex:0 0 auto;color:var(--brass-deep);transition:transform .2s var(--ease)}
-.area-chev svg{width:18px;height:18px;stroke-width:1.7}
-.area-item:hover .area-chev{transform:translateX(2px)}
 .area-body{flex:1;min-width:0;padding-top:3px;display:flex;flex-direction:column;gap:3px}
 .area-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.26rem;line-height:1.15;color:var(--ink)}
 .area-desc{font-size:.82rem;line-height:1.5;color:var(--muted)}
@@ -360,6 +355,70 @@ body{
 .tip-ic svg{width:21px;height:21px;stroke-width:1.5}
 .tip-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.2rem;color:var(--on-green);margin-bottom:3px}
 .tip-card p{font-size:.8rem;line-height:1.5;color:var(--on-green-soft)}
+
+/* ---- Informatie — praktische blokken + FAQ --------------- */
+.info-list{display:flex;flex-direction:column}
+.info-block{display:flex;align-items:flex-start;gap:15px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.info-block:first-child{border-top:1px solid var(--line-soft)}
+.info-badge{flex:0 0 auto;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
+  background:var(--cream-soft);border:1px solid var(--line);color:var(--green-700)}
+.info-badge svg{width:22px;height:22px;stroke-width:1.5}
+.info-body{flex:1;min-width:0;padding-top:2px}
+.info-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.24rem;line-height:1.15;color:var(--ink)}
+.info-lines{list-style:none;margin-top:7px;display:flex;flex-direction:column;gap:5px}
+.info-lines li{position:relative;padding-left:16px;font-size:.84rem;line-height:1.45;color:var(--muted)}
+.info-lines li::before{content:"";position:absolute;left:1px;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--brass)}
+
+.faq{margin-top:16px}
+.faq-intro{border-bottom:none;padding-bottom:2px}
+.faq-sub{font-size:.84rem;line-height:1.45;color:var(--muted);margin-top:4px}
+.faq-list{display:flex;flex-direction:column}
+.faq-item{border-bottom:1px solid var(--line-soft)}
+.faq-item:first-child{border-top:1px solid var(--line-soft)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:15px 2px;text-align:left}
+.faq-q>span:first-child{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.12rem;color:var(--ink);line-height:1.25}
+.faq-chev{flex:0 0 auto;color:var(--brass-deep);transition:transform .25s var(--ease)}
+.faq-chev svg{width:17px;height:17px;stroke-width:1.7}
+.faq-item.open .faq-chev{transform:rotate(90deg)}
+.faq-a{max-height:0;overflow:hidden;opacity:0;transition:max-height .32s var(--ease),opacity .28s var(--ease)}
+.faq-item.open .faq-a{max-height:280px;opacity:1}
+.faq-a p{font-size:.86rem;line-height:1.55;color:var(--muted);padding:0 2px 16px}
+
+/* ---- Contact --------------------------------------------- */
+.contact-list{display:flex;flex-direction:column}
+.contact-row{display:flex;align-items:center;gap:15px;padding:15px 2px;border-bottom:1px solid var(--line-soft);
+  color:inherit;transition:opacity .15s var(--ease)}
+.contact-row:first-child{border-top:1px solid var(--line-soft)}
+.contact-row:active{opacity:.7}
+.contact-badge{flex:0 0 auto;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+  background:var(--cream-soft);border:1px solid var(--line);color:var(--green-700)}
+.contact-badge svg{width:21px;height:21px;stroke-width:1.5}
+.contact-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.contact-label{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.contact-value{font-family:'Cormorant Garamond',serif;font-size:1.18rem;font-weight:600;color:var(--ink);line-height:1.2}
+.contact-chev{flex:0 0 auto;color:var(--brass-deep)}
+.contact-chev svg{width:17px;height:17px;stroke-width:1.7}
+
+.social{margin-top:26px}
+.social-label{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:12px}
+.social-btns{display:flex;gap:12px}
+.social-btns a{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+  background:var(--green-700);color:var(--on-green);transition:background .2s var(--ease)}
+.social-btns a:hover{background:var(--green-600)}
+.social-btns a svg{width:22px;height:22px;stroke-width:1.5}
+.social>p{margin-top:12px;font-size:.82rem;color:var(--muted);line-height:1.5}
+
+.msg-form{margin-top:32px}
+.msg-form h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.55rem;margin-bottom:16px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.field input,.field textarea{font-family:'Jost',sans-serif;font-size:.92rem;color:var(--ink);background:var(--cream-soft);
+  border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 14px;width:100%}
+.field textarea{min-height:112px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px rgba(193,160,100,.18)}
+.msg-form .btn{margin-top:4px}
+.btn-ic{width:17px;height:17px;stroke-width:1.7}
+.form-note{margin-top:12px;font-size:.76rem;color:var(--muted);text-align:center;line-height:1.5}
 
 /* ---- Slide-in menu --------------------------------------- */
 .menu{position:absolute;inset:0;z-index:40;visibility:hidden;pointer-events:none}
@@ -453,6 +512,15 @@ const ICONS = {
   bag:'<path d="M6.8 8h10.4l-1 12.2H7.8L6.8 8Z"/><path d="M9.2 8V6.6a2.8 2.8 0 0 1 5.6 0V8"/>',
   compass:'<circle cx="12" cy="12" r="8.4"/><path d="m14.9 9.1-4.1 1.7L9.1 14.9l4.1-1.7 1.7-4.1Z"/>',
   globe:'<circle cx="12" cy="12" r="8.4"/><path d="M3.6 12h16.8"/><path d="M12 3.6c2.4 2.3 3.7 5.3 3.7 8.4S14.4 18.1 12 20.4C9.6 18.1 8.3 15.1 8.3 12S9.6 5.9 12 3.6Z"/>',
+  clock:'<circle cx="12" cy="12" r="8.4"/><path d="M12 7.4V12l3 1.9"/>',
+  rules:'<rect x="5.5" y="4.5" width="13" height="16" rx="2"/><path d="M9.2 4.5V3.6h5.6v.9"/><path d="M8.6 9.6h6.8M8.6 13h6.8M8.6 16.4h4.4"/>',
+  wifi:'<path d="M4.6 9.4a11.5 11.5 0 0 1 14.8 0"/><path d="M7.4 12.8a7.2 7.2 0 0 1 9.2 0"/><path d="M10.1 16.2a3 3 0 0 1 3.8 0"/><circle cx="12" cy="19.2" r=".7" fill="currentColor" stroke="none"/>',
+  safety:'<path d="M12 3.4 5.6 6v5.1c0 4.1 2.7 7.4 6.4 8.9 3.7-1.5 6.4-4.8 6.4-8.9V6L12 3.4Z"/><path d="m9.4 11.9 1.9 1.9 3.5-3.7"/>',
+  question:'<circle cx="12" cy="12" r="8.4"/><path d="M9.7 9.5a2.4 2.4 0 0 1 4.7.8c0 1.6-2.3 2-2.3 3.6"/><circle cx="12" cy="16.6" r=".75" fill="currentColor" stroke="none"/>',
+  mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2.2"/><path d="m4.6 7.2 7.4 5.4 7.4-5.4"/>',
+  instagram:'<rect x="4" y="4" width="16" height="16" rx="4.6"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.7" cy="7.3" r="1" fill="currentColor" stroke="none"/>',
+  facebook:'<path d="M13.6 21v-6.9h2.3l.4-2.8h-2.7V9.4c0-.8.3-1.3 1.4-1.3h1.4V5.6c-.6-.1-1.4-.2-2.2-.2-2.2 0-3.6 1.3-3.6 3.6v2.1H8.2v2.8h2.3V21Z"/>',
+  send:'<path d="M20 4 3.6 11.5l6.1 2.2 2.2 6.1L20 4Z"/><path d="M20 4 9.7 13.7"/>',
 };
 function svg(name,cls){
   return `<svg class="${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
@@ -532,14 +600,29 @@ const STAY=[
    tags:['Geheel privé','Terras','Loungeplek','Avondzon']},
 ];
 
-/* Omgeving — ontdekken rondom Wolvega (tik = open kaart) */
+/* Omgeving — ontdekken rondom Wolvega */
 const AREA=[
-  {icon:'tree',     title:'Natuur & wandelen',    desc:'Wandel door de Rottige Meente, de Lindevallei en Nationaal Park Weerribben-Wieden.', q:'Rottige Meente Wolvega'},
-  {icon:'bike',     title:'Fietsen',              desc:'Fiets langs de Linde en door de Weerribben; knooppuntroutes starten bij de deur.', q:'Driewegsluis Nijetrijne'},
-  {icon:'globe',    title:'UNESCO werelderfgoed', desc:'Meerdere sites op nog geen half uur: de Koloniën van Weldadigheid en het Woudagemaal in Lemmer.', q:'Koloniën van Weldadigheid Frederiksoord', unesco:true},
-  {icon:'landmark', title:'Bezienswaardigheden',  desc:'Ontdek de historische dorpskern van Wolvega en het monumentale Lycklamahûs.', q:'Lycklamahûs Wolvega'},
-  {icon:'food',     title:'Eten & drinken',       desc:'Gezellige restaurants en cafés in het centrum, op loop- of fietsafstand.', q:'restaurants Wolvega centrum'},
-  {icon:'bag',      title:'Winkelen',             desc:'Van vertrouwde winkels tot gezellige boetiekjes in het centrum van Wolvega.', q:'winkels Wolvega centrum'},
+  {icon:'tree',     title:'Natuur & wandelen',    desc:'Struin door Nationaal Park Weerribben-Wieden, over de veenpaden van de Rottige Meente of langs de fluisterstille Lindevallei — Friese natuur, zo de deur uit.'},
+  {icon:'bike',     title:'Fietsen',              desc:'Volg het knooppuntennetwerk langs de rivier de Linde en dwars door de Weerribben. E-bike opgeladen? Wij tekenen het mooiste rondje voor u uit.'},
+  {icon:'globe',    title:'UNESCO werelderfgoed', desc:'Twee keer werelderfgoed op nog geen half uur: de Koloniën van Weldadigheid met Museum de Proefkolonie én het imposante Woudagemaal in Lemmer.', unesco:true},
+  {icon:'landmark', title:'Bezienswaardigheden',  desc:'Bewonder het statige Lycklamahûs, dwaal door de historische dorpskern of ontdek kunstenaarsdorp Oldeberkoop even verderop.'},
+  {icon:'food',     title:'Eten & drinken',       desc:'Van een sfeervol diner tot koffie met Fries suikerbrood — de gezelligste adresjes liggen op loop- en fietsafstand in het centrum.'},
+  {icon:'bag',      title:'Winkelen',             desc:'Slenter over de Hoofdstraat langs vertrouwde winkels, fijne speciaalzaken en gezellige boetiekjes in het hart van Wolvega.'},
+];
+
+/* Informatie — praktisch (regels uit het huysboek) */
+const INFO=[
+  {icon:'clock',  title:'Aankomst & vertrek', lines:['Inchecken vanaf 15:00 uur','Uitchecken voor 11:00 uur']},
+  {icon:'rules',  title:'Huisregels',         lines:['Roken niet toegestaan','Huisdieren niet toegestaan','Feesten en evenementen niet toegestaan']},
+  {icon:'wifi',   title:'Voorzieningen',      lines:['Gratis snelle WiFi','Parkeren op eigen terrein','E-bike stalling en oplaadpunt']},
+  {icon:'safety', title:'Veiligheid',         lines:['Brandblusser aanwezig','EHBO-kit aanwezig','Rookmelder aanwezig']},
+];
+const FAQ=[
+  {q:'Hoe laat kan ik in- en uitchecken?', a:'Inchecken kan vanaf 15:00 uur, uitchecken vragen wij voor 11:00 uur. Schikt een ander tijdstip beter? Neem gerust contact op, dan kijken we samen wat mogelijk is.'},
+  {q:'Is er parkeergelegenheid?', a:'Ja, u parkeert gratis op eigen terrein direct bij het huys. Voor de e-bike is er een overdekte stalling met oplaadpunt.'},
+  {q:'Zijn huisdieren welkom?', a:'Om het verblijf voor iedere gast fris en allergievrij te houden, zijn huisdieren helaas niet toegestaan.'},
+  {q:'Is de WiFi geschikt om te werken?', a:'Zeker. Er is snelle, betrouwbare WiFi in het hele huys — ook prettig voor een zakelijk verblijf.'},
+  {q:'Wat is er te doen in de omgeving?', a:'Volop: van Nationaal Park Weerribben-Wieden en fietsroutes langs de Linde tot UNESCO-werelderfgoed op nog geen half uur. Kijk bij Omgeving voor onze tips.'},
 ];
 
 /* ============================================================
@@ -654,14 +737,13 @@ views.omgeving=()=>`
     <div class="sheet-head"><h1>De omgeving</h1><p>Ontdek de natuur, cultuur en gezellige plekken rondom Wolvega.</p></div>
     <div class="area-list">
       ${AREA.map(a=>`
-        <a class="area-item" href="https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(a.q)}" target="_blank" rel="noopener" aria-label="${a.title} — open op de kaart">
+        <div class="area-item">
           <span class="area-badge${a.unesco?' is-unesco':''}">${svg(a.icon)}</span>
           <span class="area-body">
             <span class="area-title">${a.title}</span>
             <span class="area-desc">${a.desc}</span>
           </span>
-          <span class="area-chev">${svg('chev')}</span>
-        </a>`).join('')}
+        </div>`).join('')}
     </div>
     <div class="tip-card">
       <span class="tip-ic">${svg('compass')}</span>
@@ -671,8 +753,89 @@ views.omgeving=()=>`
       </div>
     </div>
   </section>`;
-views.informatie=()=>stub('informatie');
-views.contact=()=>stub('contact');
+views.informatie=()=>`
+  <section class="hero page-hero hero-informatie">
+    <div class="hero-media"></div><div class="hero-grain"></div>${heroTop()}
+  </section>
+  <section class="sheet">
+    <div class="sheet-head"><h1>Praktische informatie</h1><p>Alles wat u moet weten voor een zorgeloos verblijf.</p></div>
+    <div class="info-list">
+      ${INFO.map(b=>`
+        <div class="info-block">
+          <span class="info-badge">${svg(b.icon)}</span>
+          <div class="info-body">
+            <div class="info-title">${b.title}</div>
+            <ul class="info-lines">${b.lines.map(l=>`<li>${l}</li>`).join('')}</ul>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="faq">
+      <div class="info-block faq-intro">
+        <span class="info-badge">${svg('question')}</span>
+        <div class="info-body">
+          <div class="info-title">Veelgestelde vragen</div>
+          <p class="faq-sub">Bekijk de antwoorden op veelgestelde vragen.</p>
+        </div>
+      </div>
+      <div class="faq-list">
+        ${FAQ.map(f=>`
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false"><span>${f.q}</span><span class="faq-chev">${svg('chev')}</span></button>
+            <div class="faq-a"><p>${f.a}</p></div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="sheet-cta">
+      <div class="ornament"><i></i></div>
+      <button class="btn btn-green" data-go="contact">Nog een vraag? Neem contact op</button>
+    </div>
+  </section>`;
+views.contact=()=>`
+  <section class="hero page-hero hero-contact">
+    <div class="hero-media"></div><div class="hero-grain"></div>${heroTop()}
+  </section>
+  <section class="sheet">
+    <div class="sheet-head"><h1>Contact</h1><p>We staan voor u klaar.</p></div>
+    <div class="contact-list">
+      <div class="contact-row">
+        <span class="contact-badge">${svg('pin')}</span>
+        <span class="contact-body"><span class="contact-label">Adres</span><span class="contact-value">Stuyvesantstraat 2<br>8471 GN Wolvega</span></span>
+      </div>
+      <a class="contact-row" href="tel:+31612345678">
+        <span class="contact-badge">${svg('phone')}</span>
+        <span class="contact-body"><span class="contact-label">Telefoon</span><span class="contact-value">+31 6 12345678</span></span>
+        <span class="contact-chev">${svg('chev')}</span>
+      </a>
+      <a class="contact-row" href="mailto:info@stuyvesanthuys.nl">
+        <span class="contact-badge">${svg('mail')}</span>
+        <span class="contact-body"><span class="contact-label">E-mail</span><span class="contact-value">info@stuyvesanthuys.nl</span></span>
+        <span class="contact-chev">${svg('chev')}</span>
+      </a>
+      <a class="contact-row" href="https://www.stuyvesanthuys.nl" target="_blank" rel="noopener">
+        <span class="contact-badge">${svg('globe')}</span>
+        <span class="contact-body"><span class="contact-label">Website</span><span class="contact-value">www.stuyvesanthuys.nl</span></span>
+        <span class="contact-chev">${svg('chev')}</span>
+      </a>
+    </div>
+
+    <div class="social">
+      <div class="social-label">Volg ons</div>
+      <div class="social-btns">
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">${svg('instagram')}</a>
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook">${svg('facebook')}</a>
+      </div>
+      <p>Blijf op de hoogte via Instagram en Facebook.</p>
+    </div>
+
+    <form class="msg-form">
+      <h3>Stuur ons een bericht</h3>
+      <div class="field"><label for="c-naam">Naam</label><input id="c-naam" name="naam" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="c-mail">E-mail</label><input id="c-mail" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="c-bericht">Bericht</label><textarea id="c-bericht" name="bericht" required></textarea></div>
+      <button type="submit" class="btn btn-green">${svg('send','btn-ic')}Verstuur bericht</button>
+      <p class="form-note" id="c-note" hidden>Uw mailprogramma opent met het bericht — controleer en verstuur.</p>
+    </form>
+  </section>`;
 
 views.boeken=()=>`
   <section class="sheet" style="margin-top:0;border-radius:0;min-height:100%">
@@ -748,6 +911,20 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#abBack')){go('home');return}
   const head=e.target.closest('.stay-head');
   if(head){const it=head.closest('.stay-item');const open=it.classList.toggle('open');head.setAttribute('aria-expanded',open?'true':'false');return}
+  const fq=e.target.closest('.faq-q');
+  if(fq){const it=fq.closest('.faq-item');const open=it.classList.toggle('open');fq.setAttribute('aria-expanded',open?'true':'false');return}
+});
+
+/* contactformulier → opent mailprogramma met ingevuld bericht */
+document.addEventListener('submit',e=>{
+  if(!e.target.classList.contains('msg-form'))return;
+  e.preventDefault();
+  const f=e.target;
+  const naam=f.naam.value.trim(), email=f.email.value.trim(), bericht=f.bericht.value.trim();
+  const subject=encodeURIComponent('Bericht via de app — '+naam);
+  const body=encodeURIComponent(bericht+'\n\n— '+naam+'\n'+email);
+  const note=f.querySelector('#c-note'); if(note) note.hidden=false;
+  window.location.href='mailto:info@stuyvesanthuys.nl?subject='+subject+'&body='+body;
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 
