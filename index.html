@@ -557,6 +557,11 @@ body{
 .menu-cta{margin-top:auto}
 .menu-install{margin-top:10px;background:transparent;border:1.5px solid var(--green-line);color:var(--on-green)}
 .menu-install:hover{background:rgba(255,255,255,.06)}
+.menu-lang{margin-top:24px}
+.ml-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--on-green-soft);margin-bottom:9px}
+.ml-seg{display:flex;gap:6px;background:var(--green-inset);border:1px solid var(--green-line);border-radius:12px;padding:4px}
+.ml-opt{flex:1;padding:9px 0;border-radius:9px;font-family:'Jost',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.1em;color:var(--on-green-soft);transition:background .18s var(--ease),color .18s var(--ease)}
+.ml-opt.active{background:var(--brass);color:var(--green-900)}
 .menu-foot{margin-top:22px;font-size:.72rem;line-height:1.7;color:var(--on-green-soft);letter-spacing:.02em}
 .menu-foot a{color:var(--brass-soft)}
 
@@ -587,8 +592,9 @@ body{
       <div class="crest light" id="menuCrest"></div>
       <button class="menu-close" data-close aria-label="Sluiten"></button>
       <nav class="menu-nav" id="menuNav"></nav>
+      <div class="menu-lang" id="menuLang"></div>
       <div class="menu-cta">
-        <button class="btn btn-brass" data-go="boeken">Boek nu</button>
+        <button class="btn btn-brass" id="menuBook" data-go="boeken">Boek nu</button>
         <button class="btn menu-install" id="installBtn" hidden>App installeren</button>
       </div>
       <div class="menu-foot">
@@ -674,13 +680,130 @@ function heroTop(){
 }
 
 /* ============================================================
-   Datum-helpers (Nederlands)
+   Talen (NL / EN / DE) + datum-helpers
    ============================================================ */
-const MONTHS=['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
-const MONTHS_S=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
-const DAYS_S=['zo','ma','di','wo','do','vr','za'];
-function fmt(d,long){return `${d.getDate()} ${long?MONTHS[d.getMonth()]:MONTHS_S[d.getMonth()]} ${d.getFullYear()}`}
+const LANGS=['nl','en','de'];
+let LANG='nl';
+try{const _s=localStorage.getItem('hsh-lang');
+  if(_s&&LANGS.includes(_s))LANG=_s;
+  else{const _n=(navigator.language||'nl').slice(0,2).toLowerCase();if(LANGS.includes(_n))LANG=_n;}
+}catch(e){}
+
+const MONTHS_ML={
+  nl:['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'],
+  en:['January','February','March','April','May','June','July','August','September','October','November','December'],
+  de:['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember']
+};
+const MONTHS_S_ML={
+  nl:['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'],
+  en:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+  de:['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez']
+};
+const DOW_ML={
+  nl:['ma','di','wo','do','vr','za','zo'],
+  en:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+  de:['Mo','Di','Mi','Do','Fr','Sa','So']
+};
+function L(x){return (x&&typeof x==='object'&&!Array.isArray(x)&&('nl' in x))?(x[LANG]||x.nl):x;}
+function t(k){const o=TR[k];return o?(o[LANG]||o.nl):k;}
+function fmt(d,long){const M=(long?MONTHS_ML:MONTHS_S_ML)[LANG];return `${d.getDate()} ${M[d.getMonth()]} ${d.getFullYear()}`;}
 function nightsBetween(a,b){return Math.max(0,Math.round((b-a)/864e5))}
+
+const TR={
+  nav_home:{nl:"Home",en:"Home",de:"Start"},
+  nav_verblijf:{nl:"Verblijf",en:"Stay",de:"Aufenthalt"},
+  nav_omgeving:{nl:"Omgeving",en:"Area",de:"Umgebung"},
+  nav_informatie:{nl:"Informatie",en:"Information",de:"Info"},
+  nav_contact:{nl:"Contact",en:"Contact",de:"Kontakt"},
+  welkom:{nl:"Welkom bij",en:"Welcome to",de:"Willkommen bei"},
+  home_sub:{nl:"Uw sfeervolle guesthouse in het hart van Wolvega",en:"Your charming guesthouse in the heart of Wolvega",de:"Ihr stimmungsvolles Gästehaus im Herzen von Wolvega"},
+  begint_hier:{nl:"Uw verblijf begint hier",en:"Your stay starts here",de:"Ihr Aufenthalt beginnt hier"},
+  aankomst:{nl:"Aankomst",en:"Arrival",de:"Anreise"},
+  vertrek:{nl:"Vertrek",en:"Departure",de:"Abreise"},
+  gasten:{nl:"Gasten",en:"Guests",de:"Gäste"},
+  boek_nu:{nl:"Boek nu",en:"Book now",de:"Jetzt buchen"},
+  f1_t:{nl:"Geheel privé",en:"Fully private",de:"Ganz privat"},
+  f1_s:{nl:"Eigen guesthouse met tuin",en:"Own guesthouse with garden",de:"Eigenes Gästehaus mit Garten"},
+  f2_t:{nl:"E-bike welkom",en:"E-bike welcome",de:"E-Bike willkommen"},
+  f2_s:{nl:"Overdekte stalling en oplaadpunt",en:"Covered storage and charging point",de:"Überdachter Stellplatz mit Ladepunkt"},
+  f3_t:{nl:"Perfecte locatie",en:"Perfect location",de:"Perfekte Lage"},
+  f3_s:{nl:"Nabij natuur, dorp en voorzieningen",en:"Near nature, village and amenities",de:"Nahe Natur, Dorf und Einrichtungen"},
+  over_titel:{nl:"Over het huys",en:"About the house",de:"Über das Huys"},
+  over_tekst:{nl:"Gelegen in het hart van Wolvega. Een plek met een verhaal, sfeervol ingericht voor een ontspannen verblijf.",en:"Set in the heart of Wolvega. A place with a story, tastefully furnished for a relaxing stay.",de:"Im Herzen von Wolvega gelegen. Ein Ort mit Geschichte, stilvoll eingerichtet für einen erholsamen Aufenthalt."},
+  lees_meer:{nl:"Lees meer",en:"Read more",de:"Mehr lesen"},
+  payoff:{nl:"historie · rust · comfort",en:"history · peace · comfort",de:"Geschichte · Ruhe · Komfort"},
+  verblijf_titel:{nl:"Uw verblijf",en:"Your stay",de:"Ihr Aufenthalt"},
+  verblijf_sub:{nl:"Al het comfort voor een ontspannen en sfeervol verblijf.",en:"Every comfort for a relaxing and characterful stay.",de:"Aller Komfort für einen erholsamen und stimmungsvollen Aufenthalt."},
+  boek_verblijf:{nl:"Boek uw verblijf",en:"Book your stay",de:"Aufenthalt buchen"},
+  omgeving_titel:{nl:"De omgeving",en:"The area",de:"Die Umgebung"},
+  omgeving_sub:{nl:"Ontdek de natuur, cultuur en gezellige plekken rondom Wolvega.",en:"Discover the nature, culture and inviting spots around Wolvega.",de:"Entdecken Sie Natur, Kultur und gemütliche Orte rund um Wolvega."},
+  tips_titel:{nl:"Routes & tips",en:"Routes & tips",de:"Routen & Tipps"},
+  tips_tekst:{nl:"In het huysboek vindt u onze favoriete wandel- en fietsroutes en tips voor de omgeving.",en:"In the house book you will find our favourite walking and cycling routes and local tips.",de:"Im Hausbuch finden Sie unsere liebsten Wander- und Radrouten sowie Tipps für die Umgebung."},
+  info_titel:{nl:"Praktische informatie",en:"Practical information",de:"Praktische Informationen"},
+  info_sub:{nl:"Alles wat u moet weten voor een zorgeloos verblijf.",en:"Everything you need for a carefree stay.",de:"Alles, was Sie für einen sorglosen Aufenthalt wissen müssen."},
+  huis_titel:{nl:"Huisinstructies",en:"House manual",de:"Hausanleitung"},
+  huis_sub:{nl:"Zo werkt alles in huis — tik een onderwerp open.",en:"How everything works in the house — tap a topic to open.",de:"So funktioniert alles im Haus — tippen Sie ein Thema an."},
+  faq_titel:{nl:"Veelgestelde vragen",en:"Frequently asked questions",de:"Häufig gestellte Fragen"},
+  faq_sub:{nl:"Bekijk de antwoorden op veelgestelde vragen.",en:"See the answers to common questions.",de:"Antworten auf häufige Fragen."},
+  info_cta:{nl:"Nog een vraag? Neem contact op",en:"Another question? Get in touch",de:"Noch eine Frage? Kontaktieren Sie uns"},
+  contact_titel:{nl:"Contact",en:"Contact",de:"Kontakt"},
+  contact_sub:{nl:"We staan voor u klaar.",en:"We are here for you.",de:"Wir sind für Sie da."},
+  adres:{nl:"Adres",en:"Address",de:"Adresse"},
+  telefoon:{nl:"Telefoon",en:"Phone",de:"Telefon"},
+  email:{nl:"E-mail",en:"Email",de:"E-Mail"},
+  website:{nl:"Website",en:"Website",de:"Website"},
+  volg_ons:{nl:"Volg ons",en:"Follow us",de:"Folgen Sie uns"},
+  social_tekst:{nl:"Blijf op de hoogte via Instagram en Facebook.",en:"Stay up to date via Instagram and Facebook.",de:"Bleiben Sie über Instagram und Facebook auf dem Laufenden."},
+  bericht_titel:{nl:"Stuur ons een bericht",en:"Send us a message",de:"Senden Sie uns eine Nachricht"},
+  naam:{nl:"Naam",en:"Name",de:"Name"},
+  bericht:{nl:"Bericht",en:"Message",de:"Nachricht"},
+  verstuur:{nl:"Verstuur bericht",en:"Send message",de:"Nachricht senden"},
+  form_note:{nl:"Uw mailprogramma opent met het bericht — controleer en verstuur.",en:"Your email app opens with the message — review and send.",de:"Ihr E-Mail-Programm öffnet sich mit der Nachricht — prüfen und senden."},
+  step_data:{nl:"Data",en:"Dates",de:"Termine"},
+  step_gegevens:{nl:"Gegevens",en:"Details",de:"Angaben"},
+  step_overzicht:{nl:"Overzicht",en:"Summary",de:"Übersicht"},
+  step_bevestiging:{nl:"Bevestiging",en:"Confirmation",de:"Bestätigung"},
+  ab_title:{nl:"Boek uw verblijf",en:"Book your stay",de:"Aufenthalt buchen"},
+  prod_meta:{nl:"Gastenverblijf voor 2 personen · Wolvega, Friesland",en:"Guest accommodation for 2 · Wolvega, Friesland",de:"Gästeunterkunft für 2 Personen · Wolvega, Friesland"},
+  per_nacht:{nl:"per nacht",en:"per night",de:"pro Nacht"},
+  sel_data:{nl:"Selecteer uw data",en:"Select your dates",de:"Wählen Sie Ihre Termine"},
+  aantal_gasten:{nl:"Aantal gasten",en:"Number of guests",de:"Anzahl der Gäste"},
+  volgende:{nl:"Volgende",en:"Next",de:"Weiter"},
+  terug:{nl:"Terug",en:"Back",de:"Zurück"},
+  uw_gegevens:{nl:"Uw gegevens",en:"Your details",de:"Ihre Angaben"},
+  gegevens_lead:{nl:"Waar mogen we de bevestiging naartoe sturen?",en:"Where shall we send your confirmation?",de:"Wohin dürfen wir Ihre Bestätigung senden?"},
+  bijzonderheden:{nl:"Bijzonderheden",en:"Notes",de:"Anmerkungen"},
+  optioneel:{nl:"(optioneel)",en:"(optional)",de:"(optional)"},
+  prijsoverzicht:{nl:"Prijsoverzicht",en:"Price summary",de:"Preisübersicht"},
+  schoonmaak:{nl:"Schoonmaakkosten",en:"Cleaning fee",de:"Reinigungsgebühr"},
+  service:{nl:"Servicekosten",en:"Service fee",de:"Servicegebühr"},
+  totaal:{nl:"Totaal",en:"Total",de:"Gesamt"},
+  akkoord:{nl:"Ik ga akkoord met de huisregels en de annuleringsvoorwaarden.",en:"I agree to the house rules and cancellation terms.",de:"Ich akzeptiere die Hausordnung und die Stornobedingungen."},
+  boek_verblijf_btn:{nl:"Boek verblijf",en:"Book stay",de:"Aufenthalt buchen"},
+  veilig:{nl:"Veilig en eenvoudig boeken",en:"Safe and easy booking",de:"Sicher und einfach buchen"},
+  bedankt:{nl:"Bedankt",en:"Thank you",de:"Danke"},
+  confirm_tekst:{nl:"Uw aanvraag is verstuurd naar Het Stuyvesant Huys. U ontvangt zo snel mogelijk een persoonlijke bevestiging per e-mail.",en:"Your request has been sent to Het Stuyvesant Huys. You will receive a personal confirmation by email as soon as possible.",de:"Ihre Anfrage wurde an Het Stuyvesant Huys gesendet. Sie erhalten so bald wie möglich eine persönliche Bestätigung per E-Mail."},
+  referentie:{nl:"Referentie",en:"Reference",de:"Referenz"},
+  terug_home:{nl:"Terug naar home",en:"Back to home",de:"Zurück zur Startseite"},
+  opnieuw_mail:{nl:"Aanvraag opnieuw per e-mail versturen",en:"Send request by email again",de:"Anfrage erneut per E-Mail senden"},
+  cal_select:{nl:"Selecteer uw aankomst- en vertrekdatum",en:"Select your arrival and departure date",de:"Wählen Sie Anreise- und Abreisedatum"},
+  cal_arrival_tail:{nl:"— kies nu uw vertrekdatum",en:"— now choose your departure date",de:"— wählen Sie nun Ihr Abreisedatum"},
+  val_msg:{nl:"Vul uw naam, een geldig e-mailadres en telefoonnummer in.",en:"Please enter your name, a valid email and a phone number.",de:"Bitte geben Sie Namen, gültige E-Mail und Telefonnummer ein."},
+  agree_msg:{nl:"Vink het akkoord aan om verder te gaan.",en:"Tick the box to continue.",de:"Bitte bestätigen Sie, um fortzufahren."},
+  prev_month:{nl:"Vorige maand",en:"Previous month",de:"Voriger Monat"},
+  next_month:{nl:"Volgende maand",en:"Next month",de:"Nächster Monat"},
+  fewer_guests:{nl:"Minder gasten",en:"Fewer guests",de:"Weniger Gäste"},
+  more_guests:{nl:"Meer gasten",en:"More guests",de:"Mehr Gäste"},
+  install:{nl:"App installeren",en:"Install app",de:"App installieren"},
+  taal:{nl:"Taal",en:"Language",de:"Sprache"},
+  night_1:{nl:"nacht",en:"night",de:"Nacht"},
+  night_n:{nl:"nachten",en:"nights",de:"Nächte"},
+  guest_1:{nl:"persoon",en:"guest",de:"Person"},
+  guest_n:{nl:"personen",en:"guests",de:"Personen"},
+  mail_intro:{nl:"Nieuwe boekingsaanvraag via de app",en:"New booking request via the app",de:"Neue Buchungsanfrage über die App"},
+  mail_subject:{nl:"Boekingsaanvraag",en:"Booking request",de:"Buchungsanfrage"},
+  msg_subject:{nl:"Bericht via de app",en:"Message via the app",de:"Nachricht über die App"}
+};
 
 /* ============================================================
    Boeking-state
@@ -700,72 +823,100 @@ const MAX_GUESTS=2;
    Navigatie-model
    ============================================================ */
 const NAV=[
-  {id:'home',       label:'Home',       icon:'home'},
-  {id:'verblijf',   label:'Verblijf',   icon:'bed'},
-  {id:'omgeving',   label:'Omgeving',   icon:'leaf'},
-  {id:'informatie', label:'Informatie', icon:'info'},
-  {id:'contact',    label:'Contact',    icon:'phone'},
+  {id:'home',       key:'nav_home',       icon:'home'},
+  {id:'verblijf',   key:'nav_verblijf',   icon:'bed'},
+  {id:'omgeving',   key:'nav_omgeving',   icon:'leaf'},
+  {id:'informatie', key:'nav_informatie', icon:'info'},
+  {id:'contact',    key:'nav_contact',    icon:'phone'},
 ];
 
 /* Verblijf — de ruimtes (tik voor details) */
 const STAY=[
-  {id:'slaapkamer', icon:'bed', title:'Slaapkamer',
-   desc:'Comfortabel tweepersoonsbed met luxe linnen en uitzicht op de tuin.',
-   more:'Een rustige, verduisterde slaapkamer met een heerlijk boxspringbed (160×200), hoogwaardig linnengoed en volop kastruimte om uit te pakken.',
-   tags:['Tweepersoonsbed','Luxe linnen','Verduistering','Uitzicht op tuin']},
-  {id:'badkamer', icon:'drop', title:'Badkamer',
-   desc:'Moderne badkamer met inloopdouche, zachte handdoeken en verzorgingsproducten.',
-   more:'Sfeervolle badkamer met een ruime inloopdouche en regendouche, warme handdoeken en verzorgingsproducten van het huis.',
-   tags:['Inloopdouche','Regendouche','Handdoeken','Verzorging']},
-  {id:'zitgedeelte', icon:'sofa', title:'Zitgedeelte',
-   desc:'Knusse zithoek met smart TV, boeken, spelletjes en warme sfeer.',
-   more:'Een warme zithoek om tot rust te komen, met een comfortabele bank, smart-tv, een boekenselectie en gezelschapsspellen.',
-   tags:['Smart TV','Boeken','Spelletjes','Warme sfeer']},
-  {id:'keuken', icon:'cup', title:'Keuken',
-   desc:'Volledig uitgeruste keuken met koffie, thee en alle benodigdheden.',
-   more:'Een complete keuken met koffiezetapparaat, waterkoker, koelkast en kookplaat — plus al het servies en bestek dat u nodig heeft.',
-   tags:['Koffie & thee','Koelkast','Kookplaat','Servies']},
-  {id:'tuin', icon:'leaf', title:'Tuin',
-   desc:'Een heerlijke, geheel privé tuin met terras om van te genieten.',
-   more:'Een besloten, geheel privé tuin met terras en loungeplek — ideaal voor een rustig ontbijt of een glas wijn in de avondzon.',
-   tags:['Geheel privé','Terras','Loungeplek','Avondzon']},
+  {id:'slaapkamer', icon:'bed',
+   title:{nl:'Slaapkamer',en:'Bedroom',de:'Schlafzimmer'},
+   desc:{nl:'Comfortabel tweepersoonsbed met luxe linnen en uitzicht op de tuin.',en:'Comfortable double bed with luxury linens and a view of the garden.',de:'Bequemes Doppelbett mit hochwertiger Bettwäsche und Blick in den Garten.'},
+   more:{nl:'Een rustige, verduisterde slaapkamer met een heerlijk boxspringbed (160×200), hoogwaardig linnengoed en volop kastruimte om uit te pakken.',en:'A quiet, blackout bedroom with a wonderful box-spring bed (160×200), high-quality linens and plenty of wardrobe space to unpack.',de:'Ein ruhiges, abgedunkeltes Schlafzimmer mit herrlichem Boxspringbett (160×200), hochwertiger Bettwäsche und viel Schrankraum.'},
+   tags:{nl:['Tweepersoonsbed','Luxe linnen','Verduistering','Uitzicht op tuin'],en:['Double bed','Luxury linens','Blackout','Garden view'],de:['Doppelbett','Hochwertige Wäsche','Verdunkelung','Gartenblick']}},
+  {id:'badkamer', icon:'drop',
+   title:{nl:'Badkamer',en:'Bathroom',de:'Badezimmer'},
+   desc:{nl:'Moderne badkamer met inloopdouche, zachte handdoeken en verzorgingsproducten.',en:'Modern bathroom with a walk-in shower, soft towels and toiletries.',de:'Modernes Badezimmer mit ebenerdiger Dusche, weichen Handtüchern und Pflegeprodukten.'},
+   more:{nl:'Sfeervolle badkamer met een ruime inloopdouche en regendouche, warme handdoeken en verzorgingsproducten van het huis.',en:'A characterful bathroom with a spacious walk-in rain shower, warm towels and house toiletries.',de:'Ein stimmungsvolles Bad mit großzügiger ebenerdiger Regendusche, warmen Handtüchern und Pflegeprodukten des Hauses.'},
+   tags:{nl:['Inloopdouche','Regendouche','Handdoeken','Verzorging'],en:['Walk-in shower','Rain shower','Towels','Toiletries'],de:['Ebenerdige Dusche','Regendusche','Handtücher','Pflegeprodukte']}},
+  {id:'zitgedeelte', icon:'sofa',
+   title:{nl:'Zitgedeelte',en:'Living area',de:'Wohnbereich'},
+   desc:{nl:'Knusse zithoek met smart TV, boeken, spelletjes en warme sfeer.',en:'Cosy seating area with a smart TV, books, games and a warm atmosphere.',de:'Gemütliche Sitzecke mit Smart-TV, Büchern, Spielen und warmer Atmosphäre.'},
+   more:{nl:'Een warme zithoek om tot rust te komen, met een comfortabele bank, smart-tv, een boekenselectie en gezelschapsspellen.',en:'A warm nook to unwind, with a comfortable sofa, smart TV, a selection of books and board games.',de:'Eine warme Sitzecke zum Entspannen, mit bequemem Sofa, Smart-TV, einer Buchauswahl und Gesellschaftsspielen.'},
+   tags:{nl:['Smart TV','Boeken','Spelletjes','Warme sfeer'],en:['Smart TV','Books','Games','Warm atmosphere'],de:['Smart-TV','Bücher','Spiele','Warme Atmosphäre']}},
+  {id:'keuken', icon:'cup',
+   title:{nl:'Keuken',en:'Kitchen',de:'Küche'},
+   desc:{nl:'Volledig uitgeruste keuken met koffie, thee en alle benodigdheden.',en:'Fully equipped kitchen with coffee, tea and all the essentials.',de:'Voll ausgestattete Küche mit Kaffee, Tee und allem Nötigen.'},
+   more:{nl:'Een complete keuken met koffiezetapparaat, waterkoker, koelkast en kookplaat — plus al het servies en bestek dat u nodig heeft.',en:'A complete kitchen with coffee maker, kettle, fridge and hob — plus all the crockery and cutlery you need.',de:'Eine komplette Küche mit Kaffeemaschine, Wasserkocher, Kühlschrank und Kochfeld — dazu Geschirr und Besteck.'},
+   tags:{nl:['Koffie & thee','Koelkast','Kookplaat','Servies'],en:['Coffee & tea','Fridge','Hob','Crockery'],de:['Kaffee & Tee','Kühlschrank','Kochfeld','Geschirr']}},
+  {id:'tuin', icon:'leaf',
+   title:{nl:'Tuin',en:'Garden',de:'Garten'},
+   desc:{nl:'Een heerlijke, geheel privé tuin met terras om van te genieten.',en:'A lovely, fully private garden with a terrace to enjoy.',de:'Ein herrlicher, ganz privater Garten mit Terrasse zum Genießen.'},
+   more:{nl:'Een besloten, geheel privé tuin met terras en loungeplek — ideaal voor een rustig ontbijt of een glas wijn in de avondzon.',en:'A secluded, fully private garden with terrace and lounge spot — perfect for a quiet breakfast or a glass of wine in the evening sun.',de:'Ein abgeschiedener, ganz privater Garten mit Terrasse und Loungebereich — ideal für ein ruhiges Frühstück oder ein Glas Wein in der Abendsonne.'},
+   tags:{nl:['Geheel privé','Terras','Loungeplek','Avondzon'],en:['Fully private','Terrace','Lounge spot','Evening sun'],de:['Ganz privat','Terrasse','Loungebereich','Abendsonne']}},
 ];
 
 /* Omgeving — ontdekken rondom Wolvega */
 const AREA=[
-  {icon:'tree',     title:'Natuur & wandelen',    desc:'Struin door Nationaal Park Weerribben-Wieden, over de veenpaden van de Rottige Meente of langs de fluisterstille Lindevallei — Friese natuur, zo de deur uit.'},
-  {icon:'bike',     title:'Fietsen',              desc:'Volg het knooppuntennetwerk langs de rivier de Linde en dwars door de Weerribben. E-bike opgeladen? Wij tekenen het mooiste rondje voor u uit.'},
-  {icon:'globe',    title:'UNESCO werelderfgoed', desc:'Twee keer werelderfgoed op nog geen half uur: de Koloniën van Weldadigheid met Museum de Proefkolonie én het imposante Woudagemaal in Lemmer.', unesco:true},
-  {icon:'landmark', title:'Bezienswaardigheden',  desc:'Bewonder het statige Lycklamahûs, dwaal door de historische dorpskern of ontdek kunstenaarsdorp Oldeberkoop even verderop.'},
-  {icon:'food',     title:'Eten & drinken',       desc:'Van een sfeervol diner tot koffie met Fries suikerbrood — de gezelligste adresjes liggen op loop- en fietsafstand in het centrum.'},
-  {icon:'bag',      title:'Winkelen',             desc:'Slenter over de Hoofdstraat langs vertrouwde winkels, fijne speciaalzaken en gezellige boetiekjes in het hart van Wolvega.'},
+  {icon:'tree',     title:{nl:'Natuur & wandelen',en:'Nature & walking',de:'Natur & Wandern'},
+   desc:{nl:'Struin door Nationaal Park Weerribben-Wieden, over de veenpaden van de Rottige Meente of langs de fluisterstille Lindevallei — Friese natuur, zo de deur uit.',en:'Wander through Weerribben-Wieden National Park, along the peat trails of the Rottige Meente or the whisper-quiet Lindevallei — Frisian nature, right on the doorstep.',de:'Streifen Sie durch den Nationalpark Weerribben-Wieden, über die Moorpfade der Rottige Meente oder entlang des stillen Lindetals — friesische Natur direkt vor der Tür.'}},
+  {icon:'bike',     title:{nl:'Fietsen',en:'Cycling',de:'Radfahren'},
+   desc:{nl:'Volg het knooppuntennetwerk langs de rivier de Linde en dwars door de Weerribben. E-bike opgeladen? Wij tekenen het mooiste rondje voor u uit.',en:'Follow the cycle-node network along the river Linde and through the Weerribben. E-bike charged? We will map out the finest loop for you.',de:'Folgen Sie dem Knotenpunktnetz entlang des Flusses Linde und quer durch die Weerribben. E-Bike geladen? Wir zeichnen Ihnen die schönste Runde auf.'}},
+  {icon:'globe',    title:{nl:'UNESCO werelderfgoed',en:'UNESCO World Heritage',de:'UNESCO-Welterbe'}, unesco:true,
+   desc:{nl:'Twee keer werelderfgoed op nog geen half uur: de Koloniën van Weldadigheid met Museum de Proefkolonie én het imposante Woudagemaal in Lemmer.',en:'Two UNESCO World Heritage sites within half an hour: the Colonies of Benevolence with Museum de Proefkolonie and the imposing Woudagemaal steam pumping station in Lemmer.',de:'Zweimal Welterbe in unter einer halben Stunde: die Kolonien der Wohltätigkeit mit dem Museum de Proefkolonie und das imposante Dampfschöpfwerk Woudagemaal in Lemmer.'}},
+  {icon:'landmark', title:{nl:'Bezienswaardigheden',en:'Sights',de:'Sehenswürdigkeiten'},
+   desc:{nl:'Bewonder het statige Lycklamahûs, dwaal door de historische dorpskern of ontdek kunstenaarsdorp Oldeberkoop even verderop.',en:'Admire the stately Lycklamahûs, wander the historic village centre or discover the artists village of Oldeberkoop nearby.',de:'Bewundern Sie das stattliche Lycklamahûs, schlendern Sie durch den historischen Dorfkern oder entdecken Sie das Künstlerdorf Oldeberkoop ganz in der Nähe.'}},
+  {icon:'food',     title:{nl:'Eten & drinken',en:'Food & drink',de:'Essen & Trinken'},
+   desc:{nl:'Van een sfeervol diner tot koffie met Fries suikerbrood — de gezelligste adresjes liggen op loop- en fietsafstand in het centrum.',en:'From an atmospheric dinner to coffee with Frisian sugar bread — the coziest spots are a short walk or bike ride away in the centre.',de:'Vom stimmungsvollen Abendessen bis zum Kaffee mit friesischem Zuckerbrot — die gemütlichsten Adressen liegen fußläufig oder per Rad im Zentrum.'}},
+  {icon:'bag',      title:{nl:'Winkelen',en:'Shopping',de:'Einkaufen'},
+   desc:{nl:'Slenter over de Hoofdstraat langs vertrouwde winkels, fijne speciaalzaken en gezellige boetiekjes in het hart van Wolvega.',en:'Stroll down the Hoofdstraat past familiar shops, fine specialty stores and charming boutiques in the heart of Wolvega.',de:'Bummeln Sie über die Hoofdstraat vorbei an vertrauten Geschäften, feinen Fachgeschäften und charmanten Boutiquen im Herzen von Wolvega.'}},
 ];
 
 /* Informatie — praktisch (regels uit het huysboek) */
 const INFO=[
-  {icon:'clock',  title:'Aankomst & vertrek', lines:['Inchecken vanaf 15:00 uur','Uitchecken voor 11:00 uur']},
-  {icon:'rules',  title:'Huisregels',         lines:['Roken niet toegestaan','Huisdieren niet toegestaan','Feesten en evenementen niet toegestaan']},
-  {icon:'wifi',   title:'Voorzieningen',      lines:['Gratis snelle WiFi','Parkeren op eigen terrein','E-bike stalling en oplaadpunt']},
-  {icon:'safety', title:'Veiligheid',         lines:['Brandblusser aanwezig','EHBO-kit aanwezig','Rookmelder aanwezig']},
+  {icon:'clock',  title:{nl:'Aankomst & vertrek',en:'Arrival & departure',de:'Anreise & Abreise'},
+   lines:{nl:['Inchecken vanaf 15:00 uur','Uitchecken voor 11:00 uur'],en:['Check-in from 3:00 pm','Check-out before 11:00 am'],de:['Check-in ab 15:00 Uhr','Check-out bis 11:00 Uhr']}},
+  {icon:'rules',  title:{nl:'Huisregels',en:'House rules',de:'Hausordnung'},
+   lines:{nl:['Roken niet toegestaan','Huisdieren niet toegestaan','Feesten en evenementen niet toegestaan'],en:['No smoking','No pets','No parties or events'],de:['Rauchen nicht gestattet','Haustiere nicht gestattet','Keine Feiern oder Veranstaltungen']}},
+  {icon:'wifi',   title:{nl:'Voorzieningen',en:'Amenities',de:'Ausstattung'},
+   lines:{nl:['Gratis snelle WiFi','Parkeren op eigen terrein','E-bike stalling en oplaadpunt'],en:['Free fast Wi-Fi','Parking on site','E-bike storage and charging point'],de:['Kostenloses schnelles WLAN','Parken auf eigenem Gelände','E-Bike-Stellplatz und Ladepunkt']}},
+  {icon:'safety', title:{nl:'Veiligheid',en:'Safety',de:'Sicherheit'},
+   lines:{nl:['Brandblusser aanwezig','EHBO-kit aanwezig','Rookmelder aanwezig'],en:['Fire extinguisher present','First-aid kit present','Smoke detector present'],de:['Feuerlöscher vorhanden','Erste-Hilfe-Set vorhanden','Rauchmelder vorhanden']}},
 ];
 const FAQ=[
-  {q:'Hoe laat kan ik in- en uitchecken?', a:'Inchecken kan vanaf 15:00 uur, uitchecken vragen wij voor 11:00 uur. Schikt een ander tijdstip beter? Neem gerust contact op, dan kijken we samen wat mogelijk is.'},
-  {q:'Is er parkeergelegenheid?', a:'Ja, u parkeert gratis op eigen terrein direct bij het huys. Voor de e-bike is er een overdekte stalling met oplaadpunt.'},
-  {q:'Zijn huisdieren welkom?', a:'Om het verblijf voor iedere gast fris en allergievrij te houden, zijn huisdieren helaas niet toegestaan.'},
-  {q:'Is de WiFi geschikt om te werken?', a:'Zeker. Er is snelle, betrouwbare WiFi in het hele huys — ook prettig voor een zakelijk verblijf.'},
-  {q:'Wat is er te doen in de omgeving?', a:'Volop: van Nationaal Park Weerribben-Wieden en fietsroutes langs de Linde tot UNESCO-werelderfgoed op nog geen half uur. Kijk bij Omgeving voor onze tips.'},
+  {q:{nl:'Hoe laat kan ik in- en uitchecken?',en:'What are the check-in and check-out times?',de:'Wann kann ich ein- und auschecken?'},
+   a:{nl:'Inchecken kan vanaf 15:00 uur, uitchecken vragen wij voor 11:00 uur. Schikt een ander tijdstip beter? Neem gerust contact op, dan kijken we samen wat mogelijk is.',en:'Check-in is from 3:00 pm and we ask that you check out before 11:00 am. Does another time suit you better? Just get in touch and we will see what is possible.',de:'Check-in ist ab 15:00 Uhr, Check-out bitte vor 11:00 Uhr. Passt eine andere Zeit besser? Melden Sie sich gern, dann finden wir gemeinsam eine Lösung.'}},
+  {q:{nl:'Is er parkeergelegenheid?',en:'Is there parking?',de:'Gibt es Parkmöglichkeiten?'},
+   a:{nl:'Ja, u parkeert gratis op eigen terrein direct bij het huys. Voor de e-bike is er een overdekte stalling met oplaadpunt.',en:'Yes, you can park for free on site right by the house. For your e-bike there is covered storage with a charging point.',de:'Ja, Sie parken kostenlos auf eigenem Gelände direkt am Haus. Für das E-Bike gibt es einen überdachten Stellplatz mit Ladepunkt.'}},
+  {q:{nl:'Zijn huisdieren welkom?',en:'Are pets welcome?',de:'Sind Haustiere willkommen?'},
+   a:{nl:'Om het verblijf voor iedere gast fris en allergievrij te houden, zijn huisdieren helaas niet toegestaan.',en:'To keep the stay fresh and allergy-free for every guest, pets are unfortunately not allowed.',de:'Um den Aufenthalt für jeden Gast frisch und allergiefrei zu halten, sind Haustiere leider nicht gestattet.'}},
+  {q:{nl:'Is de WiFi geschikt om te werken?',en:'Is the Wi-Fi suitable for working?',de:'Ist das WLAN zum Arbeiten geeignet?'},
+   a:{nl:'Zeker. Er is snelle, betrouwbare WiFi in het hele huys — ook prettig voor een zakelijk verblijf.',en:'Absolutely. There is fast, reliable Wi-Fi throughout the house — ideal for a business stay too.',de:'Auf jeden Fall. Im ganzen Haus gibt es schnelles, zuverlässiges WLAN — auch ideal für einen Geschäftsaufenthalt.'}},
+  {q:{nl:'Wat is er te doen in de omgeving?',en:'What is there to do nearby?',de:'Was gibt es in der Umgebung zu unternehmen?'},
+   a:{nl:'Volop: van Nationaal Park Weerribben-Wieden en fietsroutes langs de Linde tot UNESCO-werelderfgoed op nog geen half uur. Kijk bij Omgeving voor onze tips.',en:'Plenty: from Weerribben-Wieden National Park and cycling routes along the Linde to UNESCO World Heritage within half an hour. See the Area page for our tips.',de:'Reichlich: vom Nationalpark Weerribben-Wieden und Radrouten entlang der Linde bis zum UNESCO-Welterbe in unter einer halben Stunde. Tipps finden Sie unter Umgebung.'}},
 ];
 
 /* Informatie — digitale huisinstructies (tik open) */
 const HOUSE=[
-  {icon:'wifi',   title:'WiFi',           text:"Verbind met het netwerk 'Stuyvesant-Huys'. Het wachtwoord vindt u op het welkomstkaartje in de woonkamer."},
-  {icon:'thermo', title:'Verwarming',     text:'De temperatuur regelt u met de thermostaat in de woonkamer. Draai naar de gewenste stand — binnen enkele minuten wordt het aangenaam warm.'},
-  {icon:'tv',     title:'TV',             text:'Zet de tv aan met de afstandsbediening. Via het startscherm kijkt u tv of logt u in op uw eigen streamingdiensten, zoals Netflix.'},
-  {icon:'cup',    title:'Koffie',         text:'Koffie, thee en alles wat u nodig heeft staat klaar in de keuken. Vul het reservoir met water, plaats een kopje en druk op de knop.'},
-  {icon:'trash',  title:'Afval',          text:'Afval scheidt u graag in de bakken in de keuken: restafval, papier en plastic. De containers staan naast de voordeur.'},
-  {icon:'drop',   title:'Badkamer',       text:'In de badkamer liggen verse handdoeken en verzorgingsproducten klaar. De inloopdouche heeft een regendouche; warm water is er direct.'},
-  {icon:'bolt',   title:'E-bike opladen', text:'Uw e-bike stalt u overdekt naast het huys. Het oplaadpunt vindt u in de berging — de sleutel ligt voor u klaar.'},
-  {icon:'exit',   title:'Check-out',      text:'Uitchecken kan tot 11:00 uur. Sluit graag de ramen, zet de verwarming laag en laat de sleutel in de brievenbus. Goede reis!'},
+  {icon:'wifi',   title:{nl:'WiFi',en:'Wi-Fi',de:'WLAN'},
+   text:{nl:"Verbind met het netwerk 'Stuyvesant-Huys'. Het wachtwoord vindt u op het welkomstkaartje in de woonkamer.",en:"Connect to the 'Stuyvesant-Huys' network. You will find the password on the welcome card in the living room.",de:"Verbinden Sie sich mit dem Netzwerk 'Stuyvesant-Huys'. Das Passwort finden Sie auf der Willkommenskarte im Wohnzimmer."}},
+  {icon:'thermo', title:{nl:'Verwarming',en:'Heating',de:'Heizung'},
+   text:{nl:'De temperatuur regelt u met de thermostaat in de woonkamer. Draai naar de gewenste stand — binnen enkele minuten wordt het aangenaam warm.',en:'Adjust the temperature with the thermostat in the living room. Turn it to the desired setting — it warms up nicely within a few minutes.',de:'Die Temperatur regeln Sie mit dem Thermostat im Wohnzimmer. Stellen Sie die gewünschte Stufe ein — nach wenigen Minuten wird es angenehm warm.'}},
+  {icon:'tv',     title:{nl:'TV',en:'TV',de:'TV'},
+   text:{nl:'Zet de tv aan met de afstandsbediening. Via het startscherm kijkt u tv of logt u in op uw eigen streamingdiensten, zoals Netflix.',en:'Turn on the TV with the remote. From the home screen you can watch TV or log in to your own streaming services, such as Netflix.',de:'Schalten Sie den Fernseher mit der Fernbedienung ein. Über den Startbildschirm sehen Sie fern oder melden sich bei Ihren eigenen Streamingdiensten wie Netflix an.'}},
+  {icon:'cup',    title:{nl:'Koffie',en:'Coffee',de:'Kaffee'},
+   text:{nl:'Koffie, thee en alles wat u nodig heeft staat klaar in de keuken. Vul het reservoir met water, plaats een kopje en druk op de knop.',en:'Coffee, tea and everything you need is ready in the kitchen. Fill the reservoir with water, place a cup and press the button.',de:'Kaffee, Tee und alles Nötige stehen in der Küche bereit. Füllen Sie den Tank mit Wasser, stellen Sie eine Tasse darunter und drücken Sie den Knopf.'}},
+  {icon:'trash',  title:{nl:'Afval',en:'Waste',de:'Abfall'},
+   text:{nl:'Afval scheidt u graag in de bakken in de keuken: restafval, papier en plastic. De containers staan naast de voordeur.',en:'Please separate waste into the bins in the kitchen: general waste, paper and plastic. The containers are next to the front door.',de:'Trennen Sie den Abfall bitte in den Behältern in der Küche: Restmüll, Papier und Plastik. Die Container stehen neben der Haustür.'}},
+  {icon:'drop',   title:{nl:'Badkamer',en:'Bathroom',de:'Badezimmer'},
+   text:{nl:'In de badkamer liggen verse handdoeken en verzorgingsproducten klaar. De inloopdouche heeft een regendouche; warm water is er direct.',en:'Fresh towels and toiletries are ready in the bathroom. The walk-in shower has a rain head; hot water is available right away.',de:'Im Badezimmer liegen frische Handtücher und Pflegeprodukte bereit. Die ebenerdige Dusche hat eine Regenbrause; warmes Wasser gibt es sofort.'}},
+  {icon:'bolt',   title:{nl:'E-bike opladen',en:'E-bike charging',de:'E-Bike laden'},
+   text:{nl:'Uw e-bike stalt u overdekt naast het huys. Het oplaadpunt vindt u in de berging — de sleutel ligt voor u klaar.',en:'Store your e-bike under cover beside the house. The charging point is in the shed — the key is ready for you.',de:'Ihr E-Bike stellen Sie überdacht neben dem Haus ab. Den Ladepunkt finden Sie im Schuppen — der Schlüssel liegt für Sie bereit.'}},
+  {icon:'exit',   title:{nl:'Check-out',en:'Check-out',de:'Check-out'},
+   text:{nl:'Uitchecken kan tot 11:00 uur. Sluit graag de ramen, zet de verwarming laag en laat de sleutel in de brievenbus. Goede reis!',en:'Check-out is until 11:00 am. Please close the windows, turn the heating down and leave the key in the letterbox. Safe travels!',de:'Check-out ist bis 11:00 Uhr. Schließen Sie bitte die Fenster, drehen Sie die Heizung herunter und lassen Sie den Schlüssel im Briefkasten. Gute Reise!'}},
 ];
 
 /* ============================================================
@@ -778,51 +929,51 @@ views.home=()=>`
     <div class="hero-media"></div><div class="hero-grain"></div>
     ${heroTop()}
     <div class="home-welcome">
-      <div class="eyebrow on-dark">Welkom bij</div>
+      <div class="eyebrow on-dark">${t('welkom')}</div>
       <h1>Het Stuyvesant Huys</h1>
-      <p>Uw sfeervolle guesthouse in het hart van Wolvega</p>
+      <p>${t('home_sub')}</p>
     </div>
   </section>
 
   <section class="bstart">
-    <div class="eyebrow on-dark">Uw verblijf begint hier</div>
+    <div class="eyebrow on-dark">${t('begint_hier')}</div>
     <div class="bbox">
       <div class="brow2">
         <button class="bcell" data-go="boeken">
-          <span class="bc-top">${svg('cal')}<span class="bc-label">Aankomst</span></span>
-          <span class="bc-val">${booking.arrival.getDate()} ${MONTHS_S[booking.arrival.getMonth()]} ${booking.arrival.getFullYear()}</span>
+          <span class="bc-top">${svg('cal')}<span class="bc-label">${t('aankomst')}</span></span>
+          <span class="bc-val">${booking.arrival.getDate()} ${MONTHS_S_ML[LANG][booking.arrival.getMonth()]} ${booking.arrival.getFullYear()}</span>
         </button>
         <button class="bcell" data-go="boeken">
-          <span class="bc-top">${svg('cal')}<span class="bc-label">Vertrek</span></span>
-          <span class="bc-val">${booking.departure.getDate()} ${MONTHS_S[booking.departure.getMonth()]} ${booking.departure.getFullYear()}</span>
+          <span class="bc-top">${svg('cal')}<span class="bc-label">${t('vertrek')}</span></span>
+          <span class="bc-val">${booking.departure.getDate()} ${MONTHS_S_ML[LANG][booking.departure.getMonth()]} ${booking.departure.getFullYear()}</span>
         </button>
       </div>
       <button class="bcell brow-full" data-go="boeken">
-        <span class="bc-top">${svg('user')}<span class="bc-label">Gasten</span></span>
-        <span class="bc-val">${booking.guests} personen ${svg('chev','chev')}</span>
+        <span class="bc-top">${svg('user')}<span class="bc-label">${t('gasten')}</span></span>
+        <span class="bc-val">${booking.guests} ${booking.guests===1?t('guest_1'):t('guest_n')} ${svg('chev','chev')}</span>
       </button>
     </div>
-    <button class="btn btn-brass" data-go="boeken">Boek nu</button>
+    <button class="btn btn-brass" data-go="boeken">${t('boek_nu')}</button>
 
     <div class="features">
-      <div class="feature"><div class="fic">${svg('home')}</div><h3>Geheel privé</h3><p>Eigen guesthouse met tuin</p></div>
-      <div class="feature"><div class="fic">${svg('bike')}</div><h3>E-bike welkom</h3><p>Overdekte stalling en oplaadpunt</p></div>
-      <div class="feature"><div class="fic">${svg('pin')}</div><h3>Perfecte locatie</h3><p>Nabij natuur, dorp en voorzieningen</p></div>
+      <div class="feature"><div class="fic">${svg('home')}</div><h3>${t('f1_t')}</h3><p>${t('f1_s')}</p></div>
+      <div class="feature"><div class="fic">${svg('bike')}</div><h3>${t('f2_t')}</h3><p>${t('f2_s')}</p></div>
+      <div class="feature"><div class="fic">${svg('pin')}</div><h3>${t('f3_t')}</h3><p>${t('f3_s')}</p></div>
     </div>
   </section>
 
   <section class="over">
-    <div class="eyebrow">Over het huys</div>
+    <div class="eyebrow">${t('over_titel')}</div>
     <div class="over-row">
       <div class="mini-map" aria-hidden="true"><i></i></div>
       <div>
-        <p>Gelegen in het hart van Wolvega. Een plek met een verhaal, sfeervol ingericht voor een ontspannen verblijf.</p>
-        <a class="lees" data-go="verblijf">Lees meer ${svg('arrow')}</a>
+        <p>${t('over_tekst')}</p>
+        <a class="lees" data-go="verblijf">${t('lees_meer')} ${svg('arrow')}</a>
       </div>
     </div>
     <div class="foot-note">
       <div class="ornament"><i></i></div>
-      <p>historie · rust · comfort</p>
+      <p>${t('payoff')}</p>
     </div>
   </section>
 `;
@@ -849,27 +1000,27 @@ views.verblijf=()=>`
     <div class="hero-media"></div><div class="hero-grain"></div>${heroTop()}
   </section>
   <section class="sheet">
-    <div class="sheet-head"><h1>Uw verblijf</h1><p>Al het comfort voor een ontspannen en sfeervol verblijf.</p></div>
+    <div class="sheet-head"><h1>${t('verblijf_titel')}</h1><p>${t('verblijf_sub')}</p></div>
     <div class="stay-list">
       ${STAY.map(s=>`
         <div class="stay-item">
           <button class="stay-head" aria-expanded="false">
             <span class="stay-thumb stay-${s.id}">${svg(s.icon,'stay-ic')}</span>
             <span class="stay-body">
-              <span class="stay-title">${s.title}</span>
-              <span class="stay-desc">${s.desc}</span>
+              <span class="stay-title">${L(s.title)}</span>
+              <span class="stay-desc">${L(s.desc)}</span>
             </span>
             <span class="stay-chev">${svg('chev')}</span>
           </button>
           <div class="stay-more">
-            <p>${s.more}</p>
-            <ul class="tags">${s.tags.map(t=>`<li>${t}</li>`).join('')}</ul>
+            <p>${L(s.more)}</p>
+            <ul class="tags">${L(s.tags).map(tg=>`<li>${tg}</li>`).join('')}</ul>
           </div>
         </div>`).join('')}
     </div>
     <div class="sheet-cta">
       <div class="ornament"><i></i></div>
-      <button class="btn btn-green" data-go="boeken">Boek uw verblijf</button>
+      <button class="btn btn-green" data-go="boeken">${t('boek_verblijf')}</button>
     </div>
   </section>`;
 views.omgeving=()=>`
@@ -877,22 +1028,22 @@ views.omgeving=()=>`
     <div class="hero-media"></div><div class="hero-grain"></div>${heroTop()}
   </section>
   <section class="sheet">
-    <div class="sheet-head"><h1>De omgeving</h1><p>Ontdek de natuur, cultuur en gezellige plekken rondom Wolvega.</p></div>
+    <div class="sheet-head"><h1>${t('omgeving_titel')}</h1><p>${t('omgeving_sub')}</p></div>
     <div class="area-list">
       ${AREA.map(a=>`
         <div class="area-item">
           <span class="area-badge${a.unesco?' is-unesco':''}">${svg(a.icon)}</span>
           <span class="area-body">
-            <span class="area-title">${a.title}</span>
-            <span class="area-desc">${a.desc}</span>
+            <span class="area-title">${L(a.title)}</span>
+            <span class="area-desc">${L(a.desc)}</span>
           </span>
         </div>`).join('')}
     </div>
     <div class="tip-card">
       <span class="tip-ic">${svg('compass')}</span>
       <div>
-        <h3>Routes &amp; tips</h3>
-        <p>In het huysboek vindt u onze favoriete wandel- en fietsroutes en tips voor de omgeving.</p>
+        <h3>${t('tips_titel')}</h3>
+        <p>${t('tips_tekst')}</p>
       </div>
     </div>
   </section>`;
@@ -901,14 +1052,14 @@ views.informatie=()=>`
     <div class="hero-media"></div><div class="hero-grain"></div>${heroTop()}
   </section>
   <section class="sheet">
-    <div class="sheet-head"><h1>Praktische informatie</h1><p>Alles wat u moet weten voor een zorgeloos verblijf.</p></div>
+    <div class="sheet-head"><h1>${t('info_titel')}</h1><p>${t('info_sub')}</p></div>
     <div class="info-list">
       ${INFO.map(b=>`
         <div class="info-block">
           <span class="info-badge">${svg(b.icon)}</span>
           <div class="info-body">
-            <div class="info-title">${b.title}</div>
-            <ul class="info-lines">${b.lines.map(l=>`<li>${l}</li>`).join('')}</ul>
+            <div class="info-title">${L(b.title)}</div>
+            <ul class="info-lines">${L(b.lines).map(l=>`<li>${l}</li>`).join('')}</ul>
           </div>
         </div>`).join('')}
     </div>
@@ -916,8 +1067,8 @@ views.informatie=()=>`
       <div class="info-block faq-intro">
         <span class="info-badge">${svg('book')}</span>
         <div class="info-body">
-          <div class="info-title">Huisinstructies</div>
-          <p class="faq-sub">Zo werkt alles in huis — tik een onderwerp open.</p>
+          <div class="info-title">${t('huis_titel')}</div>
+          <p class="faq-sub">${t('huis_sub')}</p>
         </div>
       </div>
       <div class="house-list">
@@ -925,10 +1076,10 @@ views.informatie=()=>`
           <div class="house-item">
             <button class="house-q" aria-expanded="false">
               <span class="house-badge">${svg(h.icon)}</span>
-              <span class="house-title">${h.title}</span>
+              <span class="house-title">${L(h.title)}</span>
               <span class="house-chev">${svg('chev')}</span>
             </button>
-            <div class="house-a"><p>${h.text}</p></div>
+            <div class="house-a"><p>${L(h.text)}</p></div>
           </div>`).join('')}
       </div>
     </div>
@@ -936,21 +1087,21 @@ views.informatie=()=>`
       <div class="info-block faq-intro">
         <span class="info-badge">${svg('question')}</span>
         <div class="info-body">
-          <div class="info-title">Veelgestelde vragen</div>
-          <p class="faq-sub">Bekijk de antwoorden op veelgestelde vragen.</p>
+          <div class="info-title">${t('faq_titel')}</div>
+          <p class="faq-sub">${t('faq_sub')}</p>
         </div>
       </div>
       <div class="faq-list">
         ${FAQ.map(f=>`
           <div class="faq-item">
-            <button class="faq-q" aria-expanded="false"><span>${f.q}</span><span class="faq-chev">${svg('chev')}</span></button>
-            <div class="faq-a"><p>${f.a}</p></div>
+            <button class="faq-q" aria-expanded="false"><span>${L(f.q)}</span><span class="faq-chev">${svg('chev')}</span></button>
+            <div class="faq-a"><p>${L(f.a)}</p></div>
           </div>`).join('')}
       </div>
     </div>
     <div class="sheet-cta">
       <div class="ornament"><i></i></div>
-      <button class="btn btn-green" data-go="contact">Nog een vraag? Neem contact op</button>
+      <button class="btn btn-green" data-go="contact">${t('info_cta')}</button>
     </div>
   </section>`;
 views.contact=()=>`
@@ -958,45 +1109,45 @@ views.contact=()=>`
     <div class="hero-media"></div><div class="hero-grain"></div>${heroTop()}
   </section>
   <section class="sheet">
-    <div class="sheet-head"><h1>Contact</h1><p>We staan voor u klaar.</p></div>
+    <div class="sheet-head"><h1>${t('contact_titel')}</h1><p>${t('contact_sub')}</p></div>
     <div class="contact-list">
       <div class="contact-row">
         <span class="contact-badge">${svg('pin')}</span>
-        <span class="contact-body"><span class="contact-label">Adres</span><span class="contact-value">Stuyvesantstraat 2<br>8471 GN Wolvega</span></span>
+        <span class="contact-body"><span class="contact-label">${t('adres')}</span><span class="contact-value">Stuyvesantstraat 2<br>8471 GN Wolvega</span></span>
       </div>
       <a class="contact-row" href="tel:+31612345678">
         <span class="contact-badge">${svg('phone')}</span>
-        <span class="contact-body"><span class="contact-label">Telefoon</span><span class="contact-value">+31 6 12345678</span></span>
+        <span class="contact-body"><span class="contact-label">${t('telefoon')}</span><span class="contact-value">+31 6 12345678</span></span>
         <span class="contact-chev">${svg('chev')}</span>
       </a>
       <a class="contact-row" href="mailto:info@stuyvesanthuys.nl">
         <span class="contact-badge">${svg('mail')}</span>
-        <span class="contact-body"><span class="contact-label">E-mail</span><span class="contact-value">info@stuyvesanthuys.nl</span></span>
+        <span class="contact-body"><span class="contact-label">${t('email')}</span><span class="contact-value">info@stuyvesanthuys.nl</span></span>
         <span class="contact-chev">${svg('chev')}</span>
       </a>
       <a class="contact-row" href="https://www.stuyvesanthuys.nl" target="_blank" rel="noopener">
         <span class="contact-badge">${svg('globe')}</span>
-        <span class="contact-body"><span class="contact-label">Website</span><span class="contact-value">www.stuyvesanthuys.nl</span></span>
+        <span class="contact-body"><span class="contact-label">${t('website')}</span><span class="contact-value">www.stuyvesanthuys.nl</span></span>
         <span class="contact-chev">${svg('chev')}</span>
       </a>
     </div>
 
     <div class="social">
-      <div class="social-label">Volg ons</div>
+      <div class="social-label">${t('volg_ons')}</div>
       <div class="social-btns">
         <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">${svg('instagram')}</a>
         <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook">${svg('facebook')}</a>
       </div>
-      <p>Blijf op de hoogte via Instagram en Facebook.</p>
+      <p>${t('social_tekst')}</p>
     </div>
 
     <form class="msg-form">
-      <h3>Stuur ons een bericht</h3>
-      <div class="field"><label for="c-naam">Naam</label><input id="c-naam" name="naam" type="text" autocomplete="name" required></div>
-      <div class="field"><label for="c-mail">E-mail</label><input id="c-mail" name="email" type="email" autocomplete="email" required></div>
-      <div class="field"><label for="c-bericht">Bericht</label><textarea id="c-bericht" name="bericht" required></textarea></div>
-      <button type="submit" class="btn btn-green">${svg('send','btn-ic')}Verstuur bericht</button>
-      <p class="form-note" id="c-note" hidden>Uw mailprogramma opent met het bericht — controleer en verstuur.</p>
+      <h3>${t('bericht_titel')}</h3>
+      <div class="field"><label for="c-naam">${t('naam')}</label><input id="c-naam" name="naam" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="c-mail">${t('email')}</label><input id="c-mail" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="c-bericht">${t('bericht')}</label><textarea id="c-bericht" name="bericht" required></textarea></div>
+      <button type="submit" class="btn btn-green">${svg('send','btn-ic')}${t('verstuur')}</button>
+      <p class="form-note" id="c-note" hidden>${t('form_note')}</p>
     </form>
   </section>`;
 
@@ -1015,7 +1166,7 @@ function bkPrice(){const n=nightsBetween(booking.arrival,booking.departure);cons
 function genRef(){const p=n=>String(n).padStart(2,'0');const r=Math.random().toString(36).slice(2,5).toUpperCase();return `HSH-${p(booking.arrival.getDate())}${p(booking.arrival.getMonth()+1)}-${r}`}
 
 function bkStepper(n){
-  return `<div class="stepper">`+['Data','Gegevens','Overzicht','Bevestiging'].map((s,i)=>{
+  return `<div class="stepper">`+[t('step_data'),t('step_gegevens'),t('step_overzicht'),t('step_bevestiging')].map((s,i)=>{
     const idx=i+1;let cls='step';if(idx<n)cls+=' done';if(idx===n)cls+=' active';
     return `<div class="${cls}"><div class="dot">${idx<n?svg('check'):idx}</div><div class="slabel">${s}</div></div>`;
   }).join('')+`</div>`;
@@ -1045,52 +1196,53 @@ function bkStep1(){
   const hasRange=booking.arrival&&booking.departure;
   const m=booking.calMonth;
   const prevDisabled=(m.getFullYear()===today.getFullYear()&&m.getMonth()===today.getMonth());
+  const nightsWord=n===1?t('night_1'):t('night_n');
   const hint=hasRange
-    ? `<b>${fmt(booking.arrival)}</b> – <b>${fmt(booking.departure)}</b> · ${n} ${n===1?'nacht':'nachten'}`
-    : (booking.arrival ? `Aankomst <b>${fmt(booking.arrival)}</b> — kies nu uw vertrekdatum` : 'Selecteer uw aankomst- en vertrekdatum');
+    ? `<b>${fmt(booking.arrival)}</b> – <b>${fmt(booking.departure)}</b> · ${n} ${nightsWord}`
+    : (booking.arrival ? `${t('aankomst')} <b>${fmt(booking.arrival)}</b> ${t('cal_arrival_tail')}` : t('cal_select'));
   return `
     <div class="prod-card">
       <div class="prod-thumb"></div>
       <div class="prod-info">
         <div class="prod-name">Het Stuyvesant Huys</div>
-        <div class="prod-meta">Gastenverblijf voor 2 personen · Wolvega, Friesland</div>
-        <div class="prod-price"><b>€119</b> per nacht</div>
+        <div class="prod-meta">${t('prod_meta')}</div>
+        <div class="prod-price"><b>€119</b> ${t('per_nacht')}</div>
       </div>
     </div>
-    <div class="bk-section-title"><span>1.</span> Selecteer uw data</div>
+    <div class="bk-section-title"><span>1.</span> ${t('sel_data')}</div>
     <div class="cal">
       <div class="cal-head">
-        <button class="cal-nav" data-cal="-1" ${prevDisabled?'disabled':''} aria-label="Vorige maand">${svg('chevl')}</button>
-        <div class="cal-title">${cap(MONTHS[m.getMonth()])} ${m.getFullYear()}</div>
-        <button class="cal-nav" data-cal="1" aria-label="Volgende maand">${svg('chev')}</button>
+        <button class="cal-nav" data-cal="-1" ${prevDisabled?'disabled':''} aria-label="${t('prev_month')}">${svg('chevl')}</button>
+        <div class="cal-title">${cap(MONTHS_ML[LANG][m.getMonth()])} ${m.getFullYear()}</div>
+        <button class="cal-nav" data-cal="1" aria-label="${t('next_month')}">${svg('chev')}</button>
       </div>
-      <div class="cal-grid cal-dow"><span>ma</span><span>di</span><span>wo</span><span>do</span><span>vr</span><span>za</span><span>zo</span></div>
+      <div class="cal-grid cal-dow">${DOW_ML[LANG].map(d=>`<span>${d}</span>`).join('')}</div>
       <div class="cal-grid cal-days">${calDaysHTML()}</div>
     </div>
     <p class="cal-hint">${hint}</p>
-    <div class="bk-section-title"><span>2.</span> Aantal gasten</div>
+    <div class="bk-section-title"><span>2.</span> ${t('aantal_gasten')}</div>
     <div class="counter">
-      <button class="cnt-btn" data-guests="-1" ${booking.guests<=1?'disabled':''} aria-label="Minder gasten">−</button>
-      <div class="cnt-val">${booking.guests} ${booking.guests===1?'persoon':'personen'}</div>
-      <button class="cnt-btn" data-guests="1" ${booking.guests>=MAX_GUESTS?'disabled':''} aria-label="Meer gasten">+</button>
+      <button class="cnt-btn" data-guests="-1" ${booking.guests<=1?'disabled':''} aria-label="${t('fewer_guests')}">−</button>
+      <div class="cnt-val">${booking.guests} ${booking.guests===1?t('guest_1'):t('guest_n')}</div>
+      <button class="cnt-btn" data-guests="1" ${booking.guests>=MAX_GUESTS?'disabled':''} aria-label="${t('more_guests')}">+</button>
     </div>
-    <button class="btn btn-green" data-step="2" ${hasRange?'':'disabled'} style="margin-top:26px">Volgende</button>
+    <button class="btn btn-green" data-step="2" ${hasRange?'':'disabled'} style="margin-top:26px">${t('volgende')}</button>
   `;
 }
 
 function bkStep2(){
   const d=booking.details;
   return `
-    <div class="bk-section-title">Uw gegevens</div>
-    <p class="bk-lead">Waar mogen we de bevestiging naartoe sturen?</p>
-    <div class="field"><label for="bk-naam">Naam</label><input id="bk-naam" type="text" autocomplete="name" value="${esc(d.naam)}"></div>
-    <div class="field"><label for="bk-email">E-mail</label><input id="bk-email" type="email" autocomplete="email" value="${esc(d.email)}"></div>
-    <div class="field"><label for="bk-tel">Telefoon</label><input id="bk-tel" type="tel" autocomplete="tel" value="${esc(d.telefoon)}"></div>
-    <div class="field"><label for="bk-opm">Bijzonderheden <span class="opt">(optioneel)</span></label><textarea id="bk-opm">${esc(d.opmerking)}</textarea></div>
-    <p class="bk-msg" hidden>Vul uw naam, een geldig e-mailadres en telefoonnummer in.</p>
+    <div class="bk-section-title">${t('uw_gegevens')}</div>
+    <p class="bk-lead">${t('gegevens_lead')}</p>
+    <div class="field"><label for="bk-naam">${t('naam')}</label><input id="bk-naam" type="text" autocomplete="name" value="${esc(d.naam)}"></div>
+    <div class="field"><label for="bk-email">${t('email')}</label><input id="bk-email" type="email" autocomplete="email" value="${esc(d.email)}"></div>
+    <div class="field"><label for="bk-tel">${t('telefoon')}</label><input id="bk-tel" type="tel" autocomplete="tel" value="${esc(d.telefoon)}"></div>
+    <div class="field"><label for="bk-opm">${t('bijzonderheden')} <span class="opt">${t('optioneel')}</span></label><textarea id="bk-opm">${esc(d.opmerking)}</textarea></div>
+    <p class="bk-msg" hidden>${t('val_msg')}</p>
     <div class="bk-actions">
-      <button class="btn btn-ghost" data-step="1">Terug</button>
-      <button class="btn btn-green" data-step="3">Volgende</button>
+      <button class="btn btn-ghost" data-step="1">${t('terug')}</button>
+      <button class="btn btn-green" data-step="3">${t('volgende')}</button>
     </div>
   `;
 }
@@ -1098,31 +1250,31 @@ function bkStep2(){
 function bkStep3(){
   const {n,sub,total}=bkPrice();const d=booking.details;
   return `
-    <div class="bk-section-title">Overzicht</div>
+    <div class="bk-section-title">${t('step_overzicht')}</div>
     <div class="ov-card">
       <div class="ov-name">Het Stuyvesant Huys</div>
       <div class="ov-sub">Wolvega, Friesland</div>
-      <div class="ov-row"><span class="k">Aankomst</span><span class="v">${fmt(booking.arrival,true)}</span></div>
-      <div class="ov-row"><span class="k">Vertrek</span><span class="v">${fmt(booking.departure,true)}</span></div>
-      <div class="ov-row"><span class="k">Gasten</span><span class="v">${booking.guests} ${booking.guests===1?'persoon':'personen'}</span></div>
-      <div class="ov-row"><span class="k">Naam</span><span class="v">${esc(d.naam)}</span></div>
-      <div class="ov-row"><span class="k">E-mail</span><span class="v">${esc(d.email)}</span></div>
-      <div class="ov-row"><span class="k">Telefoon</span><span class="v">${esc(d.telefoon)}</span></div>
+      <div class="ov-row"><span class="k">${t('aankomst')}</span><span class="v">${fmt(booking.arrival,true)}</span></div>
+      <div class="ov-row"><span class="k">${t('vertrek')}</span><span class="v">${fmt(booking.departure,true)}</span></div>
+      <div class="ov-row"><span class="k">${t('gasten')}</span><span class="v">${booking.guests} ${booking.guests===1?t('guest_1'):t('guest_n')}</span></div>
+      <div class="ov-row"><span class="k">${t('naam')}</span><span class="v">${esc(d.naam)}</span></div>
+      <div class="ov-row"><span class="k">${t('email')}</span><span class="v">${esc(d.email)}</span></div>
+      <div class="ov-row"><span class="k">${t('telefoon')}</span><span class="v">${esc(d.telefoon)}</span></div>
     </div>
-    <div class="bk-section-title">Prijsoverzicht</div>
+    <div class="bk-section-title">${t('prijsoverzicht')}</div>
     <div class="price">
-      <div class="price-row"><span class="k">${n} ${n===1?'nacht':'nachten'} × €119</span><span class="v">€${sub}</span></div>
-      <div class="price-row"><span class="k">Schoonmaakkosten</span><span class="v">€${PRICE.cleaning}</span></div>
-      <div class="price-row"><span class="k">Servicekosten</span><span class="v">€${PRICE.service}</span></div>
-      <div class="price-total"><span>Totaal</span><span class="v">€${total}</span></div>
+      <div class="price-row"><span class="k">${n} ${n===1?t('night_1'):t('night_n')} × €119</span><span class="v">€${sub}</span></div>
+      <div class="price-row"><span class="k">${t('schoonmaak')}</span><span class="v">€${PRICE.cleaning}</span></div>
+      <div class="price-row"><span class="k">${t('service')}</span><span class="v">€${PRICE.service}</span></div>
+      <div class="price-total"><span>${t('totaal')}</span><span class="v">€${total}</span></div>
     </div>
-    <label class="agree"><input type="checkbox" id="bkAgree"> Ik ga akkoord met de huisregels en de annuleringsvoorwaarden.</label>
-    <p class="bk-msg" hidden>Vink het akkoord aan om verder te gaan.</p>
+    <label class="agree"><input type="checkbox" id="bkAgree"> ${t('akkoord')}</label>
+    <p class="bk-msg" hidden>${t('agree_msg')}</p>
     <div class="bk-actions">
-      <button class="btn btn-ghost" data-step="2">Terug</button>
-      <button class="btn btn-green" id="bkConfirm">Boek verblijf</button>
+      <button class="btn btn-ghost" data-step="2">${t('terug')}</button>
+      <button class="btn btn-green" id="bkConfirm">${t('boek_verblijf_btn')}</button>
     </div>
-    <p class="hint" style="margin-top:14px">${svg('lock')} Veilig en eenvoudig boeken</p>
+    <p class="hint" style="margin-top:14px">${svg('lock')} ${t('veilig')}</p>
   `;
 }
 
@@ -1132,17 +1284,17 @@ function bkStep4(){
   return `
     <div class="book-step confirm">
       <div class="confirm-badge">${svg('check')}</div>
-      <h2>Bedankt${first?', '+esc(first):''}!</h2>
-      <p>Uw aanvraag is verstuurd naar Het Stuyvesant Huys. U ontvangt zo snel mogelijk een persoonlijke bevestiging per e-mail.</p>
+      <h2>${t('bedankt')}${first?', '+esc(first):''}!</h2>
+      <p>${t('confirm_tekst')}</p>
       <div class="ov-card">
-        <span class="ref-badge">Referentie ${booking.ref}</span>
-        <div class="ov-row"><span class="k">Aankomst</span><span class="v">${fmt(booking.arrival,true)}</span></div>
-        <div class="ov-row"><span class="k">Vertrek</span><span class="v">${fmt(booking.departure,true)}</span></div>
-        <div class="ov-row"><span class="k">Gasten</span><span class="v">${booking.guests} ${booking.guests===1?'persoon':'personen'}</span></div>
-        <div class="ov-row"><span class="k">Totaal</span><span class="v">€${total}</span></div>
+        <span class="ref-badge">${t('referentie')} ${booking.ref}</span>
+        <div class="ov-row"><span class="k">${t('aankomst')}</span><span class="v">${fmt(booking.arrival,true)}</span></div>
+        <div class="ov-row"><span class="k">${t('vertrek')}</span><span class="v">${fmt(booking.departure,true)}</span></div>
+        <div class="ov-row"><span class="k">${t('gasten')}</span><span class="v">${booking.guests} ${booking.guests===1?t('guest_1'):t('guest_n')}</span></div>
+        <div class="ov-row"><span class="k">${t('totaal')}</span><span class="v">€${total}</span></div>
       </div>
-      <button class="btn btn-green" data-go="home">Terug naar home</button>
-      <button class="btn btn-ghost" data-action="resend">Aanvraag opnieuw per e-mail versturen</button>
+      <button class="btn btn-green" data-go="home">${t('terug_home')}</button>
+      <button class="btn btn-ghost" data-action="resend">${t('opnieuw_mail')}</button>
     </div>
   `;
 }
@@ -1193,8 +1345,8 @@ function bkConfirm(){
 }
 function bkSendMail(){
   const {n,total}=bkPrice(),d=booking.details;
-  const subj=`Boekingsaanvraag ${booking.ref} — Het Stuyvesant Huys`;
-  const body=`Nieuwe boekingsaanvraag via de app\n\nReferentie: ${booking.ref}\nAankomst: ${fmt(booking.arrival,true)}\nVertrek: ${fmt(booking.departure,true)}\nNachten: ${n}\nGasten: ${booking.guests}\nTotaal: €${total}\n\nNaam: ${d.naam}\nE-mail: ${d.email}\nTelefoon: ${d.telefoon}\nBijzonderheden: ${d.opmerking||'-'}\n`;
+  const subj=`${t('mail_subject')} ${booking.ref} — Het Stuyvesant Huys`;
+  const body=`${t('mail_intro')}\n\n${t('referentie')}: ${booking.ref}\n${t('aankomst')}: ${fmt(booking.arrival,true)}\n${t('vertrek')}: ${fmt(booking.departure,true)}\n${cap(t('night_n'))}: ${n}\n${t('gasten')}: ${booking.guests}\n${t('totaal')}: €${total}\n\n${t('naam')}: ${d.naam}\n${t('email')}: ${d.email}\n${t('telefoon')}: ${d.telefoon}\n${t('bijzonderheden')}: ${d.opmerking||'-'}\n`;
   window.location.href='mailto:info@stuyvesanthuys.nl?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 }
 
@@ -1209,13 +1361,28 @@ let current='home';
 function renderChrome(){
   document.getElementById('tabbar').innerHTML=NAV.map(n=>
     `<button class="tab ${n.id===current?'active':''}" data-go="${n.id}" aria-current="${n.id===current?'page':'false'}">
-       ${svg(n.icon)}<span>${n.label}</span></button>`).join('');
+       ${svg(n.icon)}<span>${t(n.key)}</span></button>`).join('');
   document.getElementById('menuNav').innerHTML=NAV.map((n,i)=>
-    `<a data-go="${n.id}"><span class="mn-num">0${i+1}</span>${n.label}</a>`).join('');
+    `<a data-go="${n.id}"><span class="mn-num">0${i+1}</span>${t(n.key)}</a>`).join('');
   document.getElementById('menuCrest').innerHTML=crestSVG()+
     '<div class="cn">Het Stuyvesant Huys</div><div class="cs">Wolvega</div>';
   document.getElementById('abBack').innerHTML=svg('back');
+  const abT=document.getElementById('abTitle'); if(abT) abT.textContent=t('ab_title');
   document.querySelector('.menu-close').innerHTML=svg('close');
+  const mb=document.getElementById('menuBook'); if(mb) mb.textContent=t('boek_nu');
+  const ib=document.getElementById('installBtn'); if(ib) ib.textContent=t('install');
+  const ml=document.getElementById('menuLang');
+  if(ml) ml.innerHTML=`<div class="ml-label">${t('taal')}</div><div class="ml-seg">`+
+    LANGS.map(l=>`<button class="ml-opt${l===LANG?' active':''}" data-lang="${l}">${l.toUpperCase()}</button>`).join('')+`</div>`;
+}
+function setLang(l){
+  if(!LANGS.includes(l)||l===LANG)return;
+  LANG=l;
+  try{localStorage.setItem('hsh-lang',l);}catch(e){}
+  document.documentElement.lang=l;
+  renderChrome();
+  view.innerHTML=views[current]();
+  fitView();
 }
 
 function go(route){
@@ -1264,6 +1431,7 @@ document.addEventListener('click',e=>{
   if(goEl){go(goEl.dataset.go);return}
   if(e.target.closest('[data-menu]')){openMenu();return}
   if(e.target.closest('[data-close]')){closeMenu();return}
+  {const lg=e.target.closest('[data-lang]'); if(lg){setLang(lg.dataset.lang);return}}
   if(e.target.closest('#installBtn')){closeMenu();if(deferredPrompt){const p=deferredPrompt;deferredPrompt=null;const b=document.getElementById('installBtn');if(b)b.hidden=true;p.prompt();}return}
   if(e.target.closest('#abBack')){ if(current==='boeken'&&booking.step>1&&booking.step<4){bkGoStep(booking.step-1);}else{go('home');} return; }
   const head=e.target.closest('.stay-head');
@@ -1288,7 +1456,7 @@ document.addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
   const naam=f.naam.value.trim(), email=f.email.value.trim(), bericht=f.bericht.value.trim();
-  const subject=encodeURIComponent('Bericht via de app — '+naam);
+  const subject=encodeURIComponent(t('msg_subject')+' — '+naam);
   const body=encodeURIComponent(bericht+'\n\n— '+naam+'\n'+email);
   const note=f.querySelector('#c-note'); if(note) note.hidden=false;
   window.location.href='mailto:info@stuyvesanthuys.nl?subject='+subject+'&body='+body;
@@ -1296,6 +1464,7 @@ document.addEventListener('submit',e=>{
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 
 /* init */
+document.documentElement.lang=LANG;
 renderChrome();
 go('home');
 if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>fitView());}

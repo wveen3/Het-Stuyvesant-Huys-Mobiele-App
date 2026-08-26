@@ -36,6 +36,14 @@ Daarna kunnen bezoekers de site niet alleen bekijken, maar ook **installeren** (
 - **Informatie & FAQ** — zoek naar `const INFO=` en `const FAQ=`.
 - **Foto's** — de sfeerbeelden zijn nu stijlvolle kleur-placeholders; deze worden later vervangen door echte foto's.
 
+## Talen (NL / EN / DE)
+
+De app is drietalig: **Nederlands, Engels en Duits**. Bezoekers wisselen van taal via de **taalkiezer in het menu** (hamburger linksboven → NL · EN · DE). De keuze wordt onthouden op het apparaat, en bij een eerste bezoek kiest de app automatisch de browsertaal (met Nederlands als standaard).
+
+Vertalingen aanpassen in `index.html`:
+- **Losse teksten en knoppen** — het object `const TR=` (elke tekst heeft `nl`, `en` en `de`).
+- **Pagina-inhoud** (kamers, omgeving, informatie, FAQ, huisinstructies) — de data-arrays `STAY`, `AREA`, `INFO`, `FAQ` en `HOUSE`, waar elk tekstveld ook `nl` / `en` / `de` bevat.
+
 ## Boeken
 
 Boeken werkt nu als **aanvraag**: bij "Boek verblijf" opent het mailprogramma met alle gegevens klaar voor `info@stuyvesanthuys.nl`. Voor écht online boeken met beschikbaarheid en betaling kan later een boekingssysteem worden gekoppeld.
