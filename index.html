@@ -689,12 +689,12 @@ function langFlags(){
     `<button class="flag-btn${l===LANG?' active':''}" data-lang="${l}" aria-label="${l.toUpperCase()}" aria-pressed="${l===LANG?'true':'false'}">${FLAGS[l]}</button>`
   ).join('')+`</div>`;
 }
-/* overlaid hero controls (hamburger + crest [+ taalvlaggen op home]) */
-function heroTop(withLang){
+/* overlaid hero controls (hamburger + crest + taalvlaggen) */
+function heroTop(){
   return `<div class="hero-top">
     <button class="icon-btn" data-menu aria-label="Menu">${svg('menu')}</button>
     ${crest(true)}
-    ${withLang?langFlags():`<div class="icon-btn" aria-hidden="true" style="visibility:hidden">${svg('menu')}</div>`}
+    ${langFlags()}
   </div>`;
 }
 
@@ -946,7 +946,7 @@ const views={};
 views.home=()=>`
   <section class="hero home-hero">
     <div class="hero-media"></div><div class="hero-grain"></div>
-    ${heroTop(true)}
+    ${heroTop()}
     <div class="home-welcome">
       <div class="eyebrow on-dark">${t('welkom')}</div>
       <h1>Het Stuyvesant Huys</h1>
