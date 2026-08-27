@@ -1,6 +1,6 @@
 /* Service worker — Het Stuyvesant Huys PWA
    App-shell caching + offline fallback. Verhoog CACHE bij een nieuwe versie. */
-const CACHE = 'hsh-v1';
+const CACHE = 'hsh-v2';
 const SHELL = [
   './',
   './index.html',
@@ -30,6 +30,12 @@ self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+
+  // settings.json (beheer-instellingen): altijd vers ophalen, val terug op cache offline.
+  if (url.origin === location.origin && url.pathname.endsWith('settings.json')) {
+    e.respondWith(fetch(req).catch(() => caches.match(req)));
+    return;
+  }
 
   // Paginanavigaties: netwerk eerst, val terug op de gecachete app-shell (offline).
   if (req.mode === 'navigate') {

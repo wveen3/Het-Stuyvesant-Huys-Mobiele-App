@@ -44,6 +44,15 @@ Vertalingen aanpassen in `index.html`:
 - **Losse teksten en knoppen** — het object `const TR=` (elke tekst heeft `nl`, `en` en `de`).
 - **Pagina-inhoud** (kamers, omgeving, informatie, FAQ, huisinstructies) — de data-arrays `STAY`, `AREA`, `INFO`, `FAQ` en `HOUSE`, waar elk tekstveld ook `nl` / `en` / `de` bevat.
 
+## Beheerscherm & statistieken
+
+Open het **beheerscherm** door **5× op het H·S-embleem** bovenaan te tikken, of ga op je eigen domein naar `.../#beheer`. Het is beveiligd met een **pincode** (standaard `1592` — wijzig deze in het scherm).
+
+- **Instellingen** — pas tarieven, max. aantal gasten, contactgegevens en social-links aan zonder code. "Opslaan" geldt meteen op dít apparaat; met **Download settings.json** krijg je een klein bestand dat je in de hoofdmap van je hosting zet om de wijziging voor álle gasten live te maken (of kopieer de getoonde inhoud).
+- **Statistieken** — privacyvriendelijk en cookieloos: paginaweergaven, taalkeuze, boekingsverloop en contactberichten. De cijfers worden alleen op dít apparaat bijgehouden (ideaal voor bijv. een vaste huis-tablet). Voor cijfers over álle bezoekers kan later een privacy-vriendelijke dienst (Plausible/GoatCounter) worden gekoppeld.
+
+Als `settings.json` op de hosting staat, overschrijft dat de standaardwaarden; instellingen die je op je eigen apparaat opslaat, winnen tijdens het bewerken.
+
 ## Boeken
 
 Boeken werkt nu als **aanvraag**: bij "Boek verblijf" opent het mailprogramma met alle gegevens klaar voor `info@stuyvesanthuys.nl`. Voor écht online boeken met beschikbaarheid en betaling kan later een boekingssysteem worden gekoppeld.

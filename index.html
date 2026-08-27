@@ -576,6 +576,51 @@ body{
 @media (prefers-reduced-motion:reduce){
   .menu-scrim,.menu-panel{transition:none}
 }
+
+/* ---- Beheerscherm + statistieken ------------------------- */
+.admin{position:absolute;inset:0;z-index:60;display:flex;flex-direction:column}
+.admin[hidden]{display:none}
+.admin-scrim{position:absolute;inset:0;background:rgba(20,25,16,.5)}
+.admin-panel{position:relative;margin-top:auto;background:var(--cream);height:93%;border-radius:var(--r-lg) var(--r-lg) 0 0;
+  box-shadow:var(--shadow-sheet);display:flex;flex-direction:column;overflow:hidden}
+.admin-top{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 20px 14px;border-bottom:1px solid var(--line);background:var(--cream-soft)}
+.admin-title{font-family:'Jost',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;color:var(--green-700)}
+.admin-x{width:38px;height:38px;display:grid;place-items:center;color:var(--green-700)}
+.admin-x svg{width:22px;height:22px;stroke-width:1.7}
+.admin-inner{flex:1 1 auto;overflow-y:auto;padding:22px 22px 40px;position:relative}
+.admin-gate{max-width:280px;margin:24px auto;text-align:center}
+.admin-gate p{font-size:.86rem;color:var(--muted);line-height:1.55;margin-bottom:16px}
+.admin-gate input{font-family:'Jost',sans-serif;font-weight:600;font-size:1.4rem;letter-spacing:.4em;text-align:center;width:100%;
+  background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:13px;color:var(--ink)}
+.admin-gate input:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px rgba(193,160,100,.18)}
+.admin-tabs{display:flex;gap:6px;background:var(--cream-soft);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:22px}
+.admin-tab{flex:1;padding:10px 0;border-radius:9px;font-family:'Jost',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.admin-tab.active{background:var(--green-700);color:var(--on-green)}
+.adm-group{margin-bottom:24px}
+.adm-group h3{font-family:'Jost',sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass-deep);margin-bottom:12px}
+.adm-row{display:flex;gap:12px}
+.adm-row>*{flex:1;min-width:0}
+.adm-hint{font-size:.76rem;color:var(--muted);line-height:1.55;margin:-4px 0 14px}
+.adm-actions{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.adm-json{width:100%;min-height:110px;font-family:'DejaVu Sans Mono',monospace;font-size:.72rem;line-height:1.5;color:var(--ink);
+  background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px;resize:vertical;margin-top:10px}
+.adm-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(8px);background:var(--green-700);color:var(--on-green);
+  font-size:.8rem;padding:11px 20px;border-radius:22px;box-shadow:0 8px 22px rgba(0,0,0,.28);opacity:0;transition:opacity .22s var(--ease),transform .22s var(--ease);pointer-events:none;z-index:70}
+.adm-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.stat-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.stat-tile{background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px}
+.st-num{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.9rem;color:var(--green-700);line-height:1;font-variant-numeric:tabular-nums}
+.st-num.small{font-size:1.4rem}
+.st-lab{font-size:.68rem;letter-spacing:.05em;color:var(--muted);margin-top:5px;line-height:1.3}
+.bars{display:flex;flex-direction:column;gap:9px}
+.bar-row{display:grid;grid-template-columns:92px 1fr 30px;align-items:center;gap:10px}
+.bar-row .bl{font-size:.76rem;color:var(--ink)}
+.bar-track{height:12px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+.bar-fill{height:100%;background:var(--green-600);border-radius:6px;min-width:2px;transition:width .4s var(--ease)}
+.bar-fill.brass{background:var(--brass)}
+.bar-row .bv{font-size:.76rem;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.stat-note{font-size:.74rem;color:var(--muted);line-height:1.6;margin-top:20px;padding-top:14px;border-top:1px solid var(--line-soft)}
 </style>
 
 <div class="app" id="app" data-route="home">
@@ -605,10 +650,19 @@ body{
         <button class="btn btn-brass" id="menuBook" data-go="boeken">Boek nu</button>
         <button class="btn menu-install" id="installBtn" hidden>App installeren</button>
       </div>
-      <div class="menu-foot">
-        Stuyvesantstraat 2 · 8471 GN Wolvega<br>
-        <a href="tel:+31612345678">+31 6 12345678</a> · <a href="mailto:info@stuyvesanthuys.nl">info@stuyvesanthuys.nl</a>
-      </div>
+      <div class="menu-foot" id="menuFoot"></div>
+    </div>
+  </div>
+
+  <!-- beheerscherm (verborgen; open via #beheer) -->
+  <div class="admin" id="admin" hidden>
+    <div class="admin-scrim" data-admin-close></div>
+    <div class="admin-panel">
+      <header class="admin-top">
+        <span class="admin-title">Beheer</span>
+        <button class="admin-x" data-admin-close aria-label="Sluiten"></button>
+      </header>
+      <div class="admin-inner" id="adminInner"></div>
     </div>
   </div>
 
@@ -827,7 +881,42 @@ const TR={
 /* ============================================================
    Boeking-state
    ============================================================ */
-const PRICE={night:119,cleaning:25,service:15};
+/* ---- Instellingen (beheer) — standaard + eigen overrides ---- */
+const DEFAULTS={
+  price:{night:119,cleaning:25,service:15},
+  maxGuests:2,
+  phone:'+31 6 12345678',
+  email:'info@stuyvesanthuys.nl',
+  website:'www.stuyvesanthuys.nl',
+  address1:'Stuyvesantstraat 2',
+  address2:'8471 GN Wolvega',
+  instagram:'https://www.instagram.com/',
+  facebook:'https://www.facebook.com/'
+};
+function cfgMerge(base,over){
+  const o=JSON.parse(JSON.stringify(base));
+  if(over&&typeof over==='object'){
+    for(const k in over){
+      if(over[k]&&typeof over[k]==='object'&&!Array.isArray(over[k])) o[k]=cfgMerge(base[k]||{},over[k]);
+      else if(over[k]!==undefined&&over[k]!=='') o[k]=over[k];
+    }
+  }
+  return o;
+}
+let CFG=cfgMerge(DEFAULTS,null);
+try{const s=JSON.parse(localStorage.getItem('hsh-cfg')||'null'); if(s) CFG=cfgMerge(CFG,s);}catch(e){}
+function telHref(){return 'tel:'+String(CFG.phone).replace(/[^+\d]/g,'');}
+function siteUrl(){const w=String(CFG.website).trim();return /^https?:\/\//.test(w)?w:'https://'+w.replace(/^\/+/,'');}
+function siteLabel(){return String(CFG.website).replace(/^https?:\/\//,'').replace(/\/$/,'');}
+
+/* ---- Statistieken — tellers op dit apparaat, geen cookies of externe verzoeken ---- */
+const STAT_DEF={v:{home:0,verblijf:0,omgeving:0,informatie:0,contact:0,boeken:0},lang:{nl:0,en:0,de:0},funnel:{start:0,gegevens:0,overzicht:0,aanvraag:0},msg:0,since:''};
+let STATS=cfgMerge(STAT_DEF,null);
+try{const s=JSON.parse(localStorage.getItem('hsh-stats')||'null'); if(s) STATS=cfgMerge(STAT_DEF,s);}catch(e){}
+if(!STATS.since) STATS.since=new Date().toISOString().slice(0,10);
+function statsSave(){try{localStorage.setItem('hsh-stats',JSON.stringify(STATS));}catch(e){}}
+function track(cat,key){ if(STATS[cat]&&typeof STATS[cat]==='object'){ STATS[cat][key]=(STATS[cat][key]||0)+1; statsSave(); } }
+function trackMsg(){ STATS.msg=(STATS.msg||0)+1; statsSave(); }
 const today=new Date(); today.setHours(0,0,0,0);
 const _a=new Date(today); _a.setDate(_a.getDate()+14);
 const _d=new Date(_a);    _d.setDate(_d.getDate()+2);
@@ -836,7 +925,7 @@ const booking={
   calMonth:new Date(_a.getFullYear(),_a.getMonth(),1),
   details:{naam:'',email:'',telefoon:'',opmerking:''}, ref:''
 };
-const MAX_GUESTS=2;
+/* max. gasten staat nu in CFG.maxGuests */
 
 /* ============================================================
    Navigatie-model
@@ -1132,21 +1221,21 @@ views.contact=()=>`
     <div class="contact-list">
       <div class="contact-row">
         <span class="contact-badge">${svg('pin')}</span>
-        <span class="contact-body"><span class="contact-label">${t('adres')}</span><span class="contact-value">Stuyvesantstraat 2<br>8471 GN Wolvega</span></span>
+        <span class="contact-body"><span class="contact-label">${t('adres')}</span><span class="contact-value">${esc(CFG.address1)}<br>${esc(CFG.address2)}</span></span>
       </div>
-      <a class="contact-row" href="tel:+31612345678">
+      <a class="contact-row" href="${telHref()}">
         <span class="contact-badge">${svg('phone')}</span>
-        <span class="contact-body"><span class="contact-label">${t('telefoon')}</span><span class="contact-value">+31 6 12345678</span></span>
+        <span class="contact-body"><span class="contact-label">${t('telefoon')}</span><span class="contact-value">${esc(CFG.phone)}</span></span>
         <span class="contact-chev">${svg('chev')}</span>
       </a>
-      <a class="contact-row" href="mailto:info@stuyvesanthuys.nl">
+      <a class="contact-row" href="mailto:${esc(CFG.email)}">
         <span class="contact-badge">${svg('mail')}</span>
-        <span class="contact-body"><span class="contact-label">${t('email')}</span><span class="contact-value">info@stuyvesanthuys.nl</span></span>
+        <span class="contact-body"><span class="contact-label">${t('email')}</span><span class="contact-value">${esc(CFG.email)}</span></span>
         <span class="contact-chev">${svg('chev')}</span>
       </a>
-      <a class="contact-row" href="https://www.stuyvesanthuys.nl" target="_blank" rel="noopener">
+      <a class="contact-row" href="${siteUrl()}" target="_blank" rel="noopener">
         <span class="contact-badge">${svg('globe')}</span>
-        <span class="contact-body"><span class="contact-label">${t('website')}</span><span class="contact-value">www.stuyvesanthuys.nl</span></span>
+        <span class="contact-body"><span class="contact-label">${t('website')}</span><span class="contact-value">${esc(siteLabel())}</span></span>
         <span class="contact-chev">${svg('chev')}</span>
       </a>
     </div>
@@ -1154,8 +1243,8 @@ views.contact=()=>`
     <div class="social">
       <div class="social-label">${t('volg_ons')}</div>
       <div class="social-btns">
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">${svg('instagram')}</a>
-        <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook">${svg('facebook')}</a>
+        <a href="${esc(CFG.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${svg('instagram')}</a>
+        <a href="${esc(CFG.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${svg('facebook')}</a>
       </div>
       <p>${t('social_tekst')}</p>
     </div>
@@ -1181,7 +1270,7 @@ const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function sameDay(a,b){return !!(a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate())}
 function isoOf(dt){const p=n=>String(n).padStart(2,'0');return dt.getFullYear()+'-'+p(dt.getMonth()+1)+'-'+p(dt.getDate())}
-function bkPrice(){const n=nightsBetween(booking.arrival,booking.departure);const sub=n*PRICE.night;return {n,sub,total:n>0?sub+PRICE.cleaning+PRICE.service:0}}
+function bkPrice(){const n=nightsBetween(booking.arrival,booking.departure);const sub=n*CFG.price.night;return {n,sub,total:n>0?sub+CFG.price.cleaning+CFG.price.service:0}}
 function genRef(){const p=n=>String(n).padStart(2,'0');const r=Math.random().toString(36).slice(2,5).toUpperCase();return `HSH-${p(booking.arrival.getDate())}${p(booking.arrival.getMonth()+1)}-${r}`}
 
 function bkStepper(n){
@@ -1225,7 +1314,7 @@ function bkStep1(){
       <div class="prod-info">
         <div class="prod-name">Het Stuyvesant Huys</div>
         <div class="prod-meta">${t('prod_meta')}</div>
-        <div class="prod-price"><b>€119</b> ${t('per_nacht')}</div>
+        <div class="prod-price"><b>€${CFG.price.night}</b> ${t('per_nacht')}</div>
       </div>
     </div>
     <div class="bk-section-title"><span>1.</span> ${t('sel_data')}</div>
@@ -1243,7 +1332,7 @@ function bkStep1(){
     <div class="counter">
       <button class="cnt-btn" data-guests="-1" ${booking.guests<=1?'disabled':''} aria-label="${t('fewer_guests')}">−</button>
       <div class="cnt-val">${booking.guests} ${booking.guests===1?t('guest_1'):t('guest_n')}</div>
-      <button class="cnt-btn" data-guests="1" ${booking.guests>=MAX_GUESTS?'disabled':''} aria-label="${t('more_guests')}">+</button>
+      <button class="cnt-btn" data-guests="1" ${booking.guests>=CFG.maxGuests?'disabled':''} aria-label="${t('more_guests')}">+</button>
     </div>
     <button class="btn btn-green" data-step="2" ${hasRange?'':'disabled'} style="margin-top:26px">${t('volgende')}</button>
   `;
@@ -1282,9 +1371,9 @@ function bkStep3(){
     </div>
     <div class="bk-section-title">${t('prijsoverzicht')}</div>
     <div class="price">
-      <div class="price-row"><span class="k">${n} ${n===1?t('night_1'):t('night_n')} × €119</span><span class="v">€${sub}</span></div>
-      <div class="price-row"><span class="k">${t('schoonmaak')}</span><span class="v">€${PRICE.cleaning}</span></div>
-      <div class="price-row"><span class="k">${t('service')}</span><span class="v">€${PRICE.service}</span></div>
+      <div class="price-row"><span class="k">${n} ${n===1?t('night_1'):t('night_n')} × €${CFG.price.night}</span><span class="v">€${sub}</span></div>
+      <div class="price-row"><span class="k">${t('schoonmaak')}</span><span class="v">€${CFG.price.cleaning}</span></div>
+      <div class="price-row"><span class="k">${t('service')}</span><span class="v">€${CFG.price.service}</span></div>
       <div class="price-total"><span>${t('totaal')}</span><span class="v">€${total}</span></div>
     </div>
     <label class="agree"><input type="checkbox" id="bkAgree"> ${t('akkoord')}</label>
@@ -1355,18 +1444,20 @@ function bkGoStep(target){
     if(cur===1 && !(booking.arrival&&booking.departure))return;
     if(cur===2){bkCapture();if(!bkValid()){bkMark();return;}}
   } else if(cur===2){bkCapture();}
+  if(target>cur){ if(target===2)track('funnel','gegevens'); else if(target===3)track('funnel','overzicht'); }
   bkSetStep(target);
 }
 function bkConfirm(){
   const agree=view.querySelector('#bkAgree');
   if(agree&&!agree.checked){view.querySelectorAll('.bk-msg').forEach(x=>x.hidden=false);return;}
+  track('funnel','aanvraag');
   booking.ref=genRef();bkSetStep(4);bkSendMail();
 }
 function bkSendMail(){
   const {n,total}=bkPrice(),d=booking.details;
   const subj=`${t('mail_subject')} ${booking.ref} — Het Stuyvesant Huys`;
   const body=`${t('mail_intro')}\n\n${t('referentie')}: ${booking.ref}\n${t('aankomst')}: ${fmt(booking.arrival,true)}\n${t('vertrek')}: ${fmt(booking.departure,true)}\n${cap(t('night_n'))}: ${n}\n${t('gasten')}: ${booking.guests}\n${t('totaal')}: €${total}\n\n${t('naam')}: ${d.naam}\n${t('email')}: ${d.email}\n${t('telefoon')}: ${d.telefoon}\n${t('bijzonderheden')}: ${d.opmerking||'-'}\n`;
-  window.location.href='mailto:info@stuyvesanthuys.nl?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+  window.location.href='mailto:'+encodeURIComponent(CFG.email)+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 }
 
 /* ============================================================
@@ -1393,11 +1484,14 @@ function renderChrome(){
   const ml=document.getElementById('menuLang');
   if(ml) ml.innerHTML=`<div class="ml-label">${t('taal')}</div><div class="ml-seg">`+
     LANGS.map(l=>`<button class="ml-opt${l===LANG?' active':''}" data-lang="${l}">${l.toUpperCase()}</button>`).join('')+`</div>`;
+  const mf=document.getElementById('menuFoot');
+  if(mf) mf.innerHTML=`${esc(CFG.address1)} · ${esc(CFG.address2)}<br><a href="${telHref()}">${esc(CFG.phone)}</a> · <a href="mailto:${esc(CFG.email)}">${esc(CFG.email)}</a>`;
 }
 function setLang(l){
   if(!LANGS.includes(l)||l===LANG)return;
   LANG=l;
   try{localStorage.setItem('hsh-lang',l);}catch(e){}
+  track('lang',l);
   document.documentElement.lang=l;
   renderChrome();
   view.innerHTML=views[current]();
@@ -1409,6 +1503,7 @@ function go(route){
   const change=route!==current;
   current=route;
   app.dataset.route=route;
+  track('v',route); if(route==='boeken') track('funnel','start');
   if(route==='boeken'){booking.step=1;booking.calMonth=new Date(booking.arrival.getFullYear(),booking.arrival.getMonth(),1);}
   const paint=()=>{
     view.innerHTML=views[route]();
@@ -1444,8 +1539,156 @@ function fitView(){
   if(sp) fitOneLine(sp,14.4,10.5);
 }
 
+/* ============================================================
+   Beheerscherm
+   ============================================================ */
+const adminEl=document.getElementById('admin');
+let adminTab='settings', adminUnlocked=false;
+let crestTaps=0, crestTapT;
+function adminPin(){try{return localStorage.getItem('hsh-pin')||'1592';}catch(e){return '1592';}}
+function exportCfg(){return CFG;}
+function openAdmin(){ if(!adminEl)return; adminEl.hidden=false; renderAdmin(); }
+function closeAdmin(){ if(!adminEl)return; adminEl.hidden=true; try{if(location.hash==='#beheer')history.replaceState(null,'',location.pathname+location.search);}catch(e){} }
+let _toastT;
+function adminToast(msg){
+  let el=document.getElementById('admToast');
+  if(!el){el=document.createElement('div');el.id='admToast';el.className='adm-toast';document.body.appendChild(el);}
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(_toastT); _toastT=setTimeout(()=>el.classList.remove('show'),2200);
+}
+function renderAdmin(){
+  const inner=document.getElementById('adminInner'); if(!inner)return;
+  if(!adminUnlocked){
+    inner.innerHTML=`<div class="admin-gate">
+      <p>Voer de beheer-pincode in.</p>
+      <input id="admPin" type="password" inputmode="numeric" maxlength="8" autocomplete="off" aria-label="Pincode">
+      <p class="bk-msg" id="admPinErr" hidden>Onjuiste pincode.</p>
+      <button class="btn btn-green" id="admUnlock" style="margin-top:16px">Openen</button>
+    </div>`;
+    const inp=inner.querySelector('#admPin'); if(inp) setTimeout(()=>inp.focus(),50);
+    return;
+  }
+  inner.innerHTML=`
+    <div class="admin-tabs">
+      <button class="admin-tab${adminTab==='settings'?' active':''}" data-admtab="settings">Instellingen</button>
+      <button class="admin-tab${adminTab==='stats'?' active':''}" data-admtab="stats">Statistieken</button>
+    </div>
+    <div id="admContent">${adminTab==='settings'?adminSettingsHTML():adminStatsHTML()}</div>`;
+}
+function admF(id,label,val,type){return `<div class="field"><label for="${id}">${label}</label><input id="${id}" type="${type||'text'}" value="${esc(val)}"></div>`;}
+function adminSettingsHTML(){
+  return `
+    <div class="adm-group">
+      <h3>Tarieven</h3>
+      <div class="adm-row">${admF('cfg-night','Prijs per nacht (€)',CFG.price.night,'number')}${admF('cfg-clean','Schoonmaak (€)',CFG.price.cleaning,'number')}</div>
+      <div class="adm-row">${admF('cfg-service','Servicekosten (€)',CFG.price.service,'number')}${admF('cfg-guests','Max. gasten',CFG.maxGuests,'number')}</div>
+    </div>
+    <div class="adm-group">
+      <h3>Contact</h3>
+      ${admF('cfg-phone','Telefoon',CFG.phone)}
+      ${admF('cfg-email','E-mail',CFG.email,'email')}
+      ${admF('cfg-website','Website',CFG.website)}
+      <div class="adm-row">${admF('cfg-addr1','Adres',CFG.address1)}${admF('cfg-addr2','Postcode & plaats',CFG.address2)}</div>
+    </div>
+    <div class="adm-group">
+      <h3>Social media</h3>
+      ${admF('cfg-insta','Instagram-link',CFG.instagram)}
+      ${admF('cfg-fb','Facebook-link',CFG.facebook)}
+    </div>
+    <div class="adm-actions">
+      <button class="btn btn-green" id="admSave">Opslaan (dit apparaat)</button>
+      <button class="btn btn-ghost" id="admExport">Download settings.json</button>
+      <button class="btn btn-ghost" id="admReset">Herstel standaard</button>
+    </div>
+    <p class="adm-hint" style="margin-top:14px">"Opslaan" past het meteen aan op dit apparaat. Zet <b>settings.json</b> op je hosting om het voor álle gasten live te maken (of kopieer onderstaande inhoud).</p>
+    <textarea class="adm-json" id="admJson" readonly aria-label="settings.json">${esc(JSON.stringify(exportCfg(),null,2))}</textarea>
+    <div class="adm-group" style="margin-top:22px">
+      <h3>Beheer-pincode</h3>
+      ${admF('cfg-pin','Nieuwe pincode',adminPin())}
+      <button class="btn btn-ghost" id="admPinSave" style="margin-top:8px">Pincode opslaan</button>
+    </div>`;
+}
+function adminSave(){
+  const g=id=>document.getElementById(id);
+  const num=(id,def)=>{const v=parseFloat(g(id).value);return isFinite(v)?v:def;};
+  const nv={
+    price:{night:num('cfg-night',CFG.price.night),cleaning:num('cfg-clean',CFG.price.cleaning),service:num('cfg-service',CFG.price.service)},
+    maxGuests:Math.max(1,Math.round(num('cfg-guests',CFG.maxGuests))),
+    phone:g('cfg-phone').value.trim(), email:g('cfg-email').value.trim(), website:g('cfg-website').value.trim(),
+    address1:g('cfg-addr1').value.trim(), address2:g('cfg-addr2').value.trim(),
+    instagram:g('cfg-insta').value.trim(), facebook:g('cfg-fb').value.trim()
+  };
+  CFG=cfgMerge(DEFAULTS,nv);
+  try{localStorage.setItem('hsh-cfg',JSON.stringify(CFG));}catch(e){}
+  renderChrome(); view.innerHTML=views[current](); fitView(); renderAdmin();
+  adminToast('Opgeslagen op dit apparaat');
+}
+function adminExport(){
+  const json=JSON.stringify(exportCfg(),null,2);
+  try{const blob=new Blob([json],{type:'application/json'});const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download='settings.json';document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(e){}
+  const ta=document.getElementById('admJson'); if(ta){ta.value=json;ta.focus();ta.select();}
+  adminToast('settings.json gedownload — of kopieer de tekst');
+}
+function adminReset(){
+  try{localStorage.removeItem('hsh-cfg');}catch(e){}
+  CFG=cfgMerge(DEFAULTS,null);
+  renderChrome(); view.innerHTML=views[current](); fitView(); renderAdmin();
+  adminToast('Standaardwaarden hersteld');
+}
+function adminSavePin(){
+  const v=(document.getElementById('cfg-pin').value||'').trim();
+  if(v){try{localStorage.setItem('hsh-pin',v);}catch(e){} adminToast('Pincode opgeslagen');}
+}
+function adminTryUnlock(){
+  const inp=document.getElementById('admPin');
+  if(inp && inp.value===adminPin()){ adminUnlocked=true; renderAdmin(); }
+  else{ const e=document.getElementById('admPinErr'); if(e)e.hidden=false; if(inp){inp.value='';inp.focus();} }
+}
+function adminStatsHTML(){
+  const v=STATS.v, order=['home','verblijf','omgeving','informatie','contact','boeken'];
+  const names={home:t('nav_home'),verblijf:t('nav_verblijf'),omgeving:t('nav_omgeving'),informatie:t('nav_informatie'),contact:t('nav_contact'),boeken:t('ab_title')};
+  const totalViews=order.reduce((a,k)=>a+(v[k]||0),0);
+  const maxV=Math.max(1,...order.map(k=>v[k]||0));
+  const topKey=order.reduce((a,b)=>(v[b]||0)>(v[a]||0)?b:a,'home');
+  const fn=STATS.funnel, langMax=Math.max(1,STATS.lang.nl,STATS.lang.en,STATS.lang.de);
+  const bar=(label,val,max,brass)=>{const pct=val?Math.max(4,Math.round((val/max)*100)):0;return `<div class="bar-row"><span class="bl">${esc(label)}</span><span class="bar-track"><span class="bar-fill${brass?' brass':''}" style="width:${pct}%"></span></span><span class="bv">${val}</span></div>`;};
+  return `
+    <div class="stat-tiles">
+      <div class="stat-tile"><div class="st-num">${totalViews}</div><div class="st-lab">Paginaweergaven</div></div>
+      <div class="stat-tile"><div class="st-num small">${esc(names[topKey])}</div><div class="st-lab">Meest bekeken</div></div>
+      <div class="stat-tile"><div class="st-num">${fn.start}</div><div class="st-lab">Keer boeken gestart</div></div>
+      <div class="stat-tile"><div class="st-num">${fn.aanvraag}</div><div class="st-lab">Boekingsaanvragen</div></div>
+    </div>
+    <div class="adm-group"><h3>Pagina's</h3><div class="bars">${order.map(k=>bar(names[k],v[k]||0,maxV)).join('')}</div></div>
+    <div class="adm-group"><h3>Taalkeuze</h3><div class="bars">${bar('Nederlands',STATS.lang.nl,langMax,true)}${bar('English',STATS.lang.en,langMax,true)}${bar('Deutsch',STATS.lang.de,langMax,true)}</div></div>
+    <div class="adm-group"><h3>Boekingsverloop</h3><div class="bars">${bar('Gestart',fn.start,Math.max(1,fn.start))}${bar('Gegevens',fn.gegevens,Math.max(1,fn.start))}${bar('Overzicht',fn.overzicht,Math.max(1,fn.start))}${bar('Aanvraag',fn.aanvraag,Math.max(1,fn.start),true)}</div></div>
+    <div class="stat-tile" style="margin-top:2px"><div class="st-num small">${STATS.msg}</div><div class="st-lab">Contactberichten verstuurd</div></div>
+    <button class="btn btn-ghost" id="admClearStats" style="margin-top:22px">Statistieken wissen</button>
+    <p class="stat-note">Deze cijfers worden alleen op <b>dit apparaat</b> bijgehouden — cookieloos en zonder externe verzoeken (privacyvriendelijk). Voor cijfers over álle bezoekers koppelen we later een privacy-vriendelijke dienst (bijv. Plausible). Sinds ${esc(STATS.since)}.</p>`;
+}
+function adminClearStats(){ STATS=cfgMerge(STAT_DEF,null); STATS.since=new Date().toISOString().slice(0,10); statsSave(); renderAdmin(); adminToast('Statistieken gewist'); }
+if(adminEl){
+  adminEl.addEventListener('click',e=>{
+    if(e.target.closest('[data-admin-close]')){closeAdmin();return;}
+    if(e.target.closest('#admUnlock')){adminTryUnlock();return;}
+    const tab=e.target.closest('[data-admtab]'); if(tab){adminTab=tab.dataset.admtab;renderAdmin();return;}
+    if(e.target.closest('#admSave')){adminSave();return;}
+    if(e.target.closest('#admExport')){adminExport();return;}
+    if(e.target.closest('#admReset')){adminReset();return;}
+    if(e.target.closest('#admPinSave')){adminSavePin();return;}
+    if(e.target.closest('#admClearStats')){adminClearStats();return;}
+  });
+  adminEl.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.id==='admPin'){e.preventDefault();adminTryUnlock();} });
+}
+function checkAdminHash(){ try{ if(location.hash==='#beheer') openAdmin(); }catch(e){} }
+window.addEventListener('hashchange',checkAdminHash);
+
 /* delegated events */
 document.addEventListener('click',e=>{
+  const cr=e.target.closest('.crest');
+  if(cr){ crestTaps++; clearTimeout(crestTapT); crestTapT=setTimeout(()=>{crestTaps=0;},1600); if(crestTaps>=5){crestTaps=0;openAdmin();} return; }
   const goEl=e.target.closest('[data-go]');
   if(goEl){go(goEl.dataset.go);return}
   if(e.target.closest('[data-menu]')){openMenu();return}
@@ -1461,7 +1704,7 @@ document.addEventListener('click',e=>{
   if(hq){const it=hq.closest('.house-item');const open=it.classList.toggle('open');hq.setAttribute('aria-expanded',open?'true':'false');return}
   if(current==='boeken'){
     const cal=e.target.closest('[data-cal]'); if(cal){bkCalNav(+cal.dataset.cal);return}
-    const gs=e.target.closest('[data-guests]'); if(gs){booking.guests=Math.min(MAX_GUESTS,Math.max(1,booking.guests+(+gs.dataset.guests)));rbook(true);return}
+    const gs=e.target.closest('[data-guests]'); if(gs){booking.guests=Math.min(CFG.maxGuests,Math.max(1,booking.guests+(+gs.dataset.guests)));rbook(true);return}
     const day=e.target.closest('.cal-cell[data-day]'); if(day){const p=day.dataset.day.split('-').map(Number);bkPick(new Date(p[0],p[1]-1,p[2]));return}
     const st=e.target.closest('[data-step]'); if(st){bkGoStep(+st.dataset.step);return}
     if(e.target.closest('#bkConfirm')){bkConfirm();return}
@@ -1478,7 +1721,8 @@ document.addEventListener('submit',e=>{
   const subject=encodeURIComponent(t('msg_subject')+' — '+naam);
   const body=encodeURIComponent(bericht+'\n\n— '+naam+'\n'+email);
   const note=f.querySelector('#c-note'); if(note) note.hidden=false;
-  window.location.href='mailto:info@stuyvesanthuys.nl?subject='+subject+'&body='+body;
+  trackMsg();
+  window.location.href='mailto:'+encodeURIComponent(CFG.email)+'?subject='+subject+'&body='+body;
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 
@@ -1486,6 +1730,15 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 document.documentElement.lang=LANG;
 renderChrome();
 go('home');
+track('lang',LANG);
+checkAdminHash();
+/* settings.json op de hosting overschrijft standaardwaarden (eigen apparaat-instellingen winnen) */
+fetch('settings.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
+  if(!j)return;
+  let merged=cfgMerge(DEFAULTS,j);
+  try{const s=JSON.parse(localStorage.getItem('hsh-cfg')||'null'); if(s) merged=cfgMerge(merged,s);}catch(e){}
+  CFG=merged; renderChrome(); view.innerHTML=views[current](); fitView();
+}).catch(()=>{});
 if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>fitView());}
 let _rz;window.addEventListener('resize',()=>{clearTimeout(_rz);_rz=setTimeout(fitView,120);});
 
