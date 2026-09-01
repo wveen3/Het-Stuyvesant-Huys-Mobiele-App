@@ -621,6 +621,25 @@ body{
 .bar-fill.brass{background:var(--brass)}
 .bar-row .bv{font-size:.76rem;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
 .stat-note{font-size:.74rem;color:var(--muted);line-height:1.6;margin-top:20px;padding-top:14px;border-top:1px solid var(--line-soft)}
+
+/* ---- Documenten (leesweergave) + voorwaarden-links -------- */
+#docBody .doc-sub{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);margin-bottom:16px}
+#docBody p{font-size:.9rem;line-height:1.6;color:var(--ink);margin-bottom:12px}
+#docBody ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin:4px 0 14px}
+#docBody li{position:relative;padding-left:18px;font-size:.9rem;line-height:1.5;color:var(--ink)}
+#docBody li::before{content:"";position:absolute;left:2px;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--brass)}
+#docBody .doc-note{font-size:.82rem;color:var(--muted);font-style:italic;border-top:1px solid var(--line-soft);padding-top:14px;margin-top:6px}
+.doc-link{display:inline;color:var(--green-700);font-weight:600;text-decoration:underline;text-underline-offset:2px;background:none;padding:0;font:inherit;cursor:pointer}
+.doc-link:hover{color:var(--green-600)}
+.terms-list{display:flex;flex-direction:column}
+.terms-link{display:flex;align-items:center;gap:14px;width:100%;padding:14px 2px;border-bottom:1px solid var(--line-soft);color:inherit;text-align:left;transition:opacity .15s var(--ease)}
+.terms-link:first-child{border-top:1px solid var(--line-soft)}
+.terms-link:active{opacity:.7}
+.tl-ic{flex:0 0 auto;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--cream-soft);border:1px solid var(--line);color:var(--green-700)}
+.tl-ic svg{width:20px;height:20px;stroke-width:1.5}
+.tl-name{flex:1;min-width:0;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.15rem;color:var(--ink)}
+.tl-chev{flex:0 0 auto;color:var(--brass-deep)}
+.tl-chev svg{width:17px;height:17px;stroke-width:1.7}
 </style>
 
 <div class="app" id="app" data-route="home">
@@ -651,6 +670,18 @@ body{
         <button class="btn menu-install" id="installBtn" hidden>App installeren</button>
       </div>
       <div class="menu-foot" id="menuFoot"></div>
+    </div>
+  </div>
+
+  <!-- leesweergave: huisregels / annuleringsvoorwaarden -->
+  <div class="admin" id="doc" hidden>
+    <div class="admin-scrim" data-doc-close></div>
+    <div class="admin-panel">
+      <header class="admin-top">
+        <span class="admin-title" id="docTitle"></span>
+        <button class="admin-x" data-doc-close aria-label="Sluiten"></button>
+      </header>
+      <div class="admin-inner" id="docBody"></div>
     </div>
   </div>
 
@@ -709,6 +740,7 @@ const ICONS = {
   send:'<path d="M20 4 3.6 11.5l6.1 2.2 2.2 6.1L20 4Z"/><path d="M20 4 9.7 13.7"/>',
   check:'<path d="m5 12.5 4.5 4.5L19 7"/>',
   chevl:'<path d="m15 6-6 6 6 6"/>',
+  doc:'<rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8.5 8h7M8.5 11.5h7M8.5 15h4.5"/>',
   thermo:'<path d="M14 14.6V5.5a2 2 0 0 0-4 0v9.1a3.4 3.4 0 1 0 4 0Z"/><path d="M12 8.4v6.4"/>',
   tv:'<rect x="3" y="5.5" width="18" height="12" rx="2"/><path d="M8.5 20.5h7"/><path d="M12 17.5v3"/>',
   trash:'<path d="M4.5 7h15"/><path d="M9 7V5.3A1.3 1.3 0 0 1 10.3 4h3.4A1.3 1.3 0 0 1 15 5.3V7"/><path d="M6.6 7l.9 12.1a1.8 1.8 0 0 0 1.8 1.7h5.4a1.8 1.8 0 0 0 1.8-1.7L17.4 7"/><path d="M10 10.5v5.5M14 10.5v5.5"/>',
@@ -863,6 +895,13 @@ const TR={
   cal_arrival_tail:{nl:"— kies nu uw vertrekdatum",en:"— now choose your departure date",de:"— wählen Sie nun Ihr Abreisedatum"},
   val_msg:{nl:"Vul uw naam, een geldig e-mailadres en telefoonnummer in.",en:"Please enter your name, a valid email and a phone number.",de:"Bitte geben Sie Namen, gültige E-Mail und Telefonnummer ein."},
   agree_msg:{nl:"Vink het akkoord aan om verder te gaan.",en:"Tick the box to continue.",de:"Bitte bestätigen Sie, um fortzufahren."},
+  agree_pre:{nl:"Ik ga akkoord met de ",en:"I agree to the ",de:"Ich akzeptiere die "},
+  link_rules:{nl:"huisregels",en:"house rules",de:"Hausordnung"},
+  agree_mid:{nl:" en de ",en:" and the ",de:" und die "},
+  link_cancel:{nl:"annuleringsvoorwaarden",en:"cancellation terms",de:"Stornobedingungen"},
+  agree_end:{nl:".",en:".",de:"."},
+  terms_titel:{nl:"Voorwaarden",en:"Terms & policies",de:"Bedingungen"},
+  terms_sub:{nl:"Huisregels en annuleringsvoorwaarden.",en:"House rules and cancellation terms.",de:"Hausordnung und Stornobedingungen."},
   prev_month:{nl:"Vorige maand",en:"Previous month",de:"Voriger Monat"},
   next_month:{nl:"Volgende maand",en:"Next month",de:"Nächster Monat"},
   fewer_guests:{nl:"Minder gasten",en:"Fewer guests",de:"Weniger Gäste"},
@@ -1030,6 +1069,26 @@ const HOUSE=[
 /* ============================================================
    Views
    ============================================================ */
+/* Documenten — huisregels & annuleringsvoorwaarden (bewerkbaar; bevestig uw eigen beleid) */
+const DOCS={
+  huisregels:{
+    title:{nl:"Huisregels",en:"House rules",de:"Hausordnung"},
+    body:{
+      nl:`<p>Fijn dat u bij Het Stuyvesant Huys verblijft. Een paar afspraken houden het huys prettig voor iedereen:</p><ul><li>Roken is niet toegestaan in het huys.</li><li>Huisdieren zijn helaas niet toegestaan.</li><li>Feesten en evenementen zijn niet toegestaan.</li><li>Inchecken vanaf 15:00 uur, uitchecken voor 11:00 uur.</li><li>Houd rekening met de rust van de buurt, zeker 's avonds en 's nachts.</li><li>Behandel het huys en de inrichting met zorg.</li></ul><p class="doc-note">Vragen of iets nodig? Neem gerust contact met ons op — we helpen u graag.</p>`,
+      en:`<p>Welcome to Het Stuyvesant Huys. A few simple agreements keep the house pleasant for everyone:</p><ul><li>Smoking is not permitted inside the house.</li><li>Pets are unfortunately not allowed.</li><li>Parties and events are not permitted.</li><li>Check-in from 3:00 pm, check-out before 11:00 am.</li><li>Please respect the quiet of the neighbourhood, especially at night.</li><li>Treat the house and its furnishings with care.</li></ul><p class="doc-note">Any questions or need anything? Feel free to contact us — we are happy to help.</p>`,
+      de:`<p>Willkommen im Het Stuyvesant Huys. Ein paar Absprachen halten das Haus für alle angenehm:</p><ul><li>Rauchen ist im Haus nicht gestattet.</li><li>Haustiere sind leider nicht erlaubt.</li><li>Feiern und Veranstaltungen sind nicht gestattet.</li><li>Check-in ab 15:00 Uhr, Check-out bis 11:00 Uhr.</li><li>Bitte achten Sie auf die Ruhe der Nachbarschaft, besonders nachts.</li><li>Behandeln Sie das Haus und die Einrichtung mit Sorgfalt.</li></ul><p class="doc-note">Fragen oder Wünsche? Kontaktieren Sie uns gern — wir helfen Ihnen gerne.</p>`
+    }
+  },
+  annulering:{
+    title:{nl:"Annuleringsvoorwaarden",en:"Cancellation terms",de:"Stornobedingungen"},
+    body:{
+      nl:`<p>Wij hanteren heldere en redelijke annuleringsvoorwaarden:</p><ul><li>Tot 14 dagen voor aankomst: kosteloos annuleren, volledige terugbetaling.</li><li>Van 14 tot 2 dagen voor aankomst: 50% van het totaalbedrag.</li><li>Binnen 48 uur voor aankomst of bij niet verschijnen: 100% van het totaalbedrag.</li><li>De datum wijzigen kan kosteloos in overleg, mits beschikbaar.</li></ul><p class="doc-note">Twijfelt u of heeft u vragen over een annulering? Neem gerust contact met ons op — we denken graag met u mee.</p>`,
+      en:`<p>We apply clear and fair cancellation terms:</p><ul><li>Up to 14 days before arrival: free cancellation, full refund.</li><li>From 14 to 2 days before arrival: 50% of the total amount.</li><li>Within 48 hours of arrival or no-show: 100% of the total amount.</li><li>Changing the dates is free of charge on request, subject to availability.</li></ul><p class="doc-note">Unsure or have questions about a cancellation? Just get in touch — we are glad to help.</p>`,
+      de:`<p>Wir wenden klare und faire Stornobedingungen an:</p><ul><li>Bis 14 Tage vor Anreise: kostenlose Stornierung, volle Rückerstattung.</li><li>Von 14 bis 2 Tage vor Anreise: 50% des Gesamtbetrags.</li><li>Innerhalb von 48 Stunden vor Anreise oder bei Nichterscheinen: 100% des Gesamtbetrags.</li><li>Eine Terminänderung ist auf Anfrage kostenlos möglich, sofern verfügbar.</li></ul><p class="doc-note">Unsicher oder Fragen zu einer Stornierung? Melden Sie sich gern — wir denken gern mit.</p>`
+    }
+  }
+};
+
 const views={};
 
 views.home=()=>`
@@ -1207,6 +1266,19 @@ views.informatie=()=>`
           </div>`).join('')}
       </div>
     </div>
+    <div class="house">
+      <div class="info-block faq-intro">
+        <span class="info-badge">${svg('doc')}</span>
+        <div class="info-body">
+          <div class="info-title">${t('terms_titel')}</div>
+          <p class="faq-sub">${t('terms_sub')}</p>
+        </div>
+      </div>
+      <div class="terms-list">
+        <button type="button" class="terms-link" data-doc="huisregels"><span class="tl-ic">${svg('rules')}</span><span class="tl-name">${L(DOCS.huisregels.title)}</span><span class="tl-chev">${svg('chev')}</span></button>
+        <button type="button" class="terms-link" data-doc="annulering"><span class="tl-ic">${svg('doc')}</span><span class="tl-name">${L(DOCS.annulering.title)}</span><span class="tl-chev">${svg('chev')}</span></button>
+      </div>
+    </div>
     <div class="sheet-cta">
       <div class="ornament"><i></i></div>
       <button class="btn btn-green" data-go="contact">${t('info_cta')}</button>
@@ -1376,7 +1448,7 @@ function bkStep3(){
       <div class="price-row"><span class="k">${t('service')}</span><span class="v">€${CFG.price.service}</span></div>
       <div class="price-total"><span>${t('totaal')}</span><span class="v">€${total}</span></div>
     </div>
-    <label class="agree"><input type="checkbox" id="bkAgree"> ${t('akkoord')}</label>
+    <label class="agree"><input type="checkbox" id="bkAgree"> <span>${t('agree_pre')}<button type="button" class="doc-link" data-doc="huisregels">${t('link_rules')}</button>${t('agree_mid')}<button type="button" class="doc-link" data-doc="annulering">${t('link_cancel')}</button>${t('agree_end')}</span></label>
     <p class="bk-msg" hidden>${t('agree_msg')}</p>
     <div class="bk-actions">
       <button class="btn btn-ghost" data-step="2">${t('terug')}</button>
@@ -1479,6 +1551,7 @@ function renderChrome(){
   document.getElementById('abBack').innerHTML=svg('back');
   const abT=document.getElementById('abTitle'); if(abT) abT.textContent=t('ab_title');
   document.querySelector('.menu-close').innerHTML=svg('close');
+  document.querySelectorAll('.admin-x').forEach(b=>{ b.innerHTML=svg('close'); });
   const mb=document.getElementById('menuBook'); if(mb) mb.textContent=t('boek_nu');
   const ib=document.getElementById('installBtn'); if(ib) ib.textContent=t('install');
   const ml=document.getElementById('menuLang');
@@ -1685,10 +1758,23 @@ if(adminEl){
 function checkAdminHash(){ try{ if(location.hash==='#beheer') openAdmin(); }catch(e){} }
 window.addEventListener('hashchange',checkAdminHash);
 
+/* ---- Documenten (huisregels / annuleringsvoorwaarden) ---- */
+function openDoc(key){
+  const el=document.getElementById('doc'); if(!el||!DOCS[key])return;
+  document.getElementById('docTitle').textContent=L(DOCS[key].title);
+  const b=document.getElementById('docBody');
+  b.innerHTML=`<div class="doc-sub">Het Stuyvesant Huys · Wolvega</div>${L(DOCS[key].body)}`;
+  b.scrollTop=0; el.hidden=false;
+}
+function closeDoc(){ const el=document.getElementById('doc'); if(el)el.hidden=true; }
+{const dEl=document.getElementById('doc'); if(dEl) dEl.addEventListener('click',e=>{ if(e.target.closest('[data-doc-close]'))closeDoc(); });}
+
 /* delegated events */
 document.addEventListener('click',e=>{
   const cr=e.target.closest('.crest');
   if(cr){ crestTaps++; clearTimeout(crestTapT); crestTapT=setTimeout(()=>{crestTaps=0;},1600); if(crestTaps>=5){crestTaps=0;openAdmin();} return; }
+  const dl=e.target.closest('[data-doc]');
+  if(dl){ e.preventDefault(); openDoc(dl.dataset.doc); return; }
   const goEl=e.target.closest('[data-go]');
   if(goEl){go(goEl.dataset.go);return}
   if(e.target.closest('[data-menu]')){openMenu();return}
@@ -1724,7 +1810,7 @@ document.addEventListener('submit',e=>{
   trackMsg();
   window.location.href='mailto:'+encodeURIComponent(CFG.email)+'?subject='+subject+'&body='+body;
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenu();closeDoc();}});
 
 /* init */
 document.documentElement.lang=LANG;
