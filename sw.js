@@ -1,6 +1,6 @@
-/* Service worker — Het Stuyvesant Huys PWA
+/* Service worker — ’t Stuyvesant Huys PWA
    App-shell caching + offline fallback. Verhoog CACHE bij een nieuwe versie. */
-const CACHE = 'hsh-v3';
+const CACHE = 'hsh-v4';
 const SHELL = [
   './',
   './index.html',

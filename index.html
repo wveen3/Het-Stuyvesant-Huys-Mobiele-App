@@ -1,4 +1,4 @@
-<title>Het Stuyvesant Huys</title>
+<title>’t Stuyvesant Huys</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2e3a2a">
 <meta name="description" content="Sfeervol gastenverblijf in het hart van Wolvega, Friesland. Bekijk het verblijf, de omgeving en boek direct uw verblijf.">
@@ -19,7 +19,7 @@
 
 <style>
 /* ============================================================
-   HET STUYVESANT HUYS — mobiele web-app
+   ’T STUYVESANT HUYS — mobiele web-app
    Ontwerp: diep groen · warm crème · messing · antraciet
    ============================================================ */
 
@@ -595,7 +595,7 @@ body{
   background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:13px;color:var(--ink)}
 .admin-gate input:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px rgba(193,160,100,.18)}
 .admin-tabs{display:flex;gap:6px;background:var(--cream-soft);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:22px}
-.admin-tab{flex:1;padding:10px 0;border-radius:9px;font-family:'Jost',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.admin-tab{flex:1;padding:10px 2px;border-radius:9px;font-family:'Jost',sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .admin-tab.active{background:var(--green-700);color:var(--on-green)}
 .adm-group{margin-bottom:24px}
 .adm-group h3{font-family:'Jost',sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass-deep);margin-bottom:12px}
@@ -605,6 +605,7 @@ body{
 .adm-actions{display:flex;flex-direction:column;gap:10px;margin-top:10px}
 .adm-json{width:100%;min-height:110px;font-family:'DejaVu Sans Mono',monospace;font-size:.72rem;line-height:1.5;color:var(--ink);
   background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px;resize:vertical;margin-top:10px}
+.field textarea.adm-doc{min-height:172px;font-size:.86rem;line-height:1.6}
 .adm-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(8px);background:var(--green-700);color:var(--on-green);
   font-size:.8rem;padding:11px 20px;border-radius:22px;box-shadow:0 8px 22px rgba(0,0,0,.28);opacity:0;transition:opacity .22s var(--ease),transform .22s var(--ease);pointer-events:none;z-index:70}
 .adm-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -762,7 +763,7 @@ function crestSVG(){
 }
 function crest(light){
   return `<div class="crest ${light?'light':''}">${crestSVG()}
-    <div class="cn">Het Stuyvesant Huys</div><div class="cs">Wolvega</div></div>`;
+    <div class="cn">’t Stuyvesant Huys</div><div class="cs">Wolvega</div></div>`;
 }
 /* landvlaggen voor de taalkiezer — inline SVG (betrouwbaar op elk toestel) */
 const FLAGS={
@@ -887,7 +888,7 @@ const TR={
   boek_verblijf_btn:{nl:"Boek verblijf",en:"Book stay",de:"Aufenthalt buchen"},
   veilig:{nl:"Veilig en eenvoudig boeken",en:"Safe and easy booking",de:"Sicher und einfach buchen"},
   bedankt:{nl:"Bedankt",en:"Thank you",de:"Danke"},
-  confirm_tekst:{nl:"Uw aanvraag is verstuurd naar Het Stuyvesant Huys. U ontvangt zo snel mogelijk een persoonlijke bevestiging per e-mail.",en:"Your request has been sent to Het Stuyvesant Huys. You will receive a personal confirmation by email as soon as possible.",de:"Ihre Anfrage wurde an Het Stuyvesant Huys gesendet. Sie erhalten so bald wie möglich eine persönliche Bestätigung per E-Mail."},
+  confirm_tekst:{nl:"Uw aanvraag is verstuurd naar ’t Stuyvesant Huys. U ontvangt zo snel mogelijk een persoonlijke bevestiging per e-mail.",en:"Your request has been sent to ’t Stuyvesant Huys. You will receive a personal confirmation by email as soon as possible.",de:"Ihre Anfrage wurde an ’t Stuyvesant Huys gesendet. Sie erhalten so bald wie möglich eine persönliche Bestätigung per E-Mail."},
   referentie:{nl:"Referentie",en:"Reference",de:"Referenz"},
   terug_home:{nl:"Terug naar home",en:"Back to home",de:"Zurück zur Startseite"},
   opnieuw_mail:{nl:"Aanvraag opnieuw per e-mail versturen",en:"Send request by email again",de:"Anfrage erneut per E-Mail senden"},
@@ -930,7 +931,55 @@ const DEFAULTS={
   address1:'Stuyvesantstraat 2',
   address2:'8471 GN Wolvega',
   instagram:'https://www.instagram.com/',
-  facebook:'https://www.facebook.com/'
+  facebook:'https://www.facebook.com/',
+  docs:{
+    huisregels:{
+      nl:`Fijn dat u bij ’t Stuyvesant Huys verblijft. Een paar afspraken houden het huys prettig voor iedereen:
+- Roken is niet toegestaan in het huys.
+- Huisdieren zijn helaas niet toegestaan.
+- Feesten en evenementen zijn niet toegestaan.
+- Inchecken vanaf 15:00 uur, uitchecken voor 11:00 uur.
+- Houd rekening met de rust van de buurt, zeker 's avonds en 's nachts.
+- Behandel het huys en de inrichting met zorg.
+> Vragen of iets nodig? Neem gerust contact met ons op — we helpen u graag.`,
+      en:`Welcome to ’t Stuyvesant Huys. A few simple agreements keep the house pleasant for everyone:
+- Smoking is not permitted inside the house.
+- Pets are unfortunately not allowed.
+- Parties and events are not permitted.
+- Check-in from 3:00 pm, check-out before 11:00 am.
+- Please respect the quiet of the neighbourhood, especially at night.
+- Treat the house and its furnishings with care.
+> Any questions or need anything? Feel free to contact us — we are happy to help.`,
+      de:`Willkommen im ’t Stuyvesant Huys. Ein paar Absprachen halten das Haus für alle angenehm:
+- Rauchen ist im Haus nicht gestattet.
+- Haustiere sind leider nicht erlaubt.
+- Feiern und Veranstaltungen sind nicht gestattet.
+- Check-in ab 15:00 Uhr, Check-out bis 11:00 Uhr.
+- Bitte achten Sie auf die Ruhe der Nachbarschaft, besonders nachts.
+- Behandeln Sie das Haus und die Einrichtung mit Sorgfalt.
+> Fragen oder Wünsche? Kontaktieren Sie uns gern — wir helfen Ihnen gerne.`
+    },
+    annulering:{
+      nl:`Wij hanteren heldere en redelijke annuleringsvoorwaarden:
+- Tot 14 dagen voor aankomst: kosteloos annuleren, volledige terugbetaling.
+- Van 14 tot 2 dagen voor aankomst: 50% van het totaalbedrag.
+- Binnen 48 uur voor aankomst of bij niet verschijnen: 100% van het totaalbedrag.
+- De datum wijzigen kan kosteloos in overleg, mits beschikbaar.
+> Twijfelt u of heeft u vragen over een annulering? Neem gerust contact met ons op — we denken graag met u mee.`,
+      en:`We apply clear and fair cancellation terms:
+- Up to 14 days before arrival: free cancellation, full refund.
+- From 14 to 2 days before arrival: 50% of the total amount.
+- Within 48 hours of arrival or no-show: 100% of the total amount.
+- Changing the dates is free of charge on request, subject to availability.
+> Unsure or have questions about a cancellation? Just get in touch — we are glad to help.`,
+      de:`Wir wenden klare und faire Stornobedingungen an:
+- Bis 14 Tage vor Anreise: kostenlose Stornierung, volle Rückerstattung.
+- Von 14 bis 2 Tage vor Anreise: 50% des Gesamtbetrags.
+- Innerhalb von 48 Stunden vor Anreise oder bei Nichterscheinen: 100% des Gesamtbetrags.
+- Eine Terminänderung ist auf Anfrage kostenlos möglich, sofern verfügbar.
+> Unsicher oder Fragen zu einer Stornierung? Melden Sie sich gern — wir denken gern mit.`
+    }
+  }
 };
 function cfgMerge(base,over){
   const o=JSON.parse(JSON.stringify(base));
@@ -1070,23 +1119,10 @@ const HOUSE=[
    Views
    ============================================================ */
 /* Documenten — huisregels & annuleringsvoorwaarden (bewerkbaar; bevestig uw eigen beleid) */
+/* Titels van de documenten; de teksten zelf staan (bewerkbaar) in CFG.docs */
 const DOCS={
-  huisregels:{
-    title:{nl:"Huisregels",en:"House rules",de:"Hausordnung"},
-    body:{
-      nl:`<p>Fijn dat u bij Het Stuyvesant Huys verblijft. Een paar afspraken houden het huys prettig voor iedereen:</p><ul><li>Roken is niet toegestaan in het huys.</li><li>Huisdieren zijn helaas niet toegestaan.</li><li>Feesten en evenementen zijn niet toegestaan.</li><li>Inchecken vanaf 15:00 uur, uitchecken voor 11:00 uur.</li><li>Houd rekening met de rust van de buurt, zeker 's avonds en 's nachts.</li><li>Behandel het huys en de inrichting met zorg.</li></ul><p class="doc-note">Vragen of iets nodig? Neem gerust contact met ons op — we helpen u graag.</p>`,
-      en:`<p>Welcome to Het Stuyvesant Huys. A few simple agreements keep the house pleasant for everyone:</p><ul><li>Smoking is not permitted inside the house.</li><li>Pets are unfortunately not allowed.</li><li>Parties and events are not permitted.</li><li>Check-in from 3:00 pm, check-out before 11:00 am.</li><li>Please respect the quiet of the neighbourhood, especially at night.</li><li>Treat the house and its furnishings with care.</li></ul><p class="doc-note">Any questions or need anything? Feel free to contact us — we are happy to help.</p>`,
-      de:`<p>Willkommen im Het Stuyvesant Huys. Ein paar Absprachen halten das Haus für alle angenehm:</p><ul><li>Rauchen ist im Haus nicht gestattet.</li><li>Haustiere sind leider nicht erlaubt.</li><li>Feiern und Veranstaltungen sind nicht gestattet.</li><li>Check-in ab 15:00 Uhr, Check-out bis 11:00 Uhr.</li><li>Bitte achten Sie auf die Ruhe der Nachbarschaft, besonders nachts.</li><li>Behandeln Sie das Haus und die Einrichtung mit Sorgfalt.</li></ul><p class="doc-note">Fragen oder Wünsche? Kontaktieren Sie uns gern — wir helfen Ihnen gerne.</p>`
-    }
-  },
-  annulering:{
-    title:{nl:"Annuleringsvoorwaarden",en:"Cancellation terms",de:"Stornobedingungen"},
-    body:{
-      nl:`<p>Wij hanteren heldere en redelijke annuleringsvoorwaarden:</p><ul><li>Tot 14 dagen voor aankomst: kosteloos annuleren, volledige terugbetaling.</li><li>Van 14 tot 2 dagen voor aankomst: 50% van het totaalbedrag.</li><li>Binnen 48 uur voor aankomst of bij niet verschijnen: 100% van het totaalbedrag.</li><li>De datum wijzigen kan kosteloos in overleg, mits beschikbaar.</li></ul><p class="doc-note">Twijfelt u of heeft u vragen over een annulering? Neem gerust contact met ons op — we denken graag met u mee.</p>`,
-      en:`<p>We apply clear and fair cancellation terms:</p><ul><li>Up to 14 days before arrival: free cancellation, full refund.</li><li>From 14 to 2 days before arrival: 50% of the total amount.</li><li>Within 48 hours of arrival or no-show: 100% of the total amount.</li><li>Changing the dates is free of charge on request, subject to availability.</li></ul><p class="doc-note">Unsure or have questions about a cancellation? Just get in touch — we are glad to help.</p>`,
-      de:`<p>Wir wenden klare und faire Stornobedingungen an:</p><ul><li>Bis 14 Tage vor Anreise: kostenlose Stornierung, volle Rückerstattung.</li><li>Von 14 bis 2 Tage vor Anreise: 50% des Gesamtbetrags.</li><li>Innerhalb von 48 Stunden vor Anreise oder bei Nichterscheinen: 100% des Gesamtbetrags.</li><li>Eine Terminänderung ist auf Anfrage kostenlos möglich, sofern verfügbar.</li></ul><p class="doc-note">Unsicher oder Fragen zu einer Stornierung? Melden Sie sich gern — wir denken gern mit.</p>`
-    }
-  }
+  huisregels:{ title:{nl:"Huisregels",en:"House rules",de:"Hausordnung"} },
+  annulering:{ title:{nl:"Annuleringsvoorwaarden",en:"Cancellation terms",de:"Stornobedingungen"} }
 };
 
 const views={};
@@ -1097,7 +1133,7 @@ views.home=()=>`
     ${heroTop()}
     <div class="home-welcome">
       <div class="eyebrow on-dark">${t('welkom')}</div>
-      <h1>Het Stuyvesant Huys</h1>
+      <h1>’t Stuyvesant Huys</h1>
       <p>${t('home_sub')}</p>
     </div>
   </section>
@@ -1232,22 +1268,15 @@ views.informatie=()=>`
     </div>
     <div class="house">
       <div class="info-block faq-intro">
-        <span class="info-badge">${svg('book')}</span>
+        <span class="info-badge">${svg('doc')}</span>
         <div class="info-body">
-          <div class="info-title">${t('huis_titel')}</div>
-          <p class="faq-sub">${t('huis_sub')}</p>
+          <div class="info-title">${t('terms_titel')}</div>
+          <p class="faq-sub">${t('terms_sub')}</p>
         </div>
       </div>
-      <div class="house-list">
-        ${HOUSE.map(h=>`
-          <div class="house-item">
-            <button class="house-q" aria-expanded="false">
-              <span class="house-badge">${svg(h.icon)}</span>
-              <span class="house-title">${L(h.title)}</span>
-              <span class="house-chev">${svg('chev')}</span>
-            </button>
-            <div class="house-a"><p>${L(h.text)}</p></div>
-          </div>`).join('')}
+      <div class="terms-list">
+        <button type="button" class="terms-link" data-doc="huisregels"><span class="tl-ic">${svg('rules')}</span><span class="tl-name">${L(DOCS.huisregels.title)}</span><span class="tl-chev">${svg('chev')}</span></button>
+        <button type="button" class="terms-link" data-doc="annulering"><span class="tl-ic">${svg('doc')}</span><span class="tl-name">${L(DOCS.annulering.title)}</span><span class="tl-chev">${svg('chev')}</span></button>
       </div>
     </div>
     <div class="faq">
@@ -1264,19 +1293,6 @@ views.informatie=()=>`
             <button class="faq-q" aria-expanded="false"><span>${L(f.q)}</span><span class="faq-chev">${svg('chev')}</span></button>
             <div class="faq-a"><p>${L(f.a)}</p></div>
           </div>`).join('')}
-      </div>
-    </div>
-    <div class="house">
-      <div class="info-block faq-intro">
-        <span class="info-badge">${svg('doc')}</span>
-        <div class="info-body">
-          <div class="info-title">${t('terms_titel')}</div>
-          <p class="faq-sub">${t('terms_sub')}</p>
-        </div>
-      </div>
-      <div class="terms-list">
-        <button type="button" class="terms-link" data-doc="huisregels"><span class="tl-ic">${svg('rules')}</span><span class="tl-name">${L(DOCS.huisregels.title)}</span><span class="tl-chev">${svg('chev')}</span></button>
-        <button type="button" class="terms-link" data-doc="annulering"><span class="tl-ic">${svg('doc')}</span><span class="tl-name">${L(DOCS.annulering.title)}</span><span class="tl-chev">${svg('chev')}</span></button>
       </div>
     </div>
     <div class="sheet-cta">
@@ -1384,7 +1400,7 @@ function bkStep1(){
     <div class="prod-card">
       <div class="prod-thumb"></div>
       <div class="prod-info">
-        <div class="prod-name">Het Stuyvesant Huys</div>
+        <div class="prod-name">’t Stuyvesant Huys</div>
         <div class="prod-meta">${t('prod_meta')}</div>
         <div class="prod-price"><b>€${CFG.price.night}</b> ${t('per_nacht')}</div>
       </div>
@@ -1432,7 +1448,7 @@ function bkStep3(){
   return `
     <div class="bk-section-title">${t('step_overzicht')}</div>
     <div class="ov-card">
-      <div class="ov-name">Het Stuyvesant Huys</div>
+      <div class="ov-name">’t Stuyvesant Huys</div>
       <div class="ov-sub">Wolvega, Friesland</div>
       <div class="ov-row"><span class="k">${t('aankomst')}</span><span class="v">${fmt(booking.arrival,true)}</span></div>
       <div class="ov-row"><span class="k">${t('vertrek')}</span><span class="v">${fmt(booking.departure,true)}</span></div>
@@ -1527,7 +1543,7 @@ function bkConfirm(){
 }
 function bkSendMail(){
   const {n,total}=bkPrice(),d=booking.details;
-  const subj=`${t('mail_subject')} ${booking.ref} — Het Stuyvesant Huys`;
+  const subj=`${t('mail_subject')} ${booking.ref} — ’t Stuyvesant Huys`;
   const body=`${t('mail_intro')}\n\n${t('referentie')}: ${booking.ref}\n${t('aankomst')}: ${fmt(booking.arrival,true)}\n${t('vertrek')}: ${fmt(booking.departure,true)}\n${cap(t('night_n'))}: ${n}\n${t('gasten')}: ${booking.guests}\n${t('totaal')}: €${total}\n\n${t('naam')}: ${d.naam}\n${t('email')}: ${d.email}\n${t('telefoon')}: ${d.telefoon}\n${t('bijzonderheden')}: ${d.opmerking||'-'}\n`;
   window.location.href='mailto:'+encodeURIComponent(CFG.email)+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 }
@@ -1547,7 +1563,7 @@ function renderChrome(){
   document.getElementById('menuNav').innerHTML=NAV.map((n,i)=>
     `<a data-go="${n.id}"><span class="mn-num">0${i+1}</span>${t(n.key)}</a>`).join('');
   document.getElementById('menuCrest').innerHTML=crestSVG()+
-    '<div class="cn">Het Stuyvesant Huys</div><div class="cs">Wolvega</div>';
+    '<div class="cn">’t Stuyvesant Huys</div><div class="cs">Wolvega</div>';
   document.getElementById('abBack').innerHTML=svg('back');
   const abT=document.getElementById('abTitle'); if(abT) abT.textContent=t('ab_title');
   document.querySelector('.menu-close').innerHTML=svg('close');
@@ -1644,9 +1660,10 @@ function renderAdmin(){
   inner.innerHTML=`
     <div class="admin-tabs">
       <button class="admin-tab${adminTab==='settings'?' active':''}" data-admtab="settings">Instellingen</button>
+      <button class="admin-tab${adminTab==='docs'?' active':''}" data-admtab="docs">Voorwaarden</button>
       <button class="admin-tab${adminTab==='stats'?' active':''}" data-admtab="stats">Statistieken</button>
     </div>
-    <div id="admContent">${adminTab==='settings'?adminSettingsHTML():adminStatsHTML()}</div>`;
+    <div id="admContent">${adminTab==='settings'?adminSettingsHTML():adminTab==='docs'?adminDocsHTML():adminStatsHTML()}</div>`;
 }
 function admF(id,label,val,type){return `<div class="field"><label for="${id}">${label}</label><input id="${id}" type="${type||'text'}" value="${esc(val)}"></div>`;}
 function adminSettingsHTML(){
@@ -1691,6 +1708,7 @@ function adminSave(){
     address1:g('cfg-addr1').value.trim(), address2:g('cfg-addr2').value.trim(),
     instagram:g('cfg-insta').value.trim(), facebook:g('cfg-fb').value.trim()
   };
+  nv.docs=CFG.docs; /* bewaar eventueel bewerkte voorwaarden-teksten */
   CFG=cfgMerge(DEFAULTS,nv);
   try{localStorage.setItem('hsh-cfg',JSON.stringify(CFG));}catch(e){}
   renderChrome(); view.innerHTML=views[current](); fitView(); renderAdmin();
@@ -1742,12 +1760,34 @@ function adminStatsHTML(){
     <p class="stat-note">Deze cijfers worden alleen op <b>dit apparaat</b> bijgehouden — cookieloos en zonder externe verzoeken (privacyvriendelijk). Voor cijfers over álle bezoekers koppelen we later een privacy-vriendelijke dienst (bijv. Plausible). Sinds ${esc(STATS.since)}.</p>`;
 }
 function adminClearStats(){ STATS=cfgMerge(STAT_DEF,null); STATS.since=new Date().toISOString().slice(0,10); statsSave(); renderAdmin(); adminToast('Statistieken gewist'); }
+function adminDocsHTML(){
+  const langs=[['nl','Nederlands'],['en','English'],['de','Deutsch']];
+  const block=key=>{const d=(CFG.docs&&CFG.docs[key])||{};
+    return `<div class="adm-group"><h3>${esc(L(DOCS[key].title))}</h3>`+
+      langs.map(([lc,ln])=>`<div class="field"><label for="doc-${key}-${lc}">${ln}</label><textarea class="adm-doc" id="doc-${key}-${lc}">${esc(d[lc]||'')}</textarea></div>`).join('')+`</div>`;};
+  return `<p class="adm-hint" style="margin-top:0">Bewerk de teksten per taal. Begin een regel met <b>-</b> voor een opsommingspunt en met <b>&gt;</b> voor een cursieve slotregel; een lege regel begint een nieuwe alinea.</p>
+    ${block('huisregels')}${block('annulering')}
+    <div class="adm-actions">
+      <button class="btn btn-green" id="admDocsSave">Opslaan (dit apparaat)</button>
+      <button class="btn btn-ghost" id="admExport">Download settings.json</button>
+    </div>
+    <p class="adm-hint" style="margin-top:14px">Zet daarna <b>settings.json</b> op je hosting om de teksten voor álle gasten live te maken (of kopieer onderstaande inhoud).</p>
+    <textarea class="adm-json" id="admJson" readonly aria-label="settings.json">${esc(JSON.stringify(exportCfg(),null,2))}</textarea>`;
+}
+function adminDocsSave(){
+  const g=id=>document.getElementById(id);
+  if(!CFG.docs)CFG.docs={};
+  ['huisregels','annulering'].forEach(key=>{ if(!CFG.docs[key])CFG.docs[key]={}; ['nl','en','de'].forEach(lc=>{ const el=g('doc-'+key+'-'+lc); if(el)CFG.docs[key][lc]=el.value; }); });
+  try{localStorage.setItem('hsh-cfg',JSON.stringify(CFG));}catch(e){}
+  renderAdmin(); adminToast('Voorwaarden opgeslagen op dit apparaat');
+}
 if(adminEl){
   adminEl.addEventListener('click',e=>{
     if(e.target.closest('[data-admin-close]')){closeAdmin();return;}
     if(e.target.closest('#admUnlock')){adminTryUnlock();return;}
     const tab=e.target.closest('[data-admtab]'); if(tab){adminTab=tab.dataset.admtab;renderAdmin();return;}
     if(e.target.closest('#admSave')){adminSave();return;}
+    if(e.target.closest('#admDocsSave')){adminDocsSave();return;}
     if(e.target.closest('#admExport')){adminExport();return;}
     if(e.target.closest('#admReset')){adminReset();return;}
     if(e.target.closest('#admPinSave')){adminSavePin();return;}
@@ -1759,11 +1799,26 @@ function checkAdminHash(){ try{ if(location.hash==='#beheer') openAdmin(); }catc
 window.addEventListener('hashchange',checkAdminHash);
 
 /* ---- Documenten (huisregels / annuleringsvoorwaarden) ---- */
+/* Zet de bewerkbare platte tekst om naar nette leesopmaak:
+   "- " = opsommingspunt · "> " = cursieve slotregel · lege regel = nieuwe alinea */
+function docRender(txt){
+  const lines=String(txt==null?'':txt).replace(/\r/g,'').split('\n');
+  let html='', list=[];
+  const flush=()=>{ if(list.length){ html+='<ul>'+list.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>'; list=[]; } };
+  lines.forEach(raw=>{ const line=raw.trim();
+    if(!line){ flush(); return; }
+    if(line.slice(0,2)==='- '){ list.push(line.slice(2).trim()); }
+    else if(line.slice(0,2)==='> '){ flush(); html+=`<p class="doc-note">${esc(line.slice(2).trim())}</p>`; }
+    else { flush(); html+=`<p>${esc(line)}</p>`; }
+  });
+  flush(); return html;
+}
 function openDoc(key){
-  const el=document.getElementById('doc'); if(!el||!DOCS[key])return;
-  document.getElementById('docTitle').textContent=L(DOCS[key].title);
+  const el=document.getElementById('doc'); if(!el||!CFG.docs||!CFG.docs[key])return;
+  const d=CFG.docs[key];
+  document.getElementById('docTitle').textContent=DOCS[key]?L(DOCS[key].title):'';
   const b=document.getElementById('docBody');
-  b.innerHTML=`<div class="doc-sub">Het Stuyvesant Huys · Wolvega</div>${L(DOCS[key].body)}`;
+  b.innerHTML=`<div class="doc-sub">’t Stuyvesant Huys · Wolvega</div>${docRender(d[LANG]||d.nl||'')}`;
   b.scrollTop=0; el.hidden=false;
 }
 function closeDoc(){ const el=document.getElementById('doc'); if(el)el.hidden=true; }

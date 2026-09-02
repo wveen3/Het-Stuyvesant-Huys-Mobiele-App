@@ -1,6 +1,6 @@
-# Het Stuyvesant Huys — mobiele web-app (PWA)
+# ’t Stuyvesant Huys — mobiele web-app (PWA)
 
-Sfeervolle mobiele web-app voor gastenverblijf **Het Stuyvesant Huys** in Wolvega, Friesland.
+Sfeervolle mobiele web-app voor gastenverblijf **’t Stuyvesant Huys** in Wolvega, Friesland.
 Pagina's: Home · Verblijf · Omgeving · Informatie · Contact, plus een boekingsflow in vier stappen.
 
 ## Bestanden
@@ -25,12 +25,12 @@ Daarna kunnen bezoekers de site niet alleen bekijken, maar ook **installeren** (
 
 > Let op: PWA-functies (installeren, offline, service worker) werken alleen op de échte, via HTTPS geserveerde site — niet in een losse voorbeeldweergave.
 
-## Zelf inhoud aanpassen (in `index.html`)
+## Zelf inhoud aanpassen
 
-- **Prijs & kosten** — zoek naar `const PRICE=` (prijs per nacht, schoonmaak- en servicekosten).
-- **Max. aantal gasten** — zoek naar `MAX_GUESTS`.
-- **Contactgegevens** — zoek naar `views.contact` (adres, telefoon, e-mail, website).
-- **Social media links** — zoek naar `instagram.com` / `facebook.com` en vul je eigen profiel-URL's in.
+**Zonder code — via het beheerscherm** (zie hieronder): tarieven, max. aantal gasten, contactgegevens, social-links én de teksten van de huisregels en annuleringsvoorwaarden.
+
+**In `index.html`** (voor de overige inhoud):
+- **Standaard-instellingen** — zoek naar `const DEFAULTS=` (prijs, kosten, max. gasten, contact, social, en de standaardteksten van de voorwaarden). Het beheerscherm bewerkt deze waarden; de code houdt de standaard aan.
 - **Omgeving-teksten** — zoek naar `const AREA=`.
 - **Kamers (Verblijf)** — zoek naar `const STAY=`.
 - **Informatie & FAQ** — zoek naar `const INFO=` en `const FAQ=`.
@@ -49,6 +49,7 @@ Vertalingen aanpassen in `index.html`:
 Open het **beheerscherm** door **5× op het H·S-embleem** bovenaan te tikken, of ga op je eigen domein naar `.../#beheer`. Het is beveiligd met een **pincode** (standaard `1592` — wijzig deze in het scherm).
 
 - **Instellingen** — pas tarieven, max. aantal gasten, contactgegevens en social-links aan zonder code. "Opslaan" geldt meteen op dít apparaat; met **Download settings.json** krijg je een klein bestand dat je in de hoofdmap van je hosting zet om de wijziging voor álle gasten live te maken (of kopieer de getoonde inhoud).
+- **Voorwaarden** — bewerk de teksten van de **huisregels** en **annuleringsvoorwaarden** per taal (NL / EN / DE). Begin een regel met `-` voor een opsommingspunt en met `>` voor een cursieve slotregel; een lege regel begint een nieuwe alinea. Ook deze teksten komen mee in **settings.json** voor alle gasten.
 - **Statistieken** — privacyvriendelijk en cookieloos: paginaweergaven, taalkeuze, boekingsverloop en contactberichten. De cijfers worden alleen op dít apparaat bijgehouden (ideaal voor bijv. een vaste huis-tablet). Voor cijfers over álle bezoekers kan later een privacy-vriendelijke dienst (Plausible/GoatCounter) worden gekoppeld.
 
 Als `settings.json` op de hosting staat, overschrijft dat de standaardwaarden; instellingen die je op je eigen apparaat opslaat, winnen tijdens het bewerken.
@@ -59,4 +60,4 @@ Boeken werkt nu als **aanvraag**: bij "Boek verblijf" opent het mailprogramma me
 
 ## Een nieuwe versie uitrollen
 
-Pas `index.html` aan en verhoog in `sw.js` de regel `const CACHE = 'hsh-v1'` (bijv. naar `hsh-v2`), zodat bezoekers de nieuwe versie zeker binnenkrijgen.
+Pas `index.html` aan en verhoog in `sw.js` de regel `const CACHE = 'hsh-v4'` (bijv. naar `hsh-v5`), zodat bezoekers de nieuwe versie zeker binnenkrijgen.
