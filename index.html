@@ -1,14 +1,14 @@
 <title>’t Stuyvesant Huys</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2e3a2a">
-<meta name="description" content="Sfeervol gastenverblijf in het hart van Wolvega, Friesland. Bekijk het verblijf, de omgeving en boek direct uw verblijf.">
+<meta name="description" content="Sfeervol, geheel privé gastenverblijf in Wolvega, Friesland — met tuin, WiFi en e-bikelaadpunt, dicht bij natuur en UNESCO-werelderfgoed. Vraag uw verblijf direct aan.">
 
 <!-- Vindbaarheid & delen — pas de domeinnaam (stuyvesanthuys.app) aan naar je eigen .app-domein -->
 <link rel="canonical" href="https://stuyvesanthuys.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="’t Stuyvesant Huys">
 <meta property="og:title" content="’t Stuyvesant Huys — sfeervol gastenverblijf in Wolvega">
-<meta property="og:description" content="Sfeervol gastenverblijf in het hart van Wolvega, Friesland. Bekijk het verblijf, de omgeving en boek direct uw verblijf.">
+<meta property="og:description" content="Geheel privé gastenverblijf in Wolvega, Friesland — met tuin, vlak bij natuur en UNESCO-werelderfgoed. Vraag uw verblijf direct aan.">
 <meta property="og:url" content="https://stuyvesanthuys.app/">
 <meta property="og:image" content="https://stuyvesanthuys.app/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
 <meta property="og:locale:alternate" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="’t Stuyvesant Huys — sfeervol gastenverblijf in Wolvega">
-<meta name="twitter:description" content="Sfeervol gastenverblijf in het hart van Wolvega, Friesland. Boek direct uw verblijf.">
+<meta name="twitter:description" content="Geheel privé gastenverblijf in Wolvega, Friesland. Vraag uw verblijf direct aan.">
 <meta name="twitter:image" content="https://stuyvesanthuys.app/og-image.png">
 <script type="application/ld+json">
 {
@@ -856,7 +856,7 @@ const FLAGS={
 };
 function langFlags(){
   return `<div class="hero-lang" role="group" aria-label="${t('taal')}">`+LANGS.map(l=>
-    `<button class="flag-btn${l===LANG?' active':''}" data-lang="${l}" aria-label="${l.toUpperCase()}" aria-pressed="${l===LANG?'true':'false'}">${FLAGS[l]}</button>`
+    `<button class="flag-btn${l===LANG?' active':''}" data-lang="${l}" aria-label="${LANG_NAMES[l]}" aria-pressed="${l===LANG?'true':'false'}">${FLAGS[l]}</button>`
   ).join('')+`</div>`;
 }
 /* overlaid hero controls (hamburger + crest + taalvlaggen) */
@@ -872,6 +872,7 @@ function heroTop(){
    Talen (NL / EN / DE) + datum-helpers
    ============================================================ */
 const LANGS=['nl','en','de'];
+const LANG_NAMES={nl:'Nederlands',en:'English',de:'Deutsch'};
 let LANG='nl';
 try{const _s=localStorage.getItem('hsh-lang');
   if(_s&&LANGS.includes(_s))LANG=_s;
@@ -927,13 +928,13 @@ const TR={
   omgeving_titel:{nl:"De omgeving",en:"The area",de:"Die Umgebung"},
   omgeving_sub:{nl:"Ontdek de natuur, cultuur en gezellige plekken rondom Wolvega.",en:"Discover the nature, culture and inviting spots around Wolvega.",de:"Entdecken Sie Natur, Kultur und gemütliche Orte rund um Wolvega."},
   tips_titel:{nl:"Routes & tips",en:"Routes & tips",de:"Routen & Tipps"},
-  tips_tekst:{nl:"In het huysboek vindt u onze favoriete wandel- en fietsroutes en tips voor de omgeving.",en:"In the house book you will find our favourite walking and cycling routes and local tips.",de:"Im Hausbuch finden Sie unsere liebsten Wander- und Radrouten sowie Tipps für die Umgebung."},
+  tips_tekst:{nl:"Vraag ons gerust naar onze favoriete wandel- en fietsroutes en tips voor de omgeving — we denken graag met u mee.",en:"Just ask us for our favourite walking and cycling routes and local tips — we are happy to help you plan.",de:"Fragen Sie uns gern nach unseren liebsten Wander- und Radrouten und Tipps für die Umgebung — wir helfen Ihnen gern bei der Planung."},
   info_titel:{nl:"Praktische informatie",en:"Practical information",de:"Praktische Informationen"},
   info_sub:{nl:"Alles wat u moet weten voor een zorgeloos verblijf.",en:"Everything you need for a carefree stay.",de:"Alles, was Sie für einen sorglosen Aufenthalt wissen müssen."},
   huis_titel:{nl:"Huisinstructies",en:"House manual",de:"Hausanleitung"},
   huis_sub:{nl:"Zo werkt alles in huis — tik een onderwerp open.",en:"How everything works in the house — tap a topic to open.",de:"So funktioniert alles im Haus — tippen Sie ein Thema an."},
   faq_titel:{nl:"Veelgestelde vragen",en:"Frequently asked questions",de:"Häufig gestellte Fragen"},
-  faq_sub:{nl:"Bekijk de antwoorden op veelgestelde vragen.",en:"See the answers to common questions.",de:"Antworten auf häufige Fragen."},
+  faq_sub:{nl:"Snel antwoord op wat gasten het vaakst vragen.",en:"Quick answers to what guests ask most.",de:"Schnelle Antworten auf die häufigsten Gastfragen."},
   info_cta:{nl:"Nog een vraag? Neem contact op",en:"Another question? Get in touch",de:"Noch eine Frage? Kontaktieren Sie uns"},
   contact_titel:{nl:"Contact",en:"Contact",de:"Kontakt"},
   contact_sub:{nl:"We staan voor u klaar.",en:"We are here for you.",de:"Wir sind für Sie da."},
@@ -953,7 +954,7 @@ const TR={
   step_overzicht:{nl:"Overzicht",en:"Summary",de:"Übersicht"},
   step_bevestiging:{nl:"Bevestiging",en:"Confirmation",de:"Bestätigung"},
   ab_title:{nl:"Boek uw verblijf",en:"Book your stay",de:"Aufenthalt buchen"},
-  prod_meta:{nl:"Gastenverblijf voor 2 personen · Wolvega, Friesland",en:"Guest accommodation for 2 · Wolvega, Friesland",de:"Gästeunterkunft für 2 Personen · Wolvega, Friesland"},
+  prod_for:{nl:"Gastenverblijf voor",en:"Guest accommodation for",de:"Gästeunterkunft für"},
   per_nacht:{nl:"per nacht",en:"per night",de:"pro Nacht"},
   sel_data:{nl:"Selecteer uw data",en:"Select your dates",de:"Wählen Sie Ihre Termine"},
   aantal_gasten:{nl:"Aantal gasten",en:"Number of guests",de:"Anzahl der Gäste"},
@@ -971,10 +972,10 @@ const TR={
   boek_verblijf_btn:{nl:"Boek verblijf",en:"Book stay",de:"Aufenthalt buchen"},
   veilig:{nl:"Veilig en eenvoudig boeken",en:"Safe and easy booking",de:"Sicher und einfach buchen"},
   bedankt:{nl:"Bedankt",en:"Thank you",de:"Danke"},
-  confirm_tekst:{nl:"Uw aanvraag is verstuurd naar ’t Stuyvesant Huys. U ontvangt zo snel mogelijk een persoonlijke bevestiging per e-mail.",en:"Your request has been sent to ’t Stuyvesant Huys. You will receive a personal confirmation by email as soon as possible.",de:"Ihre Anfrage wurde an ’t Stuyvesant Huys gesendet. Sie erhalten so bald wie möglich eine persönliche Bestätigung per E-Mail."},
+  confirm_tekst:{nl:"Uw aanvraag staat klaar in uw mailprogramma. Controleer de gegevens en druk op verzenden — daarna ontvangt u zo snel mogelijk een persoonlijke bevestiging.",en:"Your request is ready in your email app. Check the details and press send — you will then receive a personal confirmation as soon as possible.",de:"Ihre Anfrage ist in Ihrem E-Mail-Programm vorbereitet. Prüfen Sie die Angaben und senden Sie ab — Sie erhalten dann so bald wie möglich eine persönliche Bestätigung."},
   referentie:{nl:"Referentie",en:"Reference",de:"Referenz"},
   terug_home:{nl:"Terug naar home",en:"Back to home",de:"Zurück zur Startseite"},
-  opnieuw_mail:{nl:"Aanvraag opnieuw per e-mail versturen",en:"Send request by email again",de:"Anfrage erneut per E-Mail senden"},
+  opnieuw_mail:{nl:"Aanvraag opnieuw in e-mail openen",en:"Open the request in email again",de:"Anfrage erneut per E-Mail öffnen"},
   cal_select:{nl:"Selecteer uw aankomst- en vertrekdatum",en:"Select your arrival and departure date",de:"Wählen Sie Anreise- und Abreisedatum"},
   cal_arrival_tail:{nl:"— kies nu uw vertrekdatum",en:"— now choose your departure date",de:"— wählen Sie nun Ihr Abreisedatum"},
   val_msg:{nl:"Vul uw naam, een geldig e-mailadres en telefoonnummer in.",en:"Please enter your name, a valid email and a phone number.",de:"Bitte geben Sie Namen, gültige E-Mail und Telefonnummer ein."},
@@ -1617,7 +1618,7 @@ function bkStep1(){
       <div class="prod-thumb"></div>
       <div class="prod-info">
         <div class="prod-name">’t Stuyvesant Huys</div>
-        <div class="prod-meta">${t('prod_meta')}</div>
+        <div class="prod-meta">${t('prod_for')} ${CFG.maxGuests} ${CFG.maxGuests===1?t('guest_1'):t('guest_n')} · Wolvega, Friesland</div>
         <div class="prod-price">${priceLabel}</div>
       </div>
     </div>
