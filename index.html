@@ -3,6 +3,55 @@
 <meta name="theme-color" content="#2e3a2a">
 <meta name="description" content="Sfeervol gastenverblijf in het hart van Wolvega, Friesland. Bekijk het verblijf, de omgeving en boek direct uw verblijf.">
 
+<!-- Vindbaarheid & delen — pas de domeinnaam (stuyvesanthuys.app) aan naar je eigen .app-domein -->
+<link rel="canonical" href="https://stuyvesanthuys.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="’t Stuyvesant Huys">
+<meta property="og:title" content="’t Stuyvesant Huys — sfeervol gastenverblijf in Wolvega">
+<meta property="og:description" content="Sfeervol gastenverblijf in het hart van Wolvega, Friesland. Bekijk het verblijf, de omgeving en boek direct uw verblijf.">
+<meta property="og:url" content="https://stuyvesanthuys.app/">
+<meta property="og:image" content="https://stuyvesanthuys.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="’t Stuyvesant Huys — Wolvega">
+<meta property="og:locale" content="nl_NL">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:locale:alternate" content="de_DE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="’t Stuyvesant Huys — sfeervol gastenverblijf in Wolvega">
+<meta name="twitter:description" content="Sfeervol gastenverblijf in het hart van Wolvega, Friesland. Boek direct uw verblijf.">
+<meta name="twitter:image" content="https://stuyvesanthuys.app/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BedAndBreakfast",
+  "name": "’t Stuyvesant Huys",
+  "description": "Sfeervol gastenverblijf in het hart van Wolvega, Friesland.",
+  "url": "https://stuyvesanthuys.app/",
+  "image": "https://stuyvesanthuys.app/og-image.png",
+  "priceRange": "€€",
+  "currenciesAccepted": "EUR",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Willem Lodewijkstraat 17",
+    "addressLocality": "Wolvega",
+    "addressRegion": "Friesland",
+    "addressCountry": "NL"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 52.8767, "longitude": 5.9944 },
+  "knowsLanguage": ["nl", "en", "de"],
+  "petsAllowed": false,
+  "smokingAllowed": false,
+  "numberOfRooms": 1,
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "Gratis WiFi", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Gratis parkeren", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Privétuin", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "E-bike oplaadpunt", "value": true }
+  ]
+}
+</script>
+
 <!-- PWA -->
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -46,13 +95,13 @@ a{color:inherit;text-decoration:none}
   --line-soft:#ece4d4;
 
   --brass:#c1a064;       /* messing accent + CTA */
-  --brass-deep:#a5824a;
+  --brass-deep:#7f6230;  /* messing tekst-accent (AA op crème) */
   --brass-soft:#d9c39c;
 
   --ink:#20221b;         /* antraciet text */
   --wood:#5a4632;
-  --muted:#797660;       /* secondary text (warm greige) */
-  --muted-soft:#98957c;
+  --muted:#6a6750;       /* secondary text (warm greige, AA op crème) */
+  --muted-soft:#7c775f;
 
   --on-green:#ece5d3;         /* text on green */
   --on-green-soft:#aab19a;    /* muted text on green */
@@ -284,10 +333,16 @@ body{
 .over .eyebrow{margin-bottom:18px}
 .over-row{display:flex;gap:18px;align-items:flex-start}
 .mini-map{
-  flex:0 0 88px;height:104px;border-radius:var(--r-sm);overflow:hidden;
-  background:linear-gradient(150deg,#e9e0cb,#ddd2b6);position:relative;
-  box-shadow:var(--shadow-card);border:1px solid var(--line)
+  flex:0 0 88px;height:104px;border-radius:var(--r-sm);overflow:hidden;display:block;
+  background:linear-gradient(150deg,#e9e0cb,#ddd2b6);position:relative;cursor:pointer;
+  box-shadow:var(--shadow-card);border:1px solid var(--line);
+  transition:box-shadow .2s var(--ease),transform .12s var(--ease)
 }
+.mini-map:hover{box-shadow:0 10px 26px rgba(26,32,22,.16);transform:translateY(-1px)}
+.mini-map:active{transform:translateY(0)}
+.mini-map-label{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:5px 6px;
+  font-family:'Jost',sans-serif;font-weight:600;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--cream-100);background:linear-gradient(0deg,rgba(24,29,21,.78),transparent);text-align:center}
 .mini-map::before{ /* faint streets */
   content:"";position:absolute;inset:0;opacity:.5;
   background:
@@ -311,6 +366,9 @@ body{
 .hero-omgeving .hero-media{background:radial-gradient(120% 100% at 50% 0%,rgba(150,170,150,.5),transparent 62%),linear-gradient(180deg,#6f7e5f,#41502f)}
 .hero-informatie .hero-media{background:radial-gradient(120% 100% at 60% 10%,rgba(190,170,120,.4),transparent 62%),linear-gradient(180deg,#4a4c38,#2b2f1f)}
 .hero-contact .hero-media{background:radial-gradient(120% 90% at 40% 120%,rgba(180,120,80,.35),transparent 60%),linear-gradient(180deg,#3a3a2c,#25271d)}
+.hero-huismap .hero-media{background:radial-gradient(120% 100% at 50% 8%,rgba(196,163,102,.42),transparent 60%),linear-gradient(180deg,#3c4a33,#232c1c)}
+.hm-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.hm-actions .btn{flex:1;min-width:132px;padding:13px 16px}
 .page-hero .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,20,13,.28),transparent 50%,rgba(16,20,13,.28))}
 
 .sheet{
@@ -430,6 +488,7 @@ body{
 .contact-badge{flex:0 0 auto;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
   background:var(--cream-soft);border:1px solid var(--line);color:var(--green-700)}
 .contact-badge svg{width:21px;height:21px;stroke-width:1.5}
+.contact-badge.contact-wa{background:#25d366;border-color:#1fb457;color:#fff}
 .contact-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .contact-label{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:500}
 .contact-value{font-family:'Cormorant Garamond',serif;font-size:1.18rem;font-weight:600;color:var(--ink);line-height:1.2}
@@ -501,6 +560,11 @@ body{
 .cal-cell.is-start,.cal-cell.is-end{background:var(--green-700);color:var(--on-green);font-weight:600}
 .cal-hint{margin-top:12px;font-size:.82rem;color:var(--muted);text-align:center;line-height:1.5}
 .cal-hint b{color:var(--green-700);font-weight:600}
+.cal-hint.cal-warn{color:#a5432c;font-weight:500}
+.cal-cell.is-blocked{color:var(--muted-soft);opacity:.55;text-decoration:line-through;text-decoration-thickness:1.5px}
+.cal-legend{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:8px;font-size:.74rem;color:var(--muted)}
+.cal-legend-dot{width:16px;height:2px;background:var(--muted-soft);border-radius:2px;flex:0 0 auto;transform:rotate(-8deg)}
+.price-note{font-size:.74rem;color:var(--muted);margin:-2px 0 4px;text-align:right}
 
 .counter{display:flex;align-items:center;justify-content:space-between;background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:6px}
 .cnt-btn{width:46px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.4rem;line-height:1;color:var(--green-700);background:var(--cream);transition:background .15s}
@@ -565,6 +629,14 @@ body{
 .menu-cta{margin-top:auto}
 .menu-install{margin-top:10px;background:transparent;border:1.5px solid var(--green-line);color:var(--on-green)}
 .menu-install:hover{background:rgba(255,255,255,.06)}
+.menu-wa{margin-top:10px;background:#25d366;color:#04361a}
+.menu-wa:hover{background:#2ee06f}
+.menu-wa svg{width:18px;height:18px;stroke-width:1.7}
+.menu-extra{display:flex;align-items:center;gap:12px;margin-top:16px;padding:12px 14px;border-radius:var(--r-sm);
+  background:var(--green-inset);border:1px solid var(--green-line);color:var(--on-green);
+  font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:600}
+.menu-extra:hover{background:rgba(255,255,255,.05)}
+.menu-extra svg{width:20px;height:20px;stroke-width:1.6;color:var(--brass-soft);flex:0 0 auto}
 .menu-lang{margin-top:24px}
 .ml-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--on-green-soft);margin-bottom:9px}
 .ml-seg{display:flex;gap:6px;background:var(--green-inset);border:1px solid var(--green-line);border-radius:12px;padding:4px}
@@ -594,8 +666,9 @@ body{
 .admin-gate input{font-family:'Jost',sans-serif;font-weight:600;font-size:1.4rem;letter-spacing:.4em;text-align:center;width:100%;
   background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:13px;color:var(--ink)}
 .admin-gate input:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px rgba(193,160,100,.18)}
-.admin-tabs{display:flex;gap:6px;background:var(--cream-soft);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:22px}
-.admin-tab{flex:1;padding:10px 2px;border-radius:9px;font-family:'Jost',sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.admin-tabs{display:flex;gap:6px;background:var(--cream-soft);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:22px;overflow-x:auto;scrollbar-width:none}
+.admin-tabs::-webkit-scrollbar{height:0}
+.admin-tab{flex:1 0 auto;padding:10px 12px;border-radius:9px;font-family:'Jost',sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .admin-tab.active{background:var(--green-700);color:var(--on-green)}
 .adm-group{margin-bottom:24px}
 .adm-group h3{font-family:'Jost',sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass-deep);margin-bottom:12px}
@@ -606,6 +679,13 @@ body{
 .adm-json{width:100%;min-height:110px;font-family:'DejaVu Sans Mono',monospace;font-size:.72rem;line-height:1.5;color:var(--ink);
   background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px;resize:vertical;margin-top:10px}
 .field textarea.adm-doc{min-height:172px;font-size:.86rem;line-height:1.6}
+.season-row{position:relative;background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 12px 2px;margin-bottom:10px}
+.season-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
+.season-grid .field:first-child{grid-column:1/-1;padding-right:34px}
+.season-row .field{margin-bottom:10px}
+.season-row .field input{font-size:.86rem;padding:9px 11px}
+.season-del{position:absolute;top:8px;right:8px;width:30px;height:30px;display:grid;place-items:center;color:#a5432c;border-radius:8px}
+.season-del svg{width:17px;height:17px;stroke-width:1.6}
 .adm-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(8px);background:var(--green-700);color:var(--on-green);
   font-size:.8rem;padding:11px 20px;border-radius:22px;box-shadow:0 8px 22px rgba(0,0,0,.28);opacity:0;transition:opacity .22s var(--ease),transform .22s var(--ease);pointer-events:none;z-index:70}
 .adm-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -661,13 +741,15 @@ body{
   <!-- slide-in menu -->
   <div class="menu" id="menu">
     <div class="menu-scrim" data-close></div>
-    <div class="menu-panel">
+    <div class="menu-panel" role="dialog" aria-modal="true" aria-label="Menu">
       <div class="crest light" id="menuCrest"></div>
       <button class="menu-close" data-close aria-label="Sluiten"></button>
       <nav class="menu-nav" id="menuNav"></nav>
+      <a class="menu-extra" id="menuHuismap" data-go="huismap"></a>
       <div class="menu-lang" id="menuLang"></div>
       <div class="menu-cta">
         <button class="btn btn-brass" id="menuBook" data-go="boeken">Boek nu</button>
+        <a class="btn menu-wa" id="menuWa" target="_blank" rel="noopener" hidden></a>
         <button class="btn menu-install" id="installBtn" hidden>App installeren</button>
       </div>
       <div class="menu-foot" id="menuFoot"></div>
@@ -677,7 +759,7 @@ body{
   <!-- leesweergave: huisregels / annuleringsvoorwaarden -->
   <div class="admin" id="doc" hidden>
     <div class="admin-scrim" data-doc-close></div>
-    <div class="admin-panel">
+    <div class="admin-panel" role="dialog" aria-modal="true" aria-labelledby="docTitle">
       <header class="admin-top">
         <span class="admin-title" id="docTitle"></span>
         <button class="admin-x" data-doc-close aria-label="Sluiten"></button>
@@ -689,7 +771,7 @@ body{
   <!-- beheerscherm (verborgen; open via #beheer) -->
   <div class="admin" id="admin" hidden>
     <div class="admin-scrim" data-admin-close></div>
-    <div class="admin-panel">
+    <div class="admin-panel" role="dialog" aria-modal="true" aria-label="Beheer">
       <header class="admin-top">
         <span class="admin-title">Beheer</span>
         <button class="admin-x" data-admin-close aria-label="Sluiten"></button>
@@ -710,6 +792,7 @@ const ICONS = {
   leaf:'<path d="M5 19c0-8 6-13.5 14-14.4C19 12 13.6 19 5 19Z"/><path d="M5 19C9 15.4 12 12.4 15.5 9.4"/>',
   info:'<circle cx="12" cy="12" r="8.4"/><path d="M12 11v5.2"/><circle cx="12" cy="7.9" r=".95" fill="currentColor" stroke="none"/>',
   phone:'<path d="M6.3 3.6c.9 0 1.5.4 1.9 1.3l.9 2.1c.3.7.1 1.3-.5 1.8l-1 .8c.8 1.8 2.1 3.1 3.9 3.9l.8-1c.5-.6 1.1-.8 1.8-.5l2.1.9c.9.4 1.3 1 1.3 1.9 0 2.2-1.9 3.5-4 3-5.9-1.3-10.4-5.8-11.7-11.7-.5-2.1.8-4 3-4 .1 0 .3 0 .3 0Z"/>',
+  whatsapp:'<path d="M20 11.6a7.9 7.9 0 0 1-11.8 6.9L4 19.6l1.2-4A7.9 7.9 0 1 1 20 11.6Z"/><path d="M9.2 8.5c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2s.9 2.3 1 2.4c.1.2 1.7 2.6 4 3.5 2 .8 2.4.6 2.8.6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3-1.4-.7c-.2-.1-.4-.1-.5.1l-.6.8c-.2.2-.3.2-.5.1-.8-.3-1.4-.7-2-1.6-.1-.2 0-.4.1-.5l.4-.5c.1-.1.1-.3 0-.5l-.6-1.5c-.2-.4-.4-.4-.5-.4Z" fill="currentColor" stroke="none"/>',
   bike:'<circle cx="6" cy="15.6" r="3.4"/><circle cx="18" cy="15.6" r="3.4"/><path d="M6 15.6 11 7.2h3.2"/><path d="m11 7.2 4 8.4"/><path d="M9.4 7.2H13"/>',
   pin:'<path d="M12 21s6.8-5.9 6.8-11A6.8 6.8 0 0 0 5.2 10c0 5.1 6.8 11 6.8 11Z"/><circle cx="12" cy="10" r="2.5"/>',
   arrow:'<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>',
@@ -915,7 +998,22 @@ const TR={
   guest_n:{nl:"personen",en:"guests",de:"Personen"},
   mail_intro:{nl:"Nieuwe boekingsaanvraag via de app",en:"New booking request via the app",de:"Neue Buchungsanfrage über die App"},
   mail_subject:{nl:"Boekingsaanvraag",en:"Booking request",de:"Buchungsanfrage"},
-  msg_subject:{nl:"Bericht via de app",en:"Message via the app",de:"Nachricht über die App"}
+  msg_subject:{nl:"Bericht via de app",en:"Message via the app",de:"Nachricht über die App"},
+  vanaf:{nl:"vanaf",en:"from",de:"ab"},
+  unavailable:{nl:"bezet",en:"booked",de:"belegt"},
+  min_stay_lead:{nl:"Minimaal verblijf:",en:"Minimum stay:",de:"Mindestaufenthalt:"},
+  occupied_legend:{nl:"Doorgestreepte datums zijn al bezet.",en:"Struck-through dates are already booked.",de:"Durchgestrichene Daten sind bereits belegt."},
+  overnachting:{nl:"Overnachting",en:"Accommodation",de:"Übernachtung"},
+  gem_prijs:{nl:"Gemiddeld",en:"Average",de:"Durchschnittlich"},
+  whatsapp:{nl:"WhatsApp",en:"WhatsApp",de:"WhatsApp"},
+  wa_msg:{nl:"Hallo, ik heb een vraag over ’t Stuyvesant Huys.",en:"Hello, I have a question about ’t Stuyvesant Huys.",de:"Hallo, ich habe eine Frage zum ’t Stuyvesant Huys."},
+  huismap_titel:{nl:"Digitale huismap",en:"Digital house guide",de:"Digitale Hausmappe"},
+  huismap_sub:{nl:"Welkom! Alles voor een fijn verblijf op één plek.",en:"Welcome! Everything for a pleasant stay in one place.",de:"Willkommen! Alles für einen angenehmen Aufenthalt an einem Ort."},
+  huismap_menu:{nl:"Huismap (voor gasten)",en:"House guide (for guests)",de:"Hausmappe (für Gäste)"},
+  hm_hulp:{nl:"Hulp nodig tijdens uw verblijf?",en:"Need help during your stay?",de:"Brauchen Sie Hilfe während Ihres Aufenthalts?"},
+  hm_hulp_sub:{nl:"Bel of app ons gerust — we helpen u graag.",en:"Call or message us anytime — we are happy to help.",de:"Rufen Sie uns an oder schreiben Sie uns — wir helfen gern."},
+  open_map:{nl:"Bekijk op de kaart",en:"View on the map",de:"Auf der Karte ansehen"},
+  route:{nl:"Route",en:"Directions",de:"Route"}
 };
 
 /* ============================================================
@@ -923,15 +1021,19 @@ const TR={
    ============================================================ */
 /* ---- Instellingen (beheer) — standaard + eigen overrides ---- */
 const DEFAULTS={
-  price:{night:119,cleaning:25,service:15},
+  price:{night:119,weekend:0,cleaning:25,service:15},
+  minNights:1,
+  seasons:[],            /* [{name,from:'MM-DD',to:'MM-DD',night,minNights}] — periodetarief + min. verblijf */
   maxGuests:2,
   phone:'+31 6 12345678',
+  whatsapp:'+31 6 12345678',
   email:'info@stuyvesanthuys.nl',
   website:'www.stuyvesanthuys.nl',
-  address1:'Stuyvesantstraat 2',
-  address2:'8471 GN Wolvega',
+  address1:'Willem Lodewijkstraat 17',
+  address2:'Wolvega',
   instagram:'https://www.instagram.com/',
   facebook:'https://www.facebook.com/',
+  icalUrls:'',           /* iCal-links (één per regel), bijv. de Airbnb-agenda; bezette datums worden geblokkeerd */
   docs:{
     huisregels:{
       nl:`Fijn dat u bij ’t Stuyvesant Huys verblijft. Een paar afspraken houden het huys prettig voor iedereen:
@@ -996,6 +1098,65 @@ try{const s=JSON.parse(localStorage.getItem('hsh-cfg')||'null'); if(s) CFG=cfgMe
 function telHref(){return 'tel:'+String(CFG.phone).replace(/[^+\d]/g,'');}
 function siteUrl(){const w=String(CFG.website).trim();return /^https?:\/\//.test(w)?w:'https://'+w.replace(/^\/+/,'');}
 function siteLabel(){return String(CFG.website).replace(/^https?:\/\//,'').replace(/\/$/,'');}
+function waDigits(){return String(CFG.whatsapp||CFG.phone||'').replace(/[^\d]/g,'');}
+function waHref(text){const d=waDigits();return 'https://wa.me/'+d+(text?'?text='+encodeURIComponent(text):'');}
+function mapsQuery(){return [CFG.address1,CFG.address2,'Nederland'].map(s=>String(s||'').trim()).filter(Boolean).join(', ');}
+function mapsHref(){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(mapsQuery());}
+
+/* ---- Periodetarief (seizoen) + weekendtoeslag + minimum verblijf ---- */
+function inSeason(md,from,to){return from<=to?(md>=from&&md<=to):(md>=from||md<=to);}
+function seasonFor(date){
+  const md=String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
+  const list=Array.isArray(CFG.seasons)?CFG.seasons:[];
+  for(const s of list){ if(s&&s.from&&s.to&&inSeason(md,String(s.from),String(s.to))) return s; }
+  return null;
+}
+function nightRate(date){
+  const s=seasonFor(date);
+  let rate=(s&&isFinite(+s.night)&&+s.night>0)?+s.night:+CFG.price.night;
+  const wd=date.getDay(); if((wd===5||wd===6)&&+CFG.price.weekend>0) rate+=+CFG.price.weekend;
+  return rate;
+}
+function eachNight(a,b){const out=[];if(!a||!b)return out;let d=new Date(a.getFullYear(),a.getMonth(),a.getDate());const end=new Date(b.getFullYear(),b.getMonth(),b.getDate());while(d<end){out.push(new Date(d));d.setDate(d.getDate()+1);}return out;}
+function requiredMinNights(a){
+  let req=Math.max(1,Math.round(+CFG.minNights||1));
+  if(a){const s=seasonFor(a); if(s&&isFinite(+s.minNights)&&+s.minNights>req) req=Math.round(+s.minNights);}
+  return req;
+}
+function minDisplayRate(){
+  let m=+CFG.price.night;
+  (Array.isArray(CFG.seasons)?CFG.seasons:[]).forEach(s=>{ if(s&&isFinite(+s.night)&&+s.night>0&&+s.night<m) m=+s.night; });
+  return m;
+}
+function hasVariedPricing(){ return (+CFG.price.weekend>0) || (Array.isArray(CFG.seasons)&&CFG.seasons.some(s=>s&&isFinite(+s.night)&&+s.night>0&&+s.night!==+CFG.price.night)); }
+
+/* ---- Beschikbaarheid: bezette datums uit iCal (bijv. Airbnb) blokkeren ---- */
+let BLOCKED=new Set();   /* ISO-nachten die bezet zijn */
+function unfoldICS(t){return String(t).replace(/\r\n/g,'\n').replace(/\n[ \t]/g,'');}
+function icsDate(v){const m=String(v).match(/(\d{4})(\d{2})(\d{2})/);return m?new Date(+m[1],+m[2]-1,+m[3]):null;}
+function parseICS(text){
+  const out=[]; let ds=null,de=null,inEv=false;
+  unfoldICS(text).split('\n').forEach(ln=>{
+    if(ln.indexOf('BEGIN:VEVENT')===0){inEv=true;ds=de=null;return;}
+    if(ln.indexOf('END:VEVENT')===0){ if(ds){const end=de||new Date(ds.getTime()+864e5); let d=new Date(ds); while(d<end){out.push(isoOf(d));d.setDate(d.getDate()+1);} } inEv=false; return; }
+    if(!inEv)return;
+    if(ln.indexOf('DTSTART')===0) ds=icsDate(ln.split(':').pop());
+    else if(ln.indexOf('DTEND')===0) de=icsDate(ln.split(':').pop());
+  });
+  return out;
+}
+function loadBlocked(){
+  const raw=String(CFG.icalUrls||'').trim(); if(!raw){BLOCKED=new Set();return;}
+  const urls=raw.split(/[\n,]+/).map(s=>s.trim()).filter(Boolean);
+  Promise.all(urls.map(u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.text():'').catch(()=>''))).then(texts=>{
+    const set=new Set();
+    texts.forEach(t=>{ if(t&&/BEGIN:VCALENDAR/i.test(t)) parseICS(t).forEach(d=>set.add(d)); });
+    BLOCKED=set;
+    if(typeof current!=='undefined'&&current==='boeken') rbook(true);
+  }).catch(()=>{});
+}
+function isBlocked(date){return BLOCKED.has(isoOf(date));}
+function rangeHasBlocked(a,b){for(const d of eachNight(a,b)){if(BLOCKED.has(isoOf(d)))return true;}return false;}
 
 /* ---- Statistieken — tellers op dit apparaat, geen cookies of externe verzoeken ---- */
 const STAT_DEF={v:{home:0,verblijf:0,omgeving:0,informatie:0,contact:0,boeken:0},lang:{nl:0,en:0,de:0},funnel:{start:0,gegevens:0,overzicht:0,aanvraag:0},msg:0,since:''};
@@ -1168,7 +1329,7 @@ views.home=()=>`
   <section class="over">
     <div class="eyebrow">${t('over_titel')}</div>
     <div class="over-row">
-      <div class="mini-map" aria-hidden="true"><i></i></div>
+      <a class="mini-map" href="${mapsHref()}" target="_blank" rel="noopener" aria-label="${esc(t('open_map'))} — ${esc(CFG.address1)}, ${esc(CFG.address2)}"><i aria-hidden="true"></i><span class="mini-map-label">${t('route')}</span></a>
       <div>
         <p>${t('over_tekst')}</p>
         <a class="lees" data-go="verblijf">${t('lees_meer')} ${svg('arrow')}</a>
@@ -1307,15 +1468,21 @@ views.contact=()=>`
   <section class="sheet">
     <div class="sheet-head"><h1>${t('contact_titel')}</h1><p>${t('contact_sub')}</p></div>
     <div class="contact-list">
-      <div class="contact-row">
+      <a class="contact-row" href="${mapsHref()}" target="_blank" rel="noopener">
         <span class="contact-badge">${svg('pin')}</span>
         <span class="contact-body"><span class="contact-label">${t('adres')}</span><span class="contact-value">${esc(CFG.address1)}<br>${esc(CFG.address2)}</span></span>
-      </div>
+        <span class="contact-chev">${svg('chev')}</span>
+      </a>
       <a class="contact-row" href="${telHref()}">
         <span class="contact-badge">${svg('phone')}</span>
         <span class="contact-body"><span class="contact-label">${t('telefoon')}</span><span class="contact-value">${esc(CFG.phone)}</span></span>
         <span class="contact-chev">${svg('chev')}</span>
       </a>
+      ${waDigits()?`<a class="contact-row" href="${waHref(t('wa_msg'))}" target="_blank" rel="noopener">
+        <span class="contact-badge contact-wa">${svg('whatsapp')}</span>
+        <span class="contact-body"><span class="contact-label">${t('whatsapp')}</span><span class="contact-value">${esc(CFG.whatsapp)}</span></span>
+        <span class="contact-chev">${svg('chev')}</span>
+      </a>`:''}
       <a class="contact-row" href="mailto:${esc(CFG.email)}">
         <span class="contact-badge">${svg('mail')}</span>
         <span class="contact-body"><span class="contact-label">${t('email')}</span><span class="contact-value">${esc(CFG.email)}</span></span>
@@ -1347,6 +1514,39 @@ views.contact=()=>`
     </form>
   </section>`;
 
+/* Digitale huismap — voor gasten in huis (bereikbaar via #huismap, bijv. QR-code) */
+views.huismap=()=>`
+  <section class="hero page-hero hero-huismap">
+    <div class="hero-media"></div><div class="hero-grain"></div>${heroTop()}
+  </section>
+  <section class="sheet">
+    <div class="sheet-head"><h1>${t('huismap_titel')}</h1><p>${t('huismap_sub')}</p></div>
+    <div class="house" style="margin-top:2px">
+      <div class="house-list" style="margin-left:0">
+        ${HOUSE.map(h=>`
+          <div class="house-item">
+            <button class="house-q" aria-expanded="false">
+              <span class="house-badge">${svg(h.icon)}</span>
+              <span class="house-title">${L(h.title)}</span>
+              <span class="house-chev">${svg('chev')}</span>
+            </button>
+            <div class="house-a"><p>${L(h.text)}</p></div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="tip-card" style="margin-top:26px">
+      <span class="tip-ic">${svg('phone')}</span>
+      <div style="flex:1">
+        <h3>${t('hm_hulp')}</h3>
+        <p>${t('hm_hulp_sub')}</p>
+        <div class="hm-actions">
+          <a class="btn btn-brass" href="${telHref()}">${svg('phone','btn-ic')} ${t('telefoon')}</a>
+          ${waDigits()?`<a class="btn menu-wa" href="${waHref(t('wa_msg'))}" target="_blank" rel="noopener">${svg('whatsapp','btn-ic')} WhatsApp</a>`:''}
+        </div>
+      </div>
+    </div>
+  </section>`;
+
 views.boeken=()=>`
   <div class="book">
     ${bkStepper(booking.step)}
@@ -1358,7 +1558,14 @@ const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function sameDay(a,b){return !!(a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate())}
 function isoOf(dt){const p=n=>String(n).padStart(2,'0');return dt.getFullYear()+'-'+p(dt.getMonth()+1)+'-'+p(dt.getDate())}
-function bkPrice(){const n=nightsBetween(booking.arrival,booking.departure);const sub=n*CFG.price.night;return {n,sub,total:n>0?sub+CFG.price.cleaning+CFG.price.service:0}}
+function bkPrice(){
+  const nights=eachNight(booking.arrival,booking.departure);
+  const n=nights.length;
+  const sub=nights.reduce((a,d)=>a+nightRate(d),0);
+  const total=n>0?sub+(+CFG.price.cleaning)+(+CFG.price.service):0;
+  const avg=n>0?Math.round(sub/n):(+CFG.price.night);
+  return {n,sub,total,avg};
+}
 function genRef(){const p=n=>String(n).padStart(2,'0');const r=Math.random().toString(36).slice(2,5).toUpperCase();return `HSH-${p(booking.arrival.getDate())}${p(booking.arrival.getMonth()+1)}-${r}`}
 
 function bkStepper(n){
@@ -1377,12 +1584,14 @@ function calDaysHTML(){
   for(let i=0;i<startDow;i++)out+='<span class="cal-cell empty"></span>';
   for(let d=1;d<=dim;d++){
     const date=new Date(m.getFullYear(),m.getMonth(),d);
-    const past=date<today;let cls='cal-cell';
+    const past=date<today; const blocked=!past&&isBlocked(date); let cls='cal-cell';
     if(past)cls+=' past';
+    if(blocked)cls+=' is-blocked';
     if(sameDay(date,booking.arrival))cls+=' is-start';
     else if(sameDay(date,booking.departure))cls+=' is-end';
     else if(booking.departure&&date>booking.arrival&&date<booking.departure)cls+=' is-mid';
-    out+=`<button class="${cls}" ${past?'disabled':''} data-day="${isoOf(date)}">${d}</button>`;
+    const dis=past||blocked;
+    out+=`<button class="${cls}" ${dis?'disabled':''}${blocked?` aria-label="${d} — ${esc(t('unavailable'))}"`:''} data-day="${isoOf(date)}">${d}</button>`;
   }
   return out;
 }
@@ -1393,16 +1602,23 @@ function bkStep1(){
   const m=booking.calMonth;
   const prevDisabled=(m.getFullYear()===today.getFullYear()&&m.getMonth()===today.getMonth());
   const nightsWord=n===1?t('night_1'):t('night_n');
-  const hint=hasRange
-    ? `<b>${fmt(booking.arrival)}</b> – <b>${fmt(booking.departure)}</b> · ${n} ${nightsWord}`
-    : (booking.arrival ? `${t('aankomst')} <b>${fmt(booking.arrival)}</b> ${t('cal_arrival_tail')}` : t('cal_select'));
+  const minNeeded=requiredMinNights(booking.arrival);
+  const meetsMin=n>=minNeeded;
+  const priceLabel=hasVariedPricing()
+    ? `${t('vanaf')} <b>€${minDisplayRate()}</b> ${t('per_nacht')}`
+    : `<b>€${CFG.price.night}</b> ${t('per_nacht')}`;
+  let hint;
+  if(hasRange&&!meetsMin) hint=`${t('min_stay_lead')} ${minNeeded} ${minNeeded===1?t('night_1'):t('night_n')}`;
+  else if(hasRange) hint=`<b>${fmt(booking.arrival)}</b> – <b>${fmt(booking.departure)}</b> · ${n} ${nightsWord}`;
+  else if(booking.arrival) hint=`${t('aankomst')} <b>${fmt(booking.arrival)}</b> ${t('cal_arrival_tail')}`;
+  else hint=t('cal_select');
   return `
     <div class="prod-card">
       <div class="prod-thumb"></div>
       <div class="prod-info">
         <div class="prod-name">’t Stuyvesant Huys</div>
         <div class="prod-meta">${t('prod_meta')}</div>
-        <div class="prod-price"><b>€${CFG.price.night}</b> ${t('per_nacht')}</div>
+        <div class="prod-price">${priceLabel}</div>
       </div>
     </div>
     <div class="bk-section-title"><span>1.</span> ${t('sel_data')}</div>
@@ -1413,16 +1629,17 @@ function bkStep1(){
         <button class="cal-nav" data-cal="1" aria-label="${t('next_month')}">${svg('chev')}</button>
       </div>
       <div class="cal-grid cal-dow">${DOW_ML[LANG].map(d=>`<span>${d}</span>`).join('')}</div>
-      <div class="cal-grid cal-days">${calDaysHTML()}</div>
+      <div class="cal-grid cal-days" aria-live="polite">${calDaysHTML()}</div>
     </div>
-    <p class="cal-hint">${hint}</p>
+    <p class="cal-hint${hasRange&&!meetsMin?' cal-warn':''}">${hint}</p>
+    ${BLOCKED.size?`<p class="cal-legend"><span class="cal-legend-dot"></span>${esc(t('occupied_legend'))}</p>`:''}
     <div class="bk-section-title"><span>2.</span> ${t('aantal_gasten')}</div>
     <div class="counter">
       <button class="cnt-btn" data-guests="-1" ${booking.guests<=1?'disabled':''} aria-label="${t('fewer_guests')}">−</button>
       <div class="cnt-val">${booking.guests} ${booking.guests===1?t('guest_1'):t('guest_n')}</div>
       <button class="cnt-btn" data-guests="1" ${booking.guests>=CFG.maxGuests?'disabled':''} aria-label="${t('more_guests')}">+</button>
     </div>
-    <button class="btn btn-green" data-step="2" ${hasRange?'':'disabled'} style="margin-top:26px">${t('volgende')}</button>
+    <button class="btn btn-green" data-step="2" ${(hasRange&&meetsMin)?'':'disabled'} style="margin-top:26px">${t('volgende')}</button>
   `;
 }
 
@@ -1444,7 +1661,10 @@ function bkStep2(){
 }
 
 function bkStep3(){
-  const {n,sub,total}=bkPrice();const d=booking.details;
+  const {n,sub,total,avg}=bkPrice();const d=booking.details;
+  const nightsLabel=hasVariedPricing()
+    ? `${t('overnachting')} · ${n} ${n===1?t('night_1'):t('night_n')}`
+    : `${n} ${n===1?t('night_1'):t('night_n')} × €${CFG.price.night}`;
   return `
     <div class="bk-section-title">${t('step_overzicht')}</div>
     <div class="ov-card">
@@ -1459,7 +1679,8 @@ function bkStep3(){
     </div>
     <div class="bk-section-title">${t('prijsoverzicht')}</div>
     <div class="price">
-      <div class="price-row"><span class="k">${n} ${n===1?t('night_1'):t('night_n')} × €${CFG.price.night}</span><span class="v">€${sub}</span></div>
+      <div class="price-row"><span class="k">${nightsLabel}</span><span class="v">€${sub}</span></div>
+      ${hasVariedPricing()?`<div class="price-note">${t('gem_prijs')} €${avg} ${t('per_nacht')}</div>`:''}
       <div class="price-row"><span class="k">${t('schoonmaak')}</span><span class="v">€${CFG.price.cleaning}</span></div>
       <div class="price-row"><span class="k">${t('service')}</span><span class="v">€${CFG.price.service}</span></div>
       <div class="price-total"><span>${t('totaal')}</span><span class="v">€${total}</span></div>
@@ -1498,9 +1719,10 @@ function bkStep4(){
 function rbook(keep){const y=keep?view.scrollTop:0;view.innerHTML=views.boeken();view.scrollTop=y;}
 function bkSetStep(s){booking.step=s;rbook(false);}
 function bkPick(date){
+  if(isBlocked(date))return;                 /* bezette nacht */
   const a=booking.arrival,dep=booking.departure;
   if(!a||(a&&dep)){booking.arrival=date;booking.departure=null;}
-  else if(date>a){booking.departure=date;}
+  else if(date>a){ if(rangeHasBlocked(a,date)){booking.arrival=date;booking.departure=null;} else booking.departure=date; }
   else{booking.arrival=date;}
   rbook(true);
 }
@@ -1529,7 +1751,7 @@ function bkMark(){
 function bkGoStep(target){
   const cur=booking.step;
   if(target>cur){
-    if(cur===1 && !(booking.arrival&&booking.departure))return;
+    if(cur===1 && !(booking.arrival&&booking.departure&&bkPrice().n>=requiredMinNights(booking.arrival)&&!rangeHasBlocked(booking.arrival,booking.departure)))return;
     if(cur===2){bkCapture();if(!bkValid()){bkMark();return;}}
   } else if(cur===2){bkCapture();}
   if(target>cur){ if(target===2)track('funnel','gegevens'); else if(target===3)track('funnel','overzicht'); }
@@ -1569,6 +1791,9 @@ function renderChrome(){
   document.querySelector('.menu-close').innerHTML=svg('close');
   document.querySelectorAll('.admin-x').forEach(b=>{ b.innerHTML=svg('close'); });
   const mb=document.getElementById('menuBook'); if(mb) mb.textContent=t('boek_nu');
+  const mh=document.getElementById('menuHuismap'); if(mh) mh.innerHTML=`${svg('book')}<span>${t('huismap_menu')}</span>`;
+  const mw=document.getElementById('menuWa');
+  if(mw){ if(waDigits()){ mw.hidden=false; mw.href=waHref(t('wa_msg')); mw.innerHTML=`${svg('whatsapp')}<span>WhatsApp</span>`; } else mw.hidden=true; }
   const ib=document.getElementById('installBtn'); if(ib) ib.textContent=t('install');
   const ml=document.getElementById('menuLang');
   if(ml) ml.innerHTML=`<div class="ml-label">${t('taal')}</div><div class="ml-seg">`+
@@ -1641,7 +1866,7 @@ function closeAdmin(){ if(!adminEl)return; adminEl.hidden=true; try{if(location.
 let _toastT;
 function adminToast(msg){
   let el=document.getElementById('admToast');
-  if(!el){el=document.createElement('div');el.id='admToast';el.className='adm-toast';document.body.appendChild(el);}
+  if(!el){el=document.createElement('div');el.id='admToast';el.className='adm-toast';el.setAttribute('role','status');el.setAttribute('aria-live','polite');document.body.appendChild(el);}
   el.textContent=msg; el.classList.add('show');
   clearTimeout(_toastT); _toastT=setTimeout(()=>el.classList.remove('show'),2200);
 }
@@ -1660,25 +1885,31 @@ function renderAdmin(){
   inner.innerHTML=`
     <div class="admin-tabs">
       <button class="admin-tab${adminTab==='settings'?' active':''}" data-admtab="settings">Instellingen</button>
+      <button class="admin-tab${adminTab==='prices'?' active':''}" data-admtab="prices">Prijzen</button>
       <button class="admin-tab${adminTab==='docs'?' active':''}" data-admtab="docs">Voorwaarden</button>
       <button class="admin-tab${adminTab==='stats'?' active':''}" data-admtab="stats">Statistieken</button>
     </div>
-    <div id="admContent">${adminTab==='settings'?adminSettingsHTML():adminTab==='docs'?adminDocsHTML():adminStatsHTML()}</div>`;
+    <div id="admContent">${adminTab==='settings'?adminSettingsHTML():adminTab==='prices'?adminPricesHTML():adminTab==='docs'?adminDocsHTML():adminStatsHTML()}</div>`;
 }
 function admF(id,label,val,type){return `<div class="field"><label for="${id}">${label}</label><input id="${id}" type="${type||'text'}" value="${esc(val)}"></div>`;}
 function adminSettingsHTML(){
   return `
     <div class="adm-group">
-      <h3>Tarieven</h3>
-      <div class="adm-row">${admF('cfg-night','Prijs per nacht (€)',CFG.price.night,'number')}${admF('cfg-clean','Schoonmaak (€)',CFG.price.cleaning,'number')}</div>
-      <div class="adm-row">${admF('cfg-service','Servicekosten (€)',CFG.price.service,'number')}${admF('cfg-guests','Max. gasten',CFG.maxGuests,'number')}</div>
-    </div>
-    <div class="adm-group">
       <h3>Contact</h3>
       ${admF('cfg-phone','Telefoon',CFG.phone)}
+      ${admF('cfg-wa','WhatsApp-nummer',CFG.whatsapp)}
       ${admF('cfg-email','E-mail',CFG.email,'email')}
       ${admF('cfg-website','Website',CFG.website)}
       <div class="adm-row">${admF('cfg-addr1','Adres',CFG.address1)}${admF('cfg-addr2','Postcode & plaats',CFG.address2)}</div>
+    </div>
+    <div class="adm-group">
+      <h3>Beschikbaarheid (agenda-koppeling)</h3>
+      <div class="field"><label for="cfg-ical">iCal-links — één per regel</label><textarea class="adm-doc" id="cfg-ical" style="min-height:92px" placeholder="calendar.ics">${esc(CFG.icalUrls||'')}</textarea></div>
+      <p class="adm-hint">Bezette datums uit deze agenda's (bijv. Airbnb) worden in de kalender geblokkeerd. Tip: Airbnb's link wordt door de browser vaak geweigerd (CORS); zet daarom bij voorkeur een <b>calendar.ics</b> op je eigen domein die met Airbnb synchroniseert en vul die hier in.</p>
+    </div>
+    <div class="adm-group">
+      <h3>Algemeen</h3>
+      ${admF('cfg-guests','Max. aantal gasten',CFG.maxGuests,'number')}
     </div>
     <div class="adm-group">
       <h3>Social media</h3>
@@ -1698,19 +1929,81 @@ function adminSettingsHTML(){
       <button class="btn btn-ghost" id="admPinSave" style="margin-top:8px">Pincode opslaan</button>
     </div>`;
 }
+function adminPricesHTML(){
+  const seasons=Array.isArray(CFG.seasons)?CFG.seasons:[];
+  const row=(s,i)=>`<div class="season-row" data-si="${i}">
+      <div class="season-grid">
+        <div class="field"><label for="se-name-${i}">Naam</label><input id="se-name-${i}" type="text" value="${esc(s.name||'')}" placeholder="Hoogseizoen"></div>
+        <div class="field"><label for="se-night-${i}">€ / nacht</label><input id="se-night-${i}" type="number" value="${esc(s.night!=null?s.night:'')}"></div>
+        <div class="field"><label for="se-from-${i}">Van (MM-DD)</label><input id="se-from-${i}" type="text" value="${esc(s.from||'')}" placeholder="07-01" maxlength="5"></div>
+        <div class="field"><label for="se-to-${i}">Tot (MM-DD)</label><input id="se-to-${i}" type="text" value="${esc(s.to||'')}" placeholder="08-31" maxlength="5"></div>
+        <div class="field"><label for="se-min-${i}">Min. nachten</label><input id="se-min-${i}" type="number" value="${esc(s.minNights!=null?s.minNights:'')}" placeholder="—"></div>
+      </div>
+      <button type="button" class="season-del" data-season-del="${i}" aria-label="Seizoen verwijderen">${svg('trash')}</button>
+    </div>`;
+  return `
+    <div class="adm-group">
+      <h3>Basistarief</h3>
+      <div class="adm-row">${admF('cfg-night','Prijs per nacht (€)',CFG.price.night,'number')}${admF('cfg-weekend','Weekendtoeslag vr/za (€)',CFG.price.weekend,'number')}</div>
+      <div class="adm-row">${admF('cfg-clean','Schoonmaak (€)',CFG.price.cleaning,'number')}${admF('cfg-service','Servicekosten (€)',CFG.price.service,'number')}</div>
+      ${admF('cfg-minnights','Minimum aantal nachten',CFG.minNights,'number')}
+    </div>
+    <div class="adm-group">
+      <h3>Seizoensprijzen</h3>
+      <p class="adm-hint" style="margin-top:0">Per periode een eigen nachtprijs en (optioneel) minimum verblijf. Datums als <b>MM-DD</b>; een periode mag over de jaarwisseling lopen (bijv. 12-20 → 01-02).</p>
+      <div id="seasonList">${seasons.length?seasons.map(row).join(''):'<p class="adm-hint" style="margin:2px 0 0">Nog geen seizoenen toegevoegd.</p>'}</div>
+      <button type="button" class="btn btn-ghost" id="admSeasonAdd" style="margin-top:10px">+ Seizoen toevoegen</button>
+    </div>
+    <div class="adm-actions">
+      <button class="btn btn-green" id="admPricesSave">Opslaan (dit apparaat)</button>
+      <button class="btn btn-ghost" id="admExport">Download settings.json</button>
+    </div>
+    <p class="adm-hint" style="margin-top:14px">Zet daarna <b>settings.json</b> op je hosting om de prijzen voor álle gasten live te maken.</p>
+    <textarea class="adm-json" id="admJson" readonly aria-label="settings.json">${esc(JSON.stringify(exportCfg(),null,2))}</textarea>`;
+}
+function readSeasonRows(){
+  const g=id=>document.getElementById(id);
+  const out=[]; document.querySelectorAll('.season-row').forEach(rowEl=>{
+    const i=rowEl.getAttribute('data-si');
+    const name=(g('se-name-'+i)||{}).value||'';
+    const night=parseFloat((g('se-night-'+i)||{}).value);
+    const from=((g('se-from-'+i)||{}).value||'').trim();
+    const to=((g('se-to-'+i)||{}).value||'').trim();
+    const min=parseFloat((g('se-min-'+i)||{}).value);
+    const s={name:name.trim(),from,to};
+    if(isFinite(night))s.night=night;
+    if(isFinite(min))s.minNights=Math.max(1,Math.round(min));
+    out.push(s);
+  });
+  return out;
+}
+function adminSeasonAdd(){ CFG.seasons=readSeasonRows(); CFG.seasons.push({name:'',from:'',to:'',night:CFG.price.night}); renderAdmin(); }
+function adminSeasonRemove(i){ const rows=readSeasonRows(); rows.splice(+i,1); CFG.seasons=rows; renderAdmin(); }
+function adminPricesSave(){
+  const g=id=>document.getElementById(id);
+  const num=(id,def)=>{const v=parseFloat((g(id)||{}).value);return isFinite(v)?v:def;};
+  CFG.price.night=Math.max(0,num('cfg-night',CFG.price.night));
+  CFG.price.weekend=Math.max(0,num('cfg-weekend',CFG.price.weekend||0));
+  CFG.price.cleaning=Math.max(0,num('cfg-clean',CFG.price.cleaning));
+  CFG.price.service=Math.max(0,num('cfg-service',CFG.price.service));
+  CFG.minNights=Math.max(1,Math.round(num('cfg-minnights',CFG.minNights||1)));
+  CFG.seasons=readSeasonRows().filter(s=>s.from&&s.to);
+  try{localStorage.setItem('hsh-cfg',JSON.stringify(CFG));}catch(e){}
+  renderChrome(); view.innerHTML=views[current](); fitView(); renderAdmin();
+  adminToast('Prijzen opgeslagen op dit apparaat');
+}
 function adminSave(){
   const g=id=>document.getElementById(id);
-  const num=(id,def)=>{const v=parseFloat(g(id).value);return isFinite(v)?v:def;};
-  const nv={
-    price:{night:num('cfg-night',CFG.price.night),cleaning:num('cfg-clean',CFG.price.cleaning),service:num('cfg-service',CFG.price.service)},
-    maxGuests:Math.max(1,Math.round(num('cfg-guests',CFG.maxGuests))),
-    phone:g('cfg-phone').value.trim(), email:g('cfg-email').value.trim(), website:g('cfg-website').value.trim(),
-    address1:g('cfg-addr1').value.trim(), address2:g('cfg-addr2').value.trim(),
-    instagram:g('cfg-insta').value.trim(), facebook:g('cfg-fb').value.trim()
-  };
-  nv.docs=CFG.docs; /* bewaar eventueel bewerkte voorwaarden-teksten */
-  CFG=cfgMerge(DEFAULTS,nv);
+  const val=id=>{const el=g(id);return el?el.value.trim():'';};
+  const num=(id,def)=>{const el=g(id);const v=el?parseFloat(el.value):NaN;return isFinite(v)?v:def;};
+  CFG.phone=val('cfg-phone'); CFG.whatsapp=val('cfg-wa');
+  CFG.email=val('cfg-email'); CFG.website=val('cfg-website');
+  CFG.address1=val('cfg-addr1'); CFG.address2=val('cfg-addr2');
+  CFG.instagram=val('cfg-insta'); CFG.facebook=val('cfg-fb');
+  CFG.icalUrls=val('cfg-ical');
+  CFG.maxGuests=Math.max(1,Math.round(num('cfg-guests',CFG.maxGuests)));
   try{localStorage.setItem('hsh-cfg',JSON.stringify(CFG));}catch(e){}
+  loadBlocked();
   renderChrome(); view.innerHTML=views[current](); fitView(); renderAdmin();
   adminToast('Opgeslagen op dit apparaat');
 }
@@ -1788,6 +2081,9 @@ if(adminEl){
     const tab=e.target.closest('[data-admtab]'); if(tab){adminTab=tab.dataset.admtab;renderAdmin();return;}
     if(e.target.closest('#admSave')){adminSave();return;}
     if(e.target.closest('#admDocsSave')){adminDocsSave();return;}
+    if(e.target.closest('#admPricesSave')){adminPricesSave();return;}
+    if(e.target.closest('#admSeasonAdd')){adminSeasonAdd();return;}
+    const sd=e.target.closest('[data-season-del]'); if(sd){adminSeasonRemove(sd.dataset.seasonDel);return;}
     if(e.target.closest('#admExport')){adminExport();return;}
     if(e.target.closest('#admReset')){adminReset();return;}
     if(e.target.closest('#admPinSave')){adminSavePin();return;}
@@ -1795,7 +2091,7 @@ if(adminEl){
   });
   adminEl.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.id==='admPin'){e.preventDefault();adminTryUnlock();} });
 }
-function checkAdminHash(){ try{ if(location.hash==='#beheer') openAdmin(); }catch(e){} }
+function checkAdminHash(){ try{ if(location.hash==='#beheer'){openAdmin();return;} if(location.hash==='#huismap'){go('huismap');} }catch(e){} }
 window.addEventListener('hashchange',checkAdminHash);
 
 /* ---- Documenten (huisregels / annuleringsvoorwaarden) ---- */
@@ -1820,6 +2116,7 @@ function openDoc(key){
   const b=document.getElementById('docBody');
   b.innerHTML=`<div class="doc-sub">’t Stuyvesant Huys · Wolvega</div>${docRender(d[LANG]||d.nl||'')}`;
   b.scrollTop=0; el.hidden=false;
+  const x=el.querySelector('[data-doc-close]'); if(x) setTimeout(()=>x.focus(),40);
 }
 function closeDoc(){ const el=document.getElementById('doc'); if(el)el.hidden=true; }
 {const dEl=document.getElementById('doc'); if(dEl) dEl.addEventListener('click',e=>{ if(e.target.closest('[data-doc-close]'))closeDoc(); });}
@@ -1865,7 +2162,7 @@ document.addEventListener('submit',e=>{
   trackMsg();
   window.location.href='mailto:'+encodeURIComponent(CFG.email)+'?subject='+subject+'&body='+body;
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenu();closeDoc();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenu();closeDoc();if(adminEl&&!adminEl.hidden)closeAdmin();}});
 
 /* init */
 document.documentElement.lang=LANG;
