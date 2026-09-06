@@ -45,9 +45,8 @@
   "numberOfRooms": 1,
   "amenityFeature": [
     { "@type": "LocationFeatureSpecification", "name": "Gratis WiFi", "value": true },
-    { "@type": "LocationFeatureSpecification", "name": "Gratis parkeren", "value": true },
     { "@type": "LocationFeatureSpecification", "name": "Privétuin", "value": true },
-    { "@type": "LocationFeatureSpecification", "name": "E-bike oplaadpunt", "value": true }
+    { "@type": "LocationFeatureSpecification", "name": "E-bike stalling met oplaadpunt", "value": true }
   ]
 }
 </script>
@@ -565,6 +564,8 @@ body{
 .cal-legend{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:8px;font-size:.74rem;color:var(--muted)}
 .cal-legend-dot{width:16px;height:2px;background:var(--muted-soft);border-radius:2px;flex:0 0 auto;transform:rotate(-8deg)}
 .price-note{font-size:.74rem;color:var(--muted);margin:-2px 0 4px;text-align:right}
+.price-allin{display:flex;align-items:center;gap:7px;margin-top:12px;font-size:.8rem;color:var(--green-700);font-weight:500}
+.price-allin svg{width:15px;height:15px;stroke-width:2.2;color:var(--green-600);flex:0 0 auto}
 
 .counter{display:flex;align-items:center;justify-content:space-between;background:var(--cream-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:6px}
 .cnt-btn{width:46px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.4rem;line-height:1;color:var(--green-700);background:var(--cream);transition:background .15s}
@@ -1006,6 +1007,7 @@ const TR={
   occupied_legend:{nl:"Doorgestreepte datums zijn al bezet.",en:"Struck-through dates are already booked.",de:"Durchgestrichene Daten sind bereits belegt."},
   overnachting:{nl:"Overnachting",en:"Accommodation",de:"Übernachtung"},
   gem_prijs:{nl:"Gemiddeld",en:"Average",de:"Durchschnittlich"},
+  allin:{nl:"Geen bijkomende kosten — schoonmaak is inbegrepen.",en:"No extra fees — cleaning is included.",de:"Keine Zusatzkosten — Reinigung inbegriffen."},
   whatsapp:{nl:"WhatsApp",en:"WhatsApp",de:"WhatsApp"},
   wa_msg:{nl:"Hallo, ik heb een vraag over ’t Stuyvesant Huys.",en:"Hello, I have a question about ’t Stuyvesant Huys.",de:"Hallo, ich habe eine Frage zum ’t Stuyvesant Huys."},
   huismap_titel:{nl:"Digitale huismap",en:"Digital house guide",de:"Digitale Hausmappe"},
@@ -1022,7 +1024,7 @@ const TR={
    ============================================================ */
 /* ---- Instellingen (beheer) — standaard + eigen overrides ---- */
 const DEFAULTS={
-  price:{night:119,weekend:0,cleaning:25,service:15},
+  price:{night:119,weekend:0,cleaning:0,service:0},
   minNights:1,
   seasons:[],            /* [{name,from:'MM-DD',to:'MM-DD',night,minNights}] — periodetarief + min. verblijf */
   maxGuests:2,
@@ -1042,7 +1044,7 @@ const DEFAULTS={
 - Huisdieren zijn helaas niet toegestaan.
 - Feesten en evenementen zijn niet toegestaan.
 - Inchecken vanaf 15:00 uur, uitchecken voor 11:00 uur.
-- Houd rekening met de rust van de buurt, zeker 's avonds en 's nachts.
+- Nachtrust van 22:00 tot 07:00 uur: vermijd overmatig lawaai, harde muziek en luide gesprekken buiten.
 - Behandel het huys en de inrichting met zorg.
 > Vragen of iets nodig? Neem gerust contact met ons op — we helpen u graag.`,
       en:`Welcome to ’t Stuyvesant Huys. A few simple agreements keep the house pleasant for everyone:
@@ -1050,7 +1052,7 @@ const DEFAULTS={
 - Pets are unfortunately not allowed.
 - Parties and events are not permitted.
 - Check-in from 3:00 pm, check-out before 11:00 am.
-- Please respect the quiet of the neighbourhood, especially at night.
+- Quiet hours from 10 pm to 7 am: please avoid excessive noise, loud music and loud conversations outside.
 - Treat the house and its furnishings with care.
 > Any questions or need anything? Feel free to contact us — we are happy to help.`,
       de:`Willkommen im ’t Stuyvesant Huys. Ein paar Absprachen halten das Haus für alle angenehm:
@@ -1058,7 +1060,7 @@ const DEFAULTS={
 - Haustiere sind leider nicht erlaubt.
 - Feiern und Veranstaltungen sind nicht gestattet.
 - Check-in ab 15:00 Uhr, Check-out bis 11:00 Uhr.
-- Bitte achten Sie auf die Ruhe der Nachbarschaft, besonders nachts.
+- Nachtruhe von 22:00 bis 07:00 Uhr: bitte übermäßigen Lärm, laute Musik und laute Gespräche im Freien vermeiden.
 - Behandeln Sie das Haus und die Einrichtung mit Sorgfalt.
 > Fragen oder Wünsche? Kontaktieren Sie uns gern — wir helfen Ihnen gerne.`
     },
@@ -1192,14 +1194,14 @@ const NAV=[
 const STAY=[
   {id:'slaapkamer', icon:'bed',
    title:{nl:'Slaapkamer',en:'Bedroom',de:'Schlafzimmer'},
-   desc:{nl:'Comfortabel tweepersoonsbed met luxe linnen en uitzicht op de tuin.',en:'Comfortable double bed with luxury linens and a view of the garden.',de:'Bequemes Doppelbett mit hochwertiger Bettwäsche und Blick in den Garten.'},
+   desc:{nl:'Comfortabel tweepersoonsbed met luxe linnen in een rustige slaapkamer.',en:'Comfortable double bed with luxury linens in a quiet bedroom.',de:'Bequemes Doppelbett mit hochwertiger Bettwäsche in einem ruhigen Schlafzimmer.'},
    more:{nl:'Een rustige, verduisterde slaapkamer met een heerlijk boxspringbed (160×200), hoogwaardig linnengoed en volop kastruimte om uit te pakken.',en:'A quiet, blackout bedroom with a wonderful box-spring bed (160×200), high-quality linens and plenty of wardrobe space to unpack.',de:'Ein ruhiges, abgedunkeltes Schlafzimmer mit herrlichem Boxspringbett (160×200), hochwertiger Bettwäsche und viel Schrankraum.'},
-   tags:{nl:['Tweepersoonsbed','Luxe linnen','Verduistering','Uitzicht op tuin'],en:['Double bed','Luxury linens','Blackout','Garden view'],de:['Doppelbett','Hochwertige Wäsche','Verdunkelung','Gartenblick']}},
+   tags:{nl:['Tweepersoonsbed','Luxe linnen','Verduistering','Rustig gelegen'],en:['Double bed','Luxury linens','Blackout','Quiet'],de:['Doppelbett','Hochwertige Wäsche','Verdunkelung','Ruhig gelegen']}},
   {id:'badkamer', icon:'drop',
    title:{nl:'Badkamer',en:'Bathroom',de:'Badezimmer'},
    desc:{nl:'Moderne badkamer met inloopdouche, zachte handdoeken en verzorgingsproducten.',en:'Modern bathroom with a walk-in shower, soft towels and toiletries.',de:'Modernes Badezimmer mit ebenerdiger Dusche, weichen Handtüchern und Pflegeprodukten.'},
-   more:{nl:'Sfeervolle badkamer met een ruime inloopdouche en regendouche, warme handdoeken en verzorgingsproducten van het huis.',en:'A characterful bathroom with a spacious walk-in rain shower, warm towels and house toiletries.',de:'Ein stimmungsvolles Bad mit großzügiger ebenerdiger Regendusche, warmen Handtüchern und Pflegeprodukten des Hauses.'},
-   tags:{nl:['Inloopdouche','Regendouche','Handdoeken','Verzorging'],en:['Walk-in shower','Rain shower','Towels','Toiletries'],de:['Ebenerdige Dusche','Regendusche','Handtücher','Pflegeprodukte']}},
+   more:{nl:'Sfeervolle badkamer met een ruime inloopdouche, warme handdoeken en verzorgingsproducten van het huis.',en:'A characterful bathroom with a spacious walk-in shower, warm towels and house toiletries.',de:'Ein stimmungsvolles Bad mit großzügiger ebenerdiger Dusche, warmen Handtüchern und Pflegeprodukten des Hauses.'},
+   tags:{nl:['Inloopdouche','Handdoeken','Verzorging'],en:['Walk-in shower','Towels','Toiletries'],de:['Ebenerdige Dusche','Handtücher','Pflegeprodukte']}},
   {id:'zitgedeelte', icon:'sofa',
    title:{nl:'Zitgedeelte',en:'Living area',de:'Wohnbereich'},
    desc:{nl:'Knusse zithoek met smart TV, boeken, spelletjes en warme sfeer.',en:'Cosy seating area with a smart TV, books, games and a warm atmosphere.',de:'Gemütliche Sitzecke mit Smart-TV, Büchern, Spielen und warmer Atmosphäre.'},
@@ -1224,9 +1226,9 @@ const AREA=[
   {icon:'bike',     title:{nl:'Fietsen',en:'Cycling',de:'Radfahren'},
    desc:{nl:'Volg het knooppuntennetwerk langs de rivier de Linde en dwars door de Weerribben. E-bike opgeladen? Wij tekenen het mooiste rondje voor u uit.',en:'Follow the cycle-node network along the river Linde and through the Weerribben. E-bike charged? We will map out the finest loop for you.',de:'Folgen Sie dem Knotenpunktnetz entlang des Flusses Linde und quer durch die Weerribben. E-Bike geladen? Wir zeichnen Ihnen die schönste Runde auf.'}},
   {icon:'globe',    title:{nl:'UNESCO werelderfgoed',en:'UNESCO World Heritage',de:'UNESCO-Welterbe'}, unesco:true,
-   desc:{nl:'Twee keer werelderfgoed op nog geen half uur: de Koloniën van Weldadigheid met Museum de Proefkolonie én het imposante Woudagemaal in Lemmer.',en:'Two UNESCO World Heritage sites within half an hour: the Colonies of Benevolence with Museum de Proefkolonie and the imposing Woudagemaal steam pumping station in Lemmer.',de:'Zweimal Welterbe in unter einer halben Stunde: die Kolonien der Wohltätigkeit mit dem Museum de Proefkolonie und das imposante Dampfschöpfwerk Woudagemaal in Lemmer.'}},
+   desc:{nl:'Opvallend veel UNESCO-werelderfgoed binnen bereik — van de Koloniën van Weldadigheid en het Woudagemaal in Lemmer tot Schokland, het Eise Eisinga Planetarium in Franeker en de Waddenzee.',en:'Remarkably much UNESCO World Heritage within reach — from the Colonies of Benevolence and the Woudagemaal pumping station in Lemmer to Schokland, the Eise Eisinga Planetarium in Franeker and the Wadden Sea.',de:'Auffallend viel UNESCO-Welterbe in Reichweite — von den Kolonien der Wohltätigkeit und dem Woudagemaal in Lemmer bis Schokland, dem Eise-Eisinga-Planetarium in Franeker und dem Wattenmeer.'}},
   {icon:'landmark', title:{nl:'Bezienswaardigheden',en:'Sights',de:'Sehenswürdigkeiten'},
-   desc:{nl:'Bewonder het statige Lycklamahûs, dwaal door de historische dorpskern of ontdek kunstenaarsdorp Oldeberkoop even verderop.',en:'Admire the stately Lycklamahûs, wander the historic village centre or discover the artists village of Oldeberkoop nearby.',de:'Bewundern Sie das stattliche Lycklamahûs, schlendern Sie durch den historischen Dorfkern oder entdecken Sie das Künstlerdorf Oldeberkoop ganz in der Nähe.'}},
+   desc:{nl:"Bewonder het statige Lycklamahûs, ontdek kunstenaarsdorp Oldeberkoop of vaar door het beroemde Giethoorn — het 'Venetië van het Noorden' — op een half uur rijden.",en:"Admire the stately Lycklamahûs, discover the artists' village of Oldeberkoop, or glide through famous Giethoorn — the 'Venice of the North' — half an hour away.",de:"Bewundern Sie das stattliche Lycklamahûs, entdecken Sie das Künstlerdorf Oldeberkoop oder fahren Sie durch das berühmte Giethoorn — das 'Venedig des Nordens' — eine halbe Stunde entfernt."}},
   {icon:'food',     title:{nl:'Eten & drinken',en:'Food & drink',de:'Essen & Trinken'},
    desc:{nl:'Van een sfeervol diner tot koffie met Fries suikerbrood — de gezelligste adresjes liggen op loop- en fietsafstand in het centrum.',en:'From an atmospheric dinner to coffee with Frisian sugar bread — the coziest spots are a short walk or bike ride away in the centre.',de:'Vom stimmungsvollen Abendessen bis zum Kaffee mit friesischem Zuckerbrot — die gemütlichsten Adressen liegen fußläufig oder per Rad im Zentrum.'}},
   {icon:'bag',      title:{nl:'Winkelen',en:'Shopping',de:'Einkaufen'},
@@ -1238,9 +1240,9 @@ const INFO=[
   {icon:'clock',  title:{nl:'Aankomst & vertrek',en:'Arrival & departure',de:'Anreise & Abreise'},
    lines:{nl:['Inchecken vanaf 15:00 uur','Uitchecken voor 11:00 uur'],en:['Check-in from 3:00 pm','Check-out before 11:00 am'],de:['Check-in ab 15:00 Uhr','Check-out bis 11:00 Uhr']}},
   {icon:'rules',  title:{nl:'Huisregels',en:'House rules',de:'Hausordnung'},
-   lines:{nl:['Roken niet toegestaan','Huisdieren niet toegestaan','Feesten en evenementen niet toegestaan'],en:['No smoking','No pets','No parties or events'],de:['Rauchen nicht gestattet','Haustiere nicht gestattet','Keine Feiern oder Veranstaltungen']}},
+   lines:{nl:['Roken niet toegestaan','Huisdieren niet toegestaan','Feesten en evenementen niet toegestaan','Nachtrust van 22:00 tot 07:00'],en:['No smoking','No pets','No parties or events','Quiet hours 10 pm – 7 am'],de:['Rauchen nicht gestattet','Haustiere nicht gestattet','Keine Feiern oder Veranstaltungen','Nachtruhe 22–7 Uhr']}},
   {icon:'wifi',   title:{nl:'Voorzieningen',en:'Amenities',de:'Ausstattung'},
-   lines:{nl:['Gratis snelle WiFi','Parkeren op eigen terrein','E-bike stalling en oplaadpunt'],en:['Free fast Wi-Fi','Parking on site','E-bike storage and charging point'],de:['Kostenloses schnelles WLAN','Parken auf eigenem Gelände','E-Bike-Stellplatz und Ladepunkt']}},
+   lines:{nl:['Gratis snelle WiFi','Parkeren in de straat (1 min. lopen)','E-bike stalling en oplaadpunt'],en:['Free fast Wi-Fi','Street parking (1-min walk)','E-bike storage and charging point'],de:['Kostenloses schnelles WLAN','Parken in der Straße (1 Min. zu Fuß)','E-Bike-Stellplatz und Ladepunkt']}},
   {icon:'safety', title:{nl:'Veiligheid',en:'Safety',de:'Sicherheit'},
    lines:{nl:['Brandblusser aanwezig','EHBO-kit aanwezig','Rookmelder aanwezig'],en:['Fire extinguisher present','First-aid kit present','Smoke detector present'],de:['Feuerlöscher vorhanden','Erste-Hilfe-Set vorhanden','Rauchmelder vorhanden']}},
 ];
@@ -1248,13 +1250,13 @@ const FAQ=[
   {q:{nl:'Hoe laat kan ik in- en uitchecken?',en:'What are the check-in and check-out times?',de:'Wann kann ich ein- und auschecken?'},
    a:{nl:'Inchecken kan vanaf 15:00 uur, uitchecken vragen wij voor 11:00 uur. Schikt een ander tijdstip beter? Neem gerust contact op, dan kijken we samen wat mogelijk is.',en:'Check-in is from 3:00 pm and we ask that you check out before 11:00 am. Does another time suit you better? Just get in touch and we will see what is possible.',de:'Check-in ist ab 15:00 Uhr, Check-out bitte vor 11:00 Uhr. Passt eine andere Zeit besser? Melden Sie sich gern, dann finden wir gemeinsam eine Lösung.'}},
   {q:{nl:'Is er parkeergelegenheid?',en:'Is there parking?',de:'Gibt es Parkmöglichkeiten?'},
-   a:{nl:'Ja, u parkeert gratis op eigen terrein direct bij het huys. Voor de e-bike is er een overdekte stalling met oplaadpunt.',en:'Yes, you can park for free on site right by the house. For your e-bike there is covered storage with a charging point.',de:'Ja, Sie parken kostenlos auf eigenem Gelände direkt am Haus. Für das E-Bike gibt es einen überdachten Stellplatz mit Ladepunkt.'}},
+   a:{nl:"Op zo'n 100 meter — een minuutje lopen — is er in de straat volop parkeergelegenheid. Voor uw eigen e-bike is er een overdekte stalling met oplaadpunt.",en:'There is plenty of on-street parking about 100 metres away, a one-minute walk. For your own e-bike there is covered storage with a charging point.',de:'Rund 100 Meter entfernt — eine Minute zu Fuß — gibt es in der Straße reichlich Parkplätze. Für Ihr eigenes E-Bike gibt es einen überdachten Stellplatz mit Ladepunkt.'}},
   {q:{nl:'Zijn huisdieren welkom?',en:'Are pets welcome?',de:'Sind Haustiere willkommen?'},
    a:{nl:'Om het verblijf voor iedere gast fris en allergievrij te houden, zijn huisdieren helaas niet toegestaan.',en:'To keep the stay fresh and allergy-free for every guest, pets are unfortunately not allowed.',de:'Um den Aufenthalt für jeden Gast frisch und allergiefrei zu halten, sind Haustiere leider nicht gestattet.'}},
   {q:{nl:'Is de WiFi geschikt om te werken?',en:'Is the Wi-Fi suitable for working?',de:'Ist das WLAN zum Arbeiten geeignet?'},
    a:{nl:'Zeker. Er is snelle, betrouwbare WiFi in het hele huys — ook prettig voor een zakelijk verblijf.',en:'Absolutely. There is fast, reliable Wi-Fi throughout the house — ideal for a business stay too.',de:'Auf jeden Fall. Im ganzen Haus gibt es schnelles, zuverlässiges WLAN — auch ideal für einen Geschäftsaufenthalt.'}},
   {q:{nl:'Wat is er te doen in de omgeving?',en:'What is there to do nearby?',de:'Was gibt es in der Umgebung zu unternehmen?'},
-   a:{nl:'Volop: van Nationaal Park Weerribben-Wieden en fietsroutes langs de Linde tot UNESCO-werelderfgoed op nog geen half uur. Kijk bij Omgeving voor onze tips.',en:'Plenty: from Weerribben-Wieden National Park and cycling routes along the Linde to UNESCO World Heritage within half an hour. See the Area page for our tips.',de:'Reichlich: vom Nationalpark Weerribben-Wieden und Radrouten entlang der Linde bis zum UNESCO-Welterbe in unter einer halben Stunde. Tipps finden Sie unter Umgebung.'}},
+   a:{nl:'Volop: van Nationaal Park Weerribben-Wieden en fietsroutes langs de Linde tot meerdere UNESCO-werelderfgoedsites in de regio en het beroemde Giethoorn. Kijk bij Omgeving voor onze tips.',en:'Plenty: from Weerribben-Wieden National Park and cycling routes along the Linde to several UNESCO World Heritage sites in the region and famous Giethoorn. See the Area page for our tips.',de:'Reichlich: vom Nationalpark Weerribben-Wieden und Radrouten entlang der Linde bis zu mehreren UNESCO-Welterbestätten in der Region und dem berühmten Giethoorn. Tipps finden Sie unter Umgebung.'}},
 ];
 
 /* Informatie — digitale huisinstructies (tik open) */
@@ -1270,11 +1272,11 @@ const HOUSE=[
   {icon:'trash',  title:{nl:'Afval',en:'Waste',de:'Abfall'},
    text:{nl:'Afval scheidt u graag in de bakken in de keuken: restafval, papier en plastic. De containers staan naast de voordeur.',en:'Please separate waste into the bins in the kitchen: general waste, paper and plastic. The containers are next to the front door.',de:'Trennen Sie den Abfall bitte in den Behältern in der Küche: Restmüll, Papier und Plastik. Die Container stehen neben der Haustür.'}},
   {icon:'drop',   title:{nl:'Badkamer',en:'Bathroom',de:'Badezimmer'},
-   text:{nl:'In de badkamer liggen verse handdoeken en verzorgingsproducten klaar. De inloopdouche heeft een regendouche; warm water is er direct.',en:'Fresh towels and toiletries are ready in the bathroom. The walk-in shower has a rain head; hot water is available right away.',de:'Im Badezimmer liegen frische Handtücher und Pflegeprodukte bereit. Die ebenerdige Dusche hat eine Regenbrause; warmes Wasser gibt es sofort.'}},
+   text:{nl:'In de badkamer liggen verse handdoeken en verzorgingsproducten klaar. De inloopdouche geeft direct warm water.',en:'Fresh towels and toiletries are ready in the bathroom. The walk-in shower has hot water right away.',de:'Im Badezimmer liegen frische Handtücher und Pflegeprodukte bereit. Die ebenerdige Dusche liefert sofort warmes Wasser.'}},
   {icon:'bolt',   title:{nl:'E-bike opladen',en:'E-bike charging',de:'E-Bike laden'},
-   text:{nl:'Uw e-bike stalt u overdekt naast het huys. Het oplaadpunt vindt u in de berging — de sleutel ligt voor u klaar.',en:'Store your e-bike under cover beside the house. The charging point is in the shed — the key is ready for you.',de:'Ihr E-Bike stellen Sie überdacht neben dem Haus ab. Den Ladepunkt finden Sie im Schuppen — der Schlüssel liegt für Sie bereit.'}},
+   text:{nl:'Uw eigen e-bike stalt u overdekt naast het huys; een oplaadpunt is aanwezig.',en:'Store your own e-bike under cover beside the house; a charging point is available.',de:'Ihr eigenes E-Bike stellen Sie überdacht neben dem Haus ab; ein Ladepunkt ist vorhanden.'}},
   {icon:'exit',   title:{nl:'Check-out',en:'Check-out',de:'Check-out'},
-   text:{nl:'Uitchecken kan tot 11:00 uur. Sluit graag de ramen, zet de verwarming laag en laat de sleutel in de brievenbus. Goede reis!',en:'Check-out is until 11:00 am. Please close the windows, turn the heating down and leave the key in the letterbox. Safe travels!',de:'Check-out ist bis 11:00 Uhr. Schließen Sie bitte die Fenster, drehen Sie die Heizung herunter und lassen Sie den Schlüssel im Briefkasten. Gute Reise!'}},
+   text:{nl:'Uitchecken kan tot 11:00 uur. Sluit graag de ramen, zet de verwarming laag en doe de sleutel terug in het sleutelkastje bij de ingang. Goede reis!',en:'Check-out is until 11:00 am. Please close the windows, turn the heating down and put the key back in the key safe by the entrance. Safe travels!',de:'Check-out ist bis 11:00 Uhr. Schließen Sie bitte die Fenster, drehen Sie die Heizung herunter und legen Sie den Schlüssel zurück in den Schlüsseltresor am Eingang. Gute Reise!'}},
 ];
 
 /* ============================================================
@@ -1682,10 +1684,11 @@ function bkStep3(){
     <div class="price">
       <div class="price-row"><span class="k">${nightsLabel}</span><span class="v">€${sub}</span></div>
       ${hasVariedPricing()?`<div class="price-note">${t('gem_prijs')} €${avg} ${t('per_nacht')}</div>`:''}
-      <div class="price-row"><span class="k">${t('schoonmaak')}</span><span class="v">€${CFG.price.cleaning}</span></div>
-      <div class="price-row"><span class="k">${t('service')}</span><span class="v">€${CFG.price.service}</span></div>
+      ${(+CFG.price.cleaning>0)?`<div class="price-row"><span class="k">${t('schoonmaak')}</span><span class="v">€${CFG.price.cleaning}</span></div>`:''}
+      ${(+CFG.price.service>0)?`<div class="price-row"><span class="k">${t('service')}</span><span class="v">€${CFG.price.service}</span></div>`:''}
       <div class="price-total"><span>${t('totaal')}</span><span class="v">€${total}</span></div>
     </div>
+    ${(+CFG.price.cleaning===0&&+CFG.price.service===0)?`<p class="price-allin">${svg('check')} ${t('allin')}</p>`:''}
     <label class="agree"><input type="checkbox" id="bkAgree"> <span>${t('agree_pre')}<button type="button" class="doc-link" data-doc="huisregels">${t('link_rules')}</button>${t('agree_mid')}<button type="button" class="doc-link" data-doc="annulering">${t('link_cancel')}</button>${t('agree_end')}</span></label>
     <p class="bk-msg" hidden>${t('agree_msg')}</p>
     <div class="bk-actions">
