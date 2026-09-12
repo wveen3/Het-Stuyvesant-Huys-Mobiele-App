@@ -31,9 +31,12 @@
   "image": "https://stuyvesanthuys.app/og-image.png",
   "priceRange": "€€",
   "currenciesAccepted": "EUR",
+  "telephone": "+31615435519",
+  "email": "info@stuyvesanthuys.nl",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Willem Lodewijkstraat 17",
+    "postalCode": "8472 CL",
     "addressLocality": "Wolvega",
     "addressRegion": "Friesland",
     "addressCountry": "NL"
@@ -1028,14 +1031,14 @@ const DEFAULTS={
   minNights:1,
   seasons:[],            /* [{name,from:'MM-DD',to:'MM-DD',night,minNights}] — periodetarief + min. verblijf */
   maxGuests:2,
-  phone:'+31 6 12345678',
-  whatsapp:'+31 6 12345678',
+  phone:'+31 6 15435519',
+  whatsapp:'+31 6 15435519',
   email:'info@stuyvesanthuys.nl',
   website:'www.stuyvesanthuys.nl',
   address1:'Willem Lodewijkstraat 17',
-  address2:'Wolvega',
-  instagram:'https://www.instagram.com/',
-  facebook:'https://www.facebook.com/',
+  address2:'8472 CL Wolvega',
+  instagram:'',
+  facebook:'',
   icalUrls:'',           /* iCal-links (één per regel), bijv. de Airbnb-agenda; bezette datums worden geblokkeerd */
   docs:{
     huisregels:{
@@ -1105,6 +1108,8 @@ function waDigits(){return String(CFG.whatsapp||CFG.phone||'').replace(/[^\d]/g,
 function waHref(text){const d=waDigits();return 'https://wa.me/'+d+(text?'?text='+encodeURIComponent(text):'');}
 function mapsQuery(){return [CFG.address1,CFG.address2,'Nederland'].map(s=>String(s||'').trim()).filter(Boolean).join(', ');}
 function mapsHref(){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(mapsQuery());}
+/* echt profiel? (niet leeg en niet alleen de platform-homepagina) */
+function socialSet(url){return /(instagram|facebook)\.com\/.+/i.test(String(url||''));}
 
 /* ---- Periodetarief (seizoen) + weekendtoeslag + minimum verblijf ---- */
 function inSeason(md,from,to){return from<=to?(md>=from&&md<=to):(md>=from||md<=to);}
@@ -1498,14 +1503,14 @@ views.contact=()=>`
       </a>
     </div>
 
-    <div class="social">
+    ${(socialSet(CFG.instagram)||socialSet(CFG.facebook))?`<div class="social">
       <div class="social-label">${t('volg_ons')}</div>
       <div class="social-btns">
-        <a href="${esc(CFG.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${svg('instagram')}</a>
-        <a href="${esc(CFG.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${svg('facebook')}</a>
+        ${socialSet(CFG.instagram)?`<a href="${esc(CFG.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${svg('instagram')}</a>`:''}
+        ${socialSet(CFG.facebook)?`<a href="${esc(CFG.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${svg('facebook')}</a>`:''}
       </div>
       <p>${t('social_tekst')}</p>
-    </div>
+    </div>`:''}
 
     <form class="msg-form">
       <h3>${t('bericht_titel')}</h3>
