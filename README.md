@@ -79,6 +79,12 @@ Een aparte gastenpagina met **huisinstructies** (WiFi, verwarming, tv, koffie, a
 - **Google** — er staat `LodgingBusiness`-structuurdata (schema.org) in de pagina met naam, adres en voorzieningen.
 - Vergeet niet het voorbeelddomein `stuyvesanthuys.app` bovenin `index.html` te vervangen door je échte domein (zie *Publiceren*).
 
+## Telefoon en tablet
+
+De app schaalt mee met het scherm. Op een **telefoon** blijft alles precies zoals het was. Vanaf **700 pixels breed** — een tablet dus — vult de app het hele scherm in plaats van een telefoonvenster met donkere randen: de koppen worden groter, de knoppen en kalenderdagen krijgen een prettiger raakvlak, en de lijsten (verblijf, omgeving, informatie, contact) komen in twee kolommen te staan. **Liggend** op een tablet verhuist de navigatie van onderaan naar een balk aan de linkerkant.
+
+Aanpassen kan onderaan het `<style>`-blok in `index.html`, onder het kopje *TABLET*. De breedte van de leeskolom staat daar als `--content-w`, de breedte van de zijbalk als `--rail-w`.
+
 ## Toegankelijkheid
 
 De app is nagelopen op toegankelijkheid: tekstkleuren voldoen aan het **WCAG AA-contrast**, alle knoppen hebben een zichtbare focus en een label, de overlays (menu, documenten, beheer) zijn als dialoog gemarkeerd en sluiten met **Esc**, en bezette kalenderdagen worden ook voor schermlezers als "bezet" aangekondigd.

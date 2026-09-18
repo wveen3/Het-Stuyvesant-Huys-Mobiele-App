@@ -725,6 +725,134 @@ body{
 .tl-name{flex:1;min-width:0;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.15rem;color:var(--ink)}
 .tl-chev{flex:0 0 auto;color:var(--brass-deep)}
 .tl-chev svg{width:17px;height:17px;stroke-width:1.7}
+
+/* ============================================================
+   TABLET — de app vult het hele scherm, staand én liggend
+   Alles hieronder geldt pas vanaf 700px breed; op een telefoon
+   verandert er niets aan de opmaak.
+   ============================================================ */
+
+/* ---- Vanaf 700px: geen telefoonkader, maar schermvullend --- */
+@media (min-width:700px){
+  html{font-size:17px}
+
+  :root{
+    --content-w:960px;   /* leesbare kolom binnen een breed scherm */
+    --gutter:34px;
+    --rail-w:112px;      /* zijbalk-navigatie in liggend beeld */
+  }
+
+  .app{
+    max-width:min(100%,1366px);
+    height:100dvh;
+    margin:0 auto;
+    border-radius:0;
+    box-shadow:none;
+  }
+
+  /* De vlakken lopen door tot de schermrand, de tekst erin niet */
+  .hero-top,.home-welcome,.bstart,.over,.sheet{
+    padding-left:max(var(--gutter),calc((100% - var(--content-w))/2));
+    padding-right:max(var(--gutter),calc((100% - var(--content-w))/2));
+  }
+  /* Een formulier leest prettiger in een smallere kolom */
+  .appbar,.stepper,.book-body{
+    --content-w:680px;
+    padding-left:max(var(--gutter),calc((100% - var(--content-w))/2));
+    padding-right:max(var(--gutter),calc((100% - var(--content-w))/2));
+  }
+  /* Een kalenderdag hoeft niet mee te groeien met het scherm */
+  .cal-cell{width:min(84%,62px)}
+
+  /* Home: de sfeerfoto besloeg 60% van de hoogte en oogde leeg */
+  .home-hero{min-height:clamp(340px,44dvh,540px)}
+  .home-welcome{padding-top:30px;padding-bottom:42px}
+  .page-hero{height:clamp(200px,24dvh,300px);min-height:0}
+  .sheet{margin-top:-30px;padding-top:42px;padding-bottom:60px}
+  .over-row{gap:26px}
+  .mini-map{flex:0 0 140px;height:166px}
+  .features{margin-top:32px}
+
+  /* Knoppen niet over de volle schermbreedte uitrekken */
+  .bstart .btn,.sheet-cta .btn,.msg-form .btn,.confirm .btn,.bk-actions{
+    display:flex;width:min(100%,420px);margin-left:auto;margin-right:auto;
+  }
+
+  /* Een korte pagina vult de hoogte, zodat er geen leeg vlak onder valt */
+  .view{display:flex;flex-direction:column}
+  .view>*{flex:0 0 auto}
+  .view>*:last-child{flex:1 0 auto}
+  .hm-actions{max-width:520px}
+  .tip-card,.prod-card,.ov-card,.price,.agree,.cal-hint,.form-note{
+    max-width:680px;margin-left:auto;margin-right:auto;
+  }
+  /* Het formulier houdt dezelfde linkerlijn aan als de contactgegevens */
+  .msg-form{max-width:680px}
+
+  /* Ruimere raakvlakken voor vingers op een tablet */
+  .tabbar{padding:10px 8px calc(env(safe-area-inset-bottom) + 10px)}
+  .tab{padding:10px 2px;gap:6px}
+  .tab svg{width:26px;height:26px}
+  .cal-nav{width:44px;height:44px}
+  .icon-btn{width:48px;height:48px}
+  .icon-btn svg{width:25px;height:25px}
+  .flag-btn{width:30px;height:20px}
+
+  /* Het menu besloeg 78% van de breedte — op een tablet te veel */
+  .menu-panel{inset:0 auto 0 0;width:min(400px,60%)}
+
+  /* Beheer en leesvensters als gecentreerd venster */
+  .admin-panel{
+    width:min(760px,94%);margin:auto;height:min(92%,900px);
+    border-radius:var(--r-lg);
+  }
+  .stat-tiles{grid-template-columns:repeat(4,1fr)}
+}
+
+/* ---- Vanaf 760px: lijsten in twee kolommen ----------------- */
+@media (min-width:760px){
+  .stay-list,.area-list,.info-list,.contact-list,.faq-list,.house-list,.terms-list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    column-gap:44px;
+    align-items:start;
+  }
+  /* De scheidingslijn hoort nu boven de eerste twee items */
+  .stay-item:first-child,.area-item:first-child,.info-block:first-child,
+  .contact-row:first-child,.faq-item:first-child,.house-item:first-child{border-top:none}
+  .stay-list>.stay-item:nth-child(-n+2),
+  .area-list>.area-item:nth-child(-n+2),
+  .info-list>.info-block:nth-child(-n+2),
+  .contact-list>.contact-row:nth-child(-n+2),
+  .faq-list>.faq-item:nth-child(-n+2),
+  .house-list>.house-item:nth-child(-n+2){border-top:1px solid var(--line-soft)}
+  /* Uitgeklapte tekst hoeft niet meer om een brede duimzone heen */
+  .stay-more>p,.tags{padding-left:85px}
+}
+
+/* ---- Liggend op een tablet: navigatie naar de zijkant ------ */
+@media (min-width:1024px) and (orientation:landscape){
+  .app{
+    display:grid;
+    grid-template-columns:var(--rail-w) minmax(0,1fr);
+    grid-template-rows:auto minmax(0,1fr);
+  }
+  .appbar{grid-column:2;grid-row:1}
+  .view{grid-column:2;grid-row:2}
+  .tabbar{
+    grid-column:1;grid-row:1/-1;
+    flex-direction:column;justify-content:center;gap:6px;
+    border-top:none;border-right:1px solid var(--line);
+    padding:24px 10px;
+  }
+  .tab{flex:0 0 auto;padding:17px 4px;gap:8px}
+  .tab.active::before{
+    top:50%;left:0;transform:translateY(-50%);
+    width:3px;height:32px;border-radius:0 3px 3px 0;
+  }
+  /* Tijdens het boeken verdwijnt de zijbalk, dus de kolom ook */
+  .app[data-route="boeken"]{grid-template-columns:0 minmax(0,1fr)}
+}
 </style>
 
 <div class="app" id="app" data-route="home">
@@ -1854,12 +1982,14 @@ function fitOneLine(el,startPx,minPx){
   while(el.scrollWidth>el.clientWidth && s>minPx && g-->0){ s-=0.5; el.style.fontSize=s+'px'; }
 }
 function fitView(){
+  /* Op een tablet is er ruimte voor grotere koppen dan op een telefoon */
+  const tablet=window.innerWidth>=700;
   const w=view.querySelector('.home-welcome');
   if(w){const h1=w.querySelector('h1'), p=w.querySelector('p');
-    if(h1) fitOneLine(h1,46,20);
-    if(p)  fitOneLine(p,18,11);}
+    if(h1) fitOneLine(h1,tablet?72:46,20);
+    if(p)  fitOneLine(p,tablet?27:18,11);}
   const sp=view.querySelector('.sheet-head p');
-  if(sp) fitOneLine(sp,14.4,10.5);
+  if(sp) fitOneLine(sp,tablet?21:14.4,10.5);
 }
 
 /* ============================================================
